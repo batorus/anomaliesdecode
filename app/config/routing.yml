@@ -1,3 +1,7 @@
+anomalies:
+    resource: "@AnomaliesBundle/Resources/config/routing.yml"
+    prefix:   /anomalies
+
 app:
     resource: '@AppBundle/Controller/'
     type: annotation
