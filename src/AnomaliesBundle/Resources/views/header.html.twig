@@ -1,0 +1,287 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+       <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+       <meta http-equiv="X-UA-Compatible" content="IE=edge">
+ 
+    <title>{% block title %}Amélioration continue{% endblock %}</title>
+
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="{{ asset('bundles/anomaliesdecode/adminlte230/bootstrap/css/bootstrap.min.css') }}">
+    
+
+    
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{{asset('bundles/anomaliesdecode/adminlte230/dist/css/AdminLTE.min.css') }}">
+    
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" 
+          href="{{asset('bundles/anomaliesdecode/adminlte230/dist/css/skins/skin-blue.min.css') }}?>"
+    >
+    
+    <!-- iCheck -->
+    <link rel="stylesheet" 
+          href="{{asset('bundles/anomaliesdecode/adminlte230/plugins/iCheck/flat/blue.css') }}"
+    >
+    
+    <!-- Morris chart -->
+    <link rel="stylesheet" 
+          href="{{asset('bundles/anomaliesdecode/adminlte230/plugins/morris/morris.css') }}"
+    >
+    
+    <!-- jvectormap -->
+    <link rel="stylesheet" 
+          href="{{asset('bundles/anomaliesdecode/adminlte230/plugins/jvectormap/jquery-jvectormap-1.2.2.css') }}"
+    >
+    
+    
+    <!-- Date Picker -->
+    <link rel="stylesheet" 
+          href="{{asset('bundles/anomaliesdecode/adminlte230/plugins/datepicker/datepicker3.css') }}"
+    >
+    
+    
+    <!-- Daterange picker -->
+    <link rel="stylesheet" 
+          href="{{asset('bundles/anomaliesdecode/adminlte230/plugins/daterangepicker/daterangepicker-bs3.css') }}"
+    >
+    
+    <!-- bootstrap wysihtml5 - text editor -->
+    <link rel="stylesheet"
+          href="{{asset('bundles/anomaliesdecode/adminlte230/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') }}"
+    >
+    
+    <link 
+          rel="stylesheet" 
+          type="text/css" 
+          href="{{asset('bundles/anomaliesdecode/DataTables/datatables.css') }}"
+    >
+    
+    
+      
+    <!-- jQuery 2.1.4 -->
+    <script 
+            src="{{asset('bundles/anomaliesdecode/adminlte230/plugins/jQuery/jQuery-2.1.4.min.js') }}"           
+    >
+    </script>
+        <!-- AdminLTE App -->
+    <script 
+        src="{{asset('bundles/anomaliesdecode/adminlte230/dist/js/app.min.js') }}"
+    >
+    </script>
+     
+    <script type="text/javascript" 
+            charset="utf8" 
+            src="{{asset('bundles/anomaliesdecode/DataTables/datatables.js') }}"
+    >
+    </script>
+    
+    <script type="text/javascript" 
+            charset="utf8" 
+            src="{{asset('bundles/anomaliesdecode/adminlte230/bootstrap/js/bootstrap.min.js') }}"
+    >
+    </script>
+    
+    
+     <!--    pt export-->
+    <script type="text/javascript" 
+            charset="utf8" 
+            src="{{asset('bundles/anomaliesdecode/DataTables/DataTables-1.10.12/js/dataTables.buttons.min.js') }}"
+    >
+    </script>
+    
+    <script type="text/javascript" 
+            charset="utf8" 
+            src="{{asset('bundles/anomaliesdecode/DataTables/DataTables-1.10.12/js/buttons.flash.min.js') }}"
+    >
+    </script>
+    
+    
+    <script type="text/javascript" 
+            charset="utf8" 
+            src="{{asset('bundles/anomaliesdecode/DataTables/DataTables-1.10.12/js/jszip.min.js') }}"
+    >
+    </script>
+    
+    <script type="text/javascript" 
+            charset="utf8" 
+            src="{{asset('bundles/anomaliesdecode/DataTables/DataTables-1.10.12/js/pdfmake.min.js') }}"
+    >
+    </script>
+    
+    
+    <script type="text/javascript" 
+            charset="utf8" 
+            src="{{asset('bundles/anomaliesdecode/DataTables/DataTables-1.10.12/js/vfs_fonts.js') }}"
+    >
+    </script>
+    
+    
+    <script type="text/javascript" 
+            charset="utf8" 
+            src="{{asset('bundles/anomaliesdecode/DataTables/DataTables-1.10.12/js/buttons.html5.min.js') }}"
+    >
+    </script>
+    
+    <script type="text/javascript" 
+            charset="utf8" 
+            src="{{asset('bundles/anomaliesdecode/DataTables/DataTables-1.10.12/js/buttons.print.min.js') }}"
+    >
+    </script>
+    
+    <link rel="stylesheet" href="{{asset('bundles/anomaliesdecode/DataTables/DataTables-1.10.12/css/jquery.dataTables.min.css') }}">
+    <link rel="stylesheet" href="{{asset('bundles/anomaliesdecode/DataTables/DataTables-1.10.12/css/buttons.dataTables.min.css') }}">
+
+    
+    <!-- Sweet Alert -->
+    <script src="{{asset('bundles/anomaliesdecode/sweetalert/dist/sweetalert.min.js')  }}"></script>
+    <link rel="stylesheet" type="text/css" href="{{asset('bundles/anomaliesdecode/sweetalert/dist/sweetalert.css') }}">
+    
+     <!-- TODO: de pus in stil separat -->
+   <style type="text/css">
+              .main-footer{padding:5px;}
+              
+              .skin-blue .sidebar a{
+                 color: #7f7f7f; 
+                 font-size: 15px;
+                 font-weight:550;
+              }
+              
+              .sidebar-mini.sidebar-collapse .sidebar-menu > li:hover > a > span:not(.pull-right), 
+              .sidebar-mini.sidebar-collapse .sidebar-menu > li:hover > .treeview-menu {
+                color: #7f7f7f;
+                background-color: #FAE1A9;
+            }
+            
+            .skin-blue .sidebar-menu > li:hover > a, .skin-blue .sidebar-menu > li.active > a {
+                color: #7f7f7f;
+                background-color: #FAE1A9;
+                border-left-color: #3c8dbc;
+            }
+            
+            
+             
+              table.dataTable thead .sorting::after
+              {
+                 opacity: 0.8 !important; 
+              }
+              
+              table.dataTable thead .sorting::after, 
+              table.dataTable thead .sorting_asc::after, 
+              table.dataTable thead .sorting_desc::after, 
+              table.dataTable thead .sorting_asc_disabled::after, 
+              table.dataTable thead .sorting_desc_disabled::after 
+              {
+                opacity: 0.8 !important; 
+              }
+              
+            .skin-blue .wrapper, .skin-blue .main-sidebar, .skin-blue .left-side {
+                background-color: #FAE1A9;
+            }  
+              
+            table.cruises { 
+              font-family: calibri, verdana, arial, helvetica, sans-serif;
+              font-size: 14px;
+              cellspacing: 0; 
+              border-collapse: collapse; 
+              //width: 535px;    
+              }
+              
+            table.cruises th, table.cruises td { 
+              border-right: 1px solid #999; 
+              border-bottom: 1px solid #999; 
+              }
+              
+              
+              
+            table.cruises th {
+                              background-color: #9bbb59; 
+                              font-family: calibri, verdana, arial, helvetica, sans-serif;
+                              font-size: 14px;
+                              font-weight: strong;
+                              color: #fff;
+                             }
+            table.cruises tfoot th{color: #000;}                 
+            table.cruises td { background-color: #fff; }
+            
+            
+            table.modules { 
+              font-family: calibri, verdana, arial, helvetica, sans-serif;
+              font-size: 14px;
+              cellspacing: 0; 
+              border-collapse: collapse; 
+              //width: 535px;    
+              }
+              
+            table.modules th, table.modules td { 
+              border-right: 1px solid #F2F2F2; 
+              border-bottom: 1px solid #F2F2F2; 
+              }
+              
+              
+              
+            table.modules th { background-color: #9bbb59; 
+                              font-family: calibri, verdana, arial, helvetica, sans-serif;
+                              font-size: 14px;
+                              font-weight: strong;
+                              color: #fff;
+                             }
+            table.modules td { background-color: #fff; }
+            
+            
+
+            div.scrollableContainer { 
+           //   position: relative; 
+             //width: 552px; 
+             // padding-top: 1.7em; 
+              //margin: 40px;    
+              //border: 1px solid #999;
+             // background: #aab;
+              }
+              
+            div.scrollingArea { 
+              height: 500px; 
+              //overflow: auto; 
+              }
+
+          /*  table.scrollable thead tr {
+              left: 0; top: 0;
+              position: absolute;
+              }*/
+          
+          .skin-blue .main-header .navbar {
+                background-color: #4bacc6;
+            }
+            
+        .skin-blue .main-header .logo {
+            background-color: #4bacc6;
+            text-align: left;
+            line-height: 45px;
+            font-weight: 400;
+        }
+        
+        .qc{
+            color:#fff; 
+            font-size:23px;
+            font-weight: bold;
+            font-family: calibri, verdana, arial, helvetica, sans-serif;
+            margin-top:8px;
+            margin-left:5px;
+        }
+
+          
+        .mainimage{
+            display: block;
+            margin-left:auto;
+            margin-right:auto;
+            margin-top:3%;
+        }  
+        
+       
+        </style>
+  </head>
