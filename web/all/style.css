@@ -1,0 +1,309 @@
+/* 
+    Created on : Jul 1, 2015, 11:27:13 AM
+    Author     : Manea Tiberiu Valentin <tmanea@veo-finances.com>
+*/
+
+/*rewrite AdminLTE layout*/
+.customLogo{
+    font-size: 19px!important;
+    line-height: 1!important;
+    padding: 6px!important;
+}
+.skin-purple .wrapper, .skin-purple .main-sidebar, .skin-purple .left-side {
+    background: #033769 none repeat scroll 0 0!important;
+}
+/*rewrite AdminLTE layout*/
+
+
+#demande_search_statut_chosen, #suivi_etudes_demande_affectation_chefdeProjet_chosen, #suivi_etudes_demande_affectation_techniciens_chosen {
+    width:100%!important;
+}
+.chosen-choices li {
+    width:100% !important;
+}
+
+li.search-field input[type="text"] {
+    width:100% !important;
+}
+
+#loader{
+    height:100%;
+    width:100%;
+    position:fixed;
+    z-index:9999;
+    display:none;
+    background-color: #f3f3f3;
+    opacity: 0.4;
+    filter: alpha(opacity=40); /* For IE8 and earlier */
+}
+#loader img{
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+
+/*body {
+    background-color:#eee;
+}
+hr {
+    color:black;
+}
+
+#container {
+    min-width:960px;
+    padding:0px;
+    margin-top:5px;
+    margin-bottom:5px;
+    background-color:white;
+    border: 2px solid #e7e7e7;
+    border: 2px solid black;
+    
+    box-shadow: 1px 1px 20px #555;
+}
+ 
+*
+ ***********        HEADER
+ 
+#header {
+    position:relative;
+    height:100px;
+    padding:10px;
+    border:none;
+    margin:0;
+    background-color:#428bca;
+    background-color:#1e75cc;
+    color:black;
+}
+#header h1 {
+    margin:0;
+    text-decoration:none;
+}
+#header h4 {
+    margin:0 0 0 5px;
+}
+
+Titre de l'application
+#titreAppli {
+    text-align:left;
+    padding:0;
+}
+Nom de la personne connectÃ©e + rÃ´le
+#userConnecte {
+    text-align:right;
+    padding:0;
+}
+Image ronde de la personne connectÃ©e
+#imgUser {
+    padding:0;
+    text-align:center
+}
+
+#se_nav {
+    background-color:#1e75cc;
+    margin-bottom:10px;
+    border:none;
+    border-top: 1px solid #1967be;
+    border-bottom: 1px solid #1967be;
+}
+
+h2 {
+    border-bottom: 2px solid #ff7518;
+    width:70%;
+    margin:10px 0 20px 0 ;
+}
+
+
+#content {
+    min-height:400px;
+}
+#div_fiche h2 {
+    width:100%;
+}
+#div_fiche h3 {
+    border-bottom: 2px solid #ff7518;
+    width:50%;
+}
+
+#div_fiche {
+    padding-bottom:1em;
+}
+.libelle_fiche{
+    font-weight:bold;
+}
+
+.inputAvancement {
+    width:50%;
+}
+.spanAvancement {
+    font-weight:bold;
+    font-size:1.3em;
+    margin-left:0.3em;
+    display:block;
+}
+//Arrondi les angle d'un label
+.label-as-badge {
+    -webkit-border-radius: 1em !important;
+    -moz-border-radius: 1em !important;
+    border-radius: 1em !important;
+}
+.badge-warning {
+    background-color:#ff7518;
+}
+
+#description {
+    text-align:justify;
+}
+
+#container_fiche {
+    padding-top:1em;
+    padding-bottom:1em;
+    border-bottom: 1px solid #dddddd;
+    border-left: 1px solid #dddddd;
+    border-right: 1px solid #dddddd;
+}
+
+#container_img img {
+    width:100%;
+}#container_img img:hover {
+    width:120%;
+}
+#container_img h4 {
+    border-bottom:1px solid grey;
+    display:inline-block;
+    width:auto;
+}
+#container_img p {
+    text-align:center;
+}
+#container_img  {
+    border: 1px solid #dddddd;
+    margin-top:1em;
+    text-align:center;
+    margin:auto;
+}
+ VUE "AJOUTER DEMANDE" 
+#DemandeType {
+    width:70%;
+    margin:0 auto;
+    padding-top:20px;
+}
+
+SUPPRESSION DU POINT D'INTEROGATION DANS LE TESTAREA'
+#cke_18 {
+    display:none;
+}
+
+#footer {
+    border-top: 1px solid grey;
+    padding:5px;
+}
+
+*
+ *******   INDEX   **********
+ 
+
+#encart_1, #encart_2, #encart_3 {
+    min-height:400px;
+}
+#encart_1 {
+    text-align:center;
+}
+#encart_2 {
+    text-align:center;
+    border-left:2px solid #e7e7e7;
+}
+#encart_3 {
+    border-left:2px solid #e7e7e7;
+}
+
+
+
+*
+ *******   FORMULAIRE DE CONNEXION A L'OUTIL   **********
+ 
+#form_login {
+    
+    box-shadow: 1px 1px 3px #555;
+    box-shadow: 1px 1px 12px lightgrey;
+}
+#alertConnect {
+    max-width: 380px;
+    margin: 0 auto;
+    margin-bottom:5px;
+}
+.wrapper {	
+    margin: 80px 0 80px 0;
+}
+
+.form-signin {
+    max-width: 380px;
+    padding: 15px 35px 45px;
+    margin: 0 auto;
+    background-color: #fff;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+.form-signin-heading,
+.checkbox {
+    margin-bottom: 30px;
+}
+
+.checkbox {
+    font-weight: normal;
+}
+
+.form-signin .form-control {
+    position: relative;
+    font-size: 16px;
+    height: auto;
+    padding: 10px;
+        @include box-sizing(border-box);
+
+        &:focus {
+          z-index: 2;
+        }
+}
+.form-control {
+    font-size: 14px;
+}
+
+input[type="text"] {
+    margin-bottom: -1px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+input[type="password"] {
+    margin-bottom: 20px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.alert-perso {
+    background-color: #1F9800;
+    background-repeat: repeat-x;
+    border-color: #3fb618;
+    color:white;
+}
+
+.alert {
+    opacity:0.8;
+    -moz-opacity:0.8;
+    -ms-filter:'alpha(opacity=80)';
+    filter:alpha(opacity=80);
+}
+
+
+* CALENDRIER JAVASCRIPT *
+.ui-datepicker{
+    font-size:0.85em;
+}
+.ui-widget-header {
+    background-image:none !important;
+    background-color: #428bca !important;
+    border: 1px solid #357ebd;
+    color: #ffffff;
+    font-weight: bold;
+}*/
+

@@ -1,0 +1,42 @@
+{#{% extends '::base.html.twig' %}#}
+
+
+{% block body %}
+    <h1>Risklevel edit</h1>
+{#controles_create#}
+ {{ form_start(form, 
+             {'action': path('risklevel_update', {'id': entity.id}), 
+              'method': 'POST', 
+              'name':'risklevel',
+              'attr': {'novalidate': 'novalidate'}}) 
+ }}   
+
+    <div>
+        {{ form_label(form.risklevel) }}
+
+         {% if form.risklevel.vars.errors|length > 0 %}
+            <ul>
+                {% for error in form.risklevel.vars.errors %}
+                    <li>{{ error.message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        
+        {{ form_widget(form.risklevel) }}
+    </div>
+       
+    <div>
+        {{ form_widget(form.save) }}
+    </div>    
+
+{{ form_end(form) }}
+
+    <ul>
+        <li>
+            <a href="{{ path('risklevel') }}">Back to the list</a>
+        </li>
+
+    </ul>
+{% endblock %}
+
+

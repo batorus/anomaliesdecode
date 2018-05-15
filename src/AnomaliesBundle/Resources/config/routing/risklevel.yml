@@ -1,0 +1,26 @@
+risklevel:
+    path:     /
+    defaults: { _controller: "AnomaliesBundle:Risklevel:index" }
+
+risklevel_new:
+    path:     /new
+    defaults: { _controller: "AnomaliesBundle:Risklevel:new" }
+
+risklevel_create:
+    path:     /create
+    defaults: { _controller: "AnomaliesBundle:Risklevel:create" }
+    methods:  [POST, PUT, GET]
+
+risklevel_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AnomaliesBundle:Risklevel:edit" }
+
+risklevel_update:
+    path:     /{id}/update
+    defaults: { _controller: "AnomaliesBundle:Risklevel:update" }
+    methods:  [POST, PUT, GET]
+
+risklevel_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AnomaliesBundle:Risklevel:delete" }
+
