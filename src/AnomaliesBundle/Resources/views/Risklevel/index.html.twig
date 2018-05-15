@@ -43,5 +43,86 @@
         </li>
 
     </ul>
+                
+  <div class="col-md-12 ">           
+            <div class="box box-info">
+                <div class="box-header with-border">
+                  <h3 class="box-title">List processcontroles</h3>
+             
+                </div><!-- /.box-header -->
+                <div class="box-body" style="min-height:500px;background-color: #fcf9ed;">
+                    
+                  {#  <div style="margin: 10px 0px 20px 50px;">
+                       <?php 
+
+                       if($this->container->get('session')->getFlashBag()->has('notice')){
+                           foreach ($this->container->get('session')->getFlashBag()->get("notice") as $message) {
+                                   echo '<div style="color:red; font-size:16px;">'.$message.'</div>';
+                               }
+                       } 
+                       ?>
+                    </div> #}
+                    
+                <div style="margin-bottom: 20px;">
+                    <a href="{{ path('risklevel_new')}}" >  
+                        <span class="glyphicon glyphicon-plus"> </span>
+                        <span style="margin-left: 5px; font-size: 15px;">
+                            Nouvel enregistrement
+                        </span>
+                    </a>  
+                </div>    
+                        
+                     {#TRANSLATE IN TWIG#}
+                     {# <?php if(count($entities)): ?> #}             
+                            <div class="table-responsive col-md-12" >
+                                <table class="table no-margin display modules" id="ml">
+                                  <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th class="nosort">Risklevel</th>
+                                        <th class="nosort">Enabled</th>
+                                   
+                                        
+                                        <th class="nosort">Supprimer</th>
+                                        <th class="nosort">Editer</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>                                     
+                                    {% for entity in entities %}                  
+                                        <tr> 
+                                            <td>{{ entity.id }}</td>
+                                            <td>{{ entity.risklevel }}</td>
+                                            <td>{{ entity.enabled }}</td>
+
+                                            <td>                                            
+                                                  <a href="{{ path('risklevel_delete', { 'id': entity.id }) }}"
+                                                           
+                                                        class="btn btn-block btn-danger btn-sm suprimerlink" 
+                                                        style ="width:100px;margin:0 auto;"                                                           
+                                                  >  
+                                                      Supprimer
+                                                  </a>                                              
+                                            </td>    
+
+                                            <td >                                            
+                                                  <a href="{{ path('risklevel_edit', { 'id': entity.id }) }}" 
+                                                    class="btn btn-block btn-warning btn-sm"
+                                                    style ="width:100px;margin:0 auto;"                                                            
+                                                   >  
+                                                     Editer
+                                                  </a>                                             
+                                            </td>    
+
+                                            
+                                        </tr> 
+                                    {% endfor %}
+                                  </tbody>
+                                </table>
+
+                              </div><!-- /.table-responsive -->   
+                       <?php endif ?> 
+                </div><!-- /.box-body -->                      
+       </div><!-- /.box -->     
+    </div>                         
 
     {% endblock %}
