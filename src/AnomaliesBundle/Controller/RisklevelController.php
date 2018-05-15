@@ -219,38 +219,51 @@ class RisklevelController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
-        $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('AnomaliesBundle:Risklevel')->find($id);
+//        $form = $this->createDeleteForm($id);
+//        $form->handleRequest($request);
+//
+//        if ($form->isValid()) {
+//            $em = $this->getDoctrine()->getManager();
+//            $entity = $em->getRepository('AnomaliesBundle:Risklevel')->find($id);
+//
+//            if (!$entity) {
+//                throw $this->createNotFoundException('Unable to find Risklevel entity.');
+//            }
+//
+//            $em->remove($entity);
+//            $em->flush();
+//        }
+//
+//        return $this->redirect($this->generateUrl('risklevel'));
+        
+        
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('AnomaliesBundle:Risklevel')->find($id);
+        
+         try{     
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Risklevel entity.');
-            }
+            };
 
-            $em->remove($entity);
-            $em->flush();
-        }
+        }catch(\Symfony\Component\HttpKernel\Exception\NotFoundHttpException  $e){           
+            
+            //Logare exceptie aici
+            // $this->container->get('session')->getFlashBag()->add("error", "L'enregistrement existe déjà dans la base de données!");           
+            //            echo "<pre>";
+            //            print_r($e->getTraceAsString());
+            //            die();
+            return $this->redirect($this->generateUrl('risklevel'));
+        };
 
+       
+
+        $entity->setEnabled(0);   
+        //$em->remove($entity);
+        $em->flush();
+        
         return $this->redirect($this->generateUrl('risklevel'));
     }
 
-    /**
-     * Creates a form to delete a Risklevel entity by id.
-     *
-     * @param mixed $id The entity id
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm($id)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('risklevel_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm()
-        ;
-    }
+   
 }
