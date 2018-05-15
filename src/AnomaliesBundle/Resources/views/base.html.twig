@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+  <head>
+       <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+       <meta http-equiv="X-UA-Compatible" content="IE=edge">
+ 
+    <title>{% block title %}Amélioration continue{% endblock %}</title>
+
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="{{ asset('bundles/anomaliesdecode/adminlte230/bootstrap/css/bootstrap.min.css') }}">
+    
+
+    
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{{asset('bundles/anomaliesdecode/adminlte230/dist/css/AdminLTE.min.css') }}">
+    
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" 
+          href="{{asset('bundles/anomaliesdecode/adminlte230/dist/css/skins/skin-blue.min.css') }}?>"
+    >
+    
+    <!-- iCheck -->
+    <link rel="stylesheet" 
+          href="{{asset('bundles/anomaliesdecode/adminlte230/plugins/iCheck/flat/blue.css') }}"
+    >
+    
+    <!-- Morris chart -->
+    <link rel="stylesheet" 
+          href="{{asset('bundles/anomaliesdecode/adminlte230/plugins/morris/morris.css') }}"
+    >
+    
+    <!-- jvectormap -->
+    <link rel="stylesheet" 
+          href="{{asset('bundles/anomaliesdecode/adminlte230/plugins/jvectormap/jquery-jvectormap-1.2.2.css') }}"
+    >
+    
+    
+    <!-- Date Picker -->
+    <link rel="stylesheet" 
+          href="{{asset('bundles/anomaliesdecode/adminlte230/plugins/datepicker/datepicker3.css') }}"
+    >
+    
+    
+    <!-- Daterange picker -->
+    <link rel="stylesheet" 
+          href="{{asset('bundles/anomaliesdecode/adminlte230/plugins/daterangepicker/daterangepicker-bs3.css') }}"
+    >
+    
+    <!-- bootstrap wysihtml5 - text editor -->
+    <link rel="stylesheet"
+          href="{{asset('bundles/anomaliesdecode/adminlte230/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') }}"
+    >
+    
+    <link 
+          rel="stylesheet" 
+          type="text/css" 
+          href="{{asset('bundles/anomaliesdecode/DataTables/datatables.css') }}"
+    >
+    
+    
+      
+    <!-- jQuery 2.1.4 -->
+    <script 
+            src="<?php echo $view['assets']->getUrl('bundles/'.$assets.'/adminlte230/plugins/jQuery/jQuery-2.1.4.min.js') ?>"           
+    >
+    </script>
+        <!-- AdminLTE App -->
+    <script 
+        src="<?php echo $view['assets']->getUrl('bundles/'.$assets.'/adminlte230/dist/js/app.min.js') ?>"
+    >
+    </script>
+     
+    <script type="text/javascript" 
+            charset="utf8" 
+            src="<?php echo $view['assets']->getUrl('bundles/'.$assets.'/DataTables/datatables.js') ?>"
+    >
+    </script>
+    
+    <script type="text/javascript" 
+            charset="utf8" 
+            src="<?php echo $view['assets']->getUrl('bundles/'.$assets.'/adminlte230/bootstrap/js/bootstrap.min.js') ?>"
+    >
+    </script>
+    
+    
+     <!--    pt export-->
+    <script type="text/javascript" 
+            charset="utf8" 
+            src="<?php echo $view['assets']->getUrl('bundles/'.$assets.'/DataTables/DataTables-1.10.12/js/dataTables.buttons.min.js') ?>"
+    >
+    </script>
+    
+    <script type="text/javascript" 
+            charset="utf8" 
+            src="<?php echo $view['assets']->getUrl('bundles/'.$assets.'/DataTables/DataTables-1.10.12/js/buttons.flash.min.js') ?>"
+    >
+    </script>
+    
+    
+    <script type="text/javascript" 
+            charset="utf8" 
+            src="<?php echo $view['assets']->getUrl('bundles/'.$assets.'/DataTables/DataTables-1.10.12/js/jszip.min.js') ?>"
+    >
+    </script>
+    
+    <script type="text/javascript" 
+            charset="utf8" 
+            src="<?php echo $view['assets']->getUrl('bundles/'.$assets.'/DataTables/DataTables-1.10.12/js/pdfmake.min.js') ?>"
+    >
+    </script>
+    
+    
+    <script type="text/javascript" 
+            charset="utf8" 
+            src="<?php echo $view['assets']->getUrl('bundles/'.$assets.'/DataTables/DataTables-1.10.12/js/vfs_fonts.js') ?>"
+    >
+    </script>
+    
+    
+    <script type="text/javascript" 
+            charset="utf8" 
+            src="<?php echo $view['assets']->getUrl('bundles/'.$assets.'/DataTables/DataTables-1.10.12/js/buttons.html5.min.js') ?>"
+    >
+    </script>
+    
+    <script type="text/javascript" 
+            charset="utf8" 
+            src="<?php echo $view['assets']->getUrl('bundles/'.$assets.'/DataTables/DataTables-1.10.12/js/buttons.print.min.js') ?>"
+    >
+    </script>
+    
+    <link rel="stylesheet" href="<?php //echo $view['assets']->getUrl('bundles/'.$assets.'/DataTables/DataTables-1.10.12/css/jquery.dataTables.min.css') ?>">
+    <link rel="stylesheet" href="<?php echo $view['assets']->getUrl('bundles/'.$assets.'/DataTables/DataTables-1.10.12/css/buttons.dataTables.min.css') ?>">
+
+    
+    <!-- Sweet Alert -->
+    <script src="<?php echo $view['assets']->getUrl('bundles/'.$assets.'/sweetalert/dist/sweetalert.min.js') ?>"></script>
+    <link rel="stylesheet" type="text/css" href="<?php echo $view['assets']->getUrl('bundles/'.$assets.'/sweetalert/dist/sweetalert.css') ?>">
+
+<div id="content">
+    {% block body %}{% endblock %}
+</div>

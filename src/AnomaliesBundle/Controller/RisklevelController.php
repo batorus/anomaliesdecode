@@ -219,24 +219,7 @@ class RisklevelController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
-//        $form = $this->createDeleteForm($id);
-//        $form->handleRequest($request);
-//
-//        if ($form->isValid()) {
-//            $em = $this->getDoctrine()->getManager();
-//            $entity = $em->getRepository('AnomaliesBundle:Risklevel')->find($id);
-//
-//            if (!$entity) {
-//                throw $this->createNotFoundException('Unable to find Risklevel entity.');
-//            }
-//
-//            $em->remove($entity);
-//            $em->flush();
-//        }
-//
-//        return $this->redirect($this->generateUrl('risklevel'));
-        
-        
+     
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('AnomaliesBundle:Risklevel')->find($id);
         
@@ -257,7 +240,7 @@ class RisklevelController extends Controller
         };
 
        
-
+        //soft deletion
         $entity->setEnabled(0);   
         //$em->remove($entity);
         $em->flush();
