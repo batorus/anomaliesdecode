@@ -65,24 +65,24 @@
       
     <!-- jQuery 2.1.4 -->
     <script 
-            src="<?php echo $view['assets']->getUrl('bundles/'.$assets.'/adminlte230/plugins/jQuery/jQuery-2.1.4.min.js') ?>"           
+            src="{{asset('bundles/anomaliesdecode/adminlte230/plugins/jQuery/jQuery-2.1.4.min.js') }}"           
     >
     </script>
         <!-- AdminLTE App -->
     <script 
-        src="<?php echo $view['assets']->getUrl('bundles/'.$assets.'/adminlte230/dist/js/app.min.js') ?>"
+        src="{{asset('bundles/anomaliesdecode/adminlte230/dist/js/app.min.js') }}"
     >
     </script>
      
     <script type="text/javascript" 
             charset="utf8" 
-            src="<?php echo $view['assets']->getUrl('bundles/'.$assets.'/DataTables/datatables.js') ?>"
+            src="{{asset('bundles/anomaliesdecode/DataTables/datatables.js') }}"
     >
     </script>
     
     <script type="text/javascript" 
             charset="utf8" 
-            src="<?php echo $view['assets']->getUrl('bundles/'.$assets.'/adminlte230/bootstrap/js/bootstrap.min.js') ?>"
+            src="{{asset('bundles/anomaliesdecode/adminlte230/bootstrap/js/bootstrap.min.js') }}"
     >
     </script>
     
@@ -90,56 +90,693 @@
      <!--    pt export-->
     <script type="text/javascript" 
             charset="utf8" 
-            src="<?php echo $view['assets']->getUrl('bundles/'.$assets.'/DataTables/DataTables-1.10.12/js/dataTables.buttons.min.js') ?>"
+            src="{{asset('bundles/anomaliesdecode/DataTables/DataTables-1.10.12/js/dataTables.buttons.min.js') }}"
     >
     </script>
     
     <script type="text/javascript" 
             charset="utf8" 
-            src="<?php echo $view['assets']->getUrl('bundles/'.$assets.'/DataTables/DataTables-1.10.12/js/buttons.flash.min.js') ?>"
-    >
-    </script>
-    
-    
-    <script type="text/javascript" 
-            charset="utf8" 
-            src="<?php echo $view['assets']->getUrl('bundles/'.$assets.'/DataTables/DataTables-1.10.12/js/jszip.min.js') ?>"
-    >
-    </script>
-    
-    <script type="text/javascript" 
-            charset="utf8" 
-            src="<?php echo $view['assets']->getUrl('bundles/'.$assets.'/DataTables/DataTables-1.10.12/js/pdfmake.min.js') ?>"
+            src="{{asset('bundles/anomaliesdecode/DataTables/DataTables-1.10.12/js/buttons.flash.min.js') }}"
     >
     </script>
     
     
     <script type="text/javascript" 
             charset="utf8" 
-            src="<?php echo $view['assets']->getUrl('bundles/'.$assets.'/DataTables/DataTables-1.10.12/js/vfs_fonts.js') ?>"
+            src="{{asset('bundles/anomaliesdecode/DataTables/DataTables-1.10.12/js/jszip.min.js') }}"
+    >
+    </script>
+    
+    <script type="text/javascript" 
+            charset="utf8" 
+            src="{{asset('bundles/anomaliesdecode/DataTables/DataTables-1.10.12/js/pdfmake.min.js') }}"
     >
     </script>
     
     
     <script type="text/javascript" 
             charset="utf8" 
-            src="<?php echo $view['assets']->getUrl('bundles/'.$assets.'/DataTables/DataTables-1.10.12/js/buttons.html5.min.js') ?>"
+            src="{{asset('bundles/anomaliesdecode/DataTables/DataTables-1.10.12/js/vfs_fonts.js') }}"
+    >
+    </script>
+    
+    
+    <script type="text/javascript" 
+            charset="utf8" 
+            src="{{asset('bundles/anomaliesdecode/DataTables/DataTables-1.10.12/js/buttons.html5.min.js') }}"
     >
     </script>
     
     <script type="text/javascript" 
             charset="utf8" 
-            src="<?php echo $view['assets']->getUrl('bundles/'.$assets.'/DataTables/DataTables-1.10.12/js/buttons.print.min.js') ?>"
+            src="{{asset('bundles/anomaliesdecode/DataTables/DataTables-1.10.12/js/buttons.print.min.js') }}"
     >
     </script>
     
-    <link rel="stylesheet" href="<?php //echo $view['assets']->getUrl('bundles/'.$assets.'/DataTables/DataTables-1.10.12/css/jquery.dataTables.min.css') ?>">
-    <link rel="stylesheet" href="<?php echo $view['assets']->getUrl('bundles/'.$assets.'/DataTables/DataTables-1.10.12/css/buttons.dataTables.min.css') ?>">
+    <link rel="stylesheet" href="{{asset('bundles/anomaliesdecode/DataTables/DataTables-1.10.12/css/jquery.dataTables.min.css') }}">
+    <link rel="stylesheet" href="{{asset('bundles/anomaliesdecode/DataTables/DataTables-1.10.12/css/buttons.dataTables.min.css') }}">
 
     
     <!-- Sweet Alert -->
-    <script src="<?php echo $view['assets']->getUrl('bundles/'.$assets.'/sweetalert/dist/sweetalert.min.js') ?>"></script>
-    <link rel="stylesheet" type="text/css" href="<?php echo $view['assets']->getUrl('bundles/'.$assets.'/sweetalert/dist/sweetalert.css') ?>">
+    <script src="{{asset('bundles/anomaliesdecode/sweetalert/dist/sweetalert.min.js')  }}"></script>
+    <link rel="stylesheet" type="text/css" href="{{asset('bundles/anomaliesdecode/sweetalert/dist/sweetalert.css') }}">
+    
+    
+     <!-- TODO: de pus in stil separat -->
+   <style type="text/css">
+              .main-footer{padding:5px;}
+              
+              .skin-blue .sidebar a{
+                 color: #7f7f7f; 
+                 font-size: 15px;
+                 font-weight:550;
+              }
+              
+              .sidebar-mini.sidebar-collapse .sidebar-menu > li:hover > a > span:not(.pull-right), 
+              .sidebar-mini.sidebar-collapse .sidebar-menu > li:hover > .treeview-menu {
+                color: #7f7f7f;
+                background-color: #FAE1A9;
+            }
+            
+            .skin-blue .sidebar-menu > li:hover > a, .skin-blue .sidebar-menu > li.active > a {
+                color: #7f7f7f;
+                background-color: #FAE1A9;
+                border-left-color: #3c8dbc;
+            }
+            
+            
+             
+              table.dataTable thead .sorting::after
+              {
+                 opacity: 0.8 !important; 
+              }
+              
+              table.dataTable thead .sorting::after, 
+              table.dataTable thead .sorting_asc::after, 
+              table.dataTable thead .sorting_desc::after, 
+              table.dataTable thead .sorting_asc_disabled::after, 
+              table.dataTable thead .sorting_desc_disabled::after 
+              {
+                opacity: 0.8 !important; 
+              }
+              
+            .skin-blue .wrapper, .skin-blue .main-sidebar, .skin-blue .left-side {
+                background-color: #FAE1A9;
+            }  
+              
+            table.cruises { 
+              font-family: calibri, verdana, arial, helvetica, sans-serif;
+              font-size: 14px;
+              cellspacing: 0; 
+              border-collapse: collapse; 
+              //width: 535px;    
+              }
+              
+            table.cruises th, table.cruises td { 
+              border-right: 1px solid #999; 
+              border-bottom: 1px solid #999; 
+              }
+              
+              
+              
+            table.cruises th {
+                              background-color: #9bbb59; 
+                              font-family: calibri, verdana, arial, helvetica, sans-serif;
+                              font-size: 14px;
+                              font-weight: strong;
+                              color: #fff;
+                             }
+            table.cruises tfoot th{color: #000;}                 
+            table.cruises td { background-color: #fff; }
+            
+            
+            table.modules { 
+              font-family: calibri, verdana, arial, helvetica, sans-serif;
+              font-size: 14px;
+              cellspacing: 0; 
+              border-collapse: collapse; 
+              //width: 535px;    
+              }
+              
+            table.modules th, table.modules td { 
+              border-right: 1px solid #F2F2F2; 
+              border-bottom: 1px solid #F2F2F2; 
+              }
+              
+              
+              
+            table.modules th { background-color: #9bbb59; 
+                              font-family: calibri, verdana, arial, helvetica, sans-serif;
+                              font-size: 14px;
+                              font-weight: strong;
+                              color: #fff;
+                             }
+            table.modules td { background-color: #fff; }
+            
+            
+
+            div.scrollableContainer { 
+           //   position: relative; 
+             //width: 552px; 
+             // padding-top: 1.7em; 
+              //margin: 40px;    
+              //border: 1px solid #999;
+             // background: #aab;
+              }
+              
+            div.scrollingArea { 
+              height: 500px; 
+              //overflow: auto; 
+              }
+
+          /*  table.scrollable thead tr {
+              left: 0; top: 0;
+              position: absolute;
+              }*/
+          
+          .skin-blue .main-header .navbar {
+                background-color: #4bacc6;
+            }
+            
+        .skin-blue .main-header .logo {
+            background-color: #4bacc6;
+            text-align: left;
+            line-height: 45px;
+            font-weight: 400;
+        }
+        
+        .qc{
+            color:#fff; 
+            font-size:23px;
+            font-weight: bold;
+            font-family: calibri, verdana, arial, helvetica, sans-serif;
+            margin-top:8px;
+            margin-left:5px;
+        }
+
+          
+        .mainimage{
+            display: block;
+            margin-left:auto;
+            margin-right:auto;
+            margin-top:3%;
+        }  
+        
+       
+        </style>
+  </head>
+  
+  
+   <body class="hold-transition skin-blue sidebar-mini " >
+    <div class="wrapper">
+  
+      <header class="main-header">
+        <!-- Logo -->
+        <a href="<?php echo $view['router']->generate('anomalies') ?>" class="logo">
+          <!-- mini logo for sidebar mini 50x50 pixels -->
+          <span class="logo-mini">
+              <img src="<?php echo $view['assets']->getUrl('bundles/anomalies/images/qassurance.png') ?>" width="40" height="40">
+          </span>   
+          <span class="logo-lg" >
+             <span>
+                <img src="<?php echo $view['assets']->getUrl('bundles/anomalies/images/qassurance.png') ?>" width="40" height="40">
+            </span>
+              Menu
+          </span>
+        </a>
+        
+        <!-- Header Navbar: style can be found in header.less -->
+        <nav class="navbar navbar-static-top" role="navigation">
+            
+          <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+            <span class="sr-only">Toggle navigation</span>
+          </a>
+            
+          <div class="navbar-custom-menu pull-left qc">
+              Qualité Comptabilité     
+          </div>
+            
+          <div class="navbar-custom-menu pull-right">
+            <ul class="nav navbar-nav ">
+              
+                <li class="dropdown user user-menu">              
+                    <a href="<?php echo $view['router']->generate('logout') ?>">
+                      <span>Logout</span>          
+                    </a>
+                </li> 
+            </ul>
+          </div>  
+        </nav>
+      </header>
+        
+      <!-- Left side column. contains the logo and sidebar -->
+      <div class="main-sidebar"  style="background-color: #fae1a9">
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+          <!-- Sidebar user panel -->
+       
+          <ul class="sidebar-menu">
+<!--            <li class="header" style="background-color: #fae1a9">NAVIGATION</li>-->
+            
+            <?php if($view['security']->isGranted('ROLE_AR_ADMINISTRATEUR')):?> 
+            
+                <li>
+                  <a href="<?php echo $view['router']->generate('droitsacces') ?>">
+                    <i class="fa fa-book"></i>   
+                    <span>Droits acces</span>          
+                  </a>
+                </li>
+
+                <li>
+                  <a href="<?php echo $view['router']->generate('societes') ?>">
+                    <i class="fa fa-book"></i>                       
+                    <span>Liste des sociétés</span>          
+                  </a>
+                </li>
+
+                <li>
+                  <a href="<?php echo $view['router']->generate('naturerreur') ?>">
+                    <i class="fa fa-book"></i>                       
+                    <span>Nature de l'erreur</span>          
+                  </a>
+                </li>
+
+                <li>
+                  <a href="<?php echo $view['router']->generate('compteimpacte') ?>">
+                    <i class="fa fa-book"></i>                       
+                    <span>Compte impacté</span>          
+                  </a>
+                </li>
+
+                <li >
+                  <a href="<?php echo $view['router']->generate('cyclebilan') ?>">
+                    <i class="fa fa-book"></i>                       
+                    <span>Cycle du bilan</span>          
+                  </a>
+                </li>
+
+               <li>
+                  <a href="<?php echo $view['router']->generate('typologieanomalie') ?>">
+                    <i class="fa fa-book"></i>                      
+                    <span>Mot clé</span>          
+                  </a>
+                </li>
+
+                <li>
+                  <a href="<?php echo $view['router']->generate('qualificationerreur') ?>">
+                    <i class="fa fa-book"></i>                      
+                    <span>Impact financier</span>          
+                  </a>
+                </li>
+
+                <li>
+                  <a href="<?php echo $view['router']->generate('niveaurisque') ?>">
+                    <i class="fa fa-book"></i>                       
+                    <span>Gravité</span>          
+                  </a>
+                </li>
+
+                <li>
+                  <a href="<?php echo $view['router']->generate('departement') ?>">
+                    <i class="fa fa-book"></i>                       
+                    <span>Departement</span>          
+                  </a>
+                </li>
+
+
+            <?php endif;?>     
+                              
+                
+                <li>
+                  <a href="<?php echo $view['router']->generate('processcontrol') ?>">
+                    <i class="fa fa-book"></i>                       
+                    <span>Process controles</span>          
+                  </a>
+                </li> 
+                
+                <li>
+                  <a href="<?php echo $view['router']->generate('controles') ?>">
+                    <i class="fa fa-book"></i>                       
+                    <span>Controles</span>          
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="<?php echo $view['router']->generate('typesociete') ?>">
+                    <i class="fa fa-book"></i>                       
+                    <span>Type société</span>          
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="<?php echo $view['router']->generate('typetaches') ?>">
+                    <i class="fa fa-book"></i>                       
+                    <span>Type taches</span>          
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="<?php echo $view['router']->generate('typecontrole') ?>">
+                    <i class="fa fa-book"></i>                       
+                    <span>Type controle</span>          
+                  </a>
+                </li>
+                
+                
+                
+                
+            <?php if($view['security']->isGranted('ROLE_AR_SUPERVISEUR')):?>     
+                <li>
+                  <a href="<?php echo $view['router']->generate('processanomalies') ?>">
+                     <i class="fa fa-book"></i>                      
+                    <span>Anomalies à remonter</span>          
+                  </a>
+                </li>
+            <?php endif;?>   
+                
+            <?php if($view['security']->isGranted('ROLE_AR_SUPERVISEUR')):?>                        
+                <li>
+                  <a href="<?php echo $view['router']->generate('anomalieseasupervision') ?>">
+                    <i class="fa fa-book"></i>                       
+                    <span>En attente supervision</span>          
+                  </a>
+                </li>
+            <?php endif;?>
+                
+            <?php if($view['security']->isGranted('ROLE_AR_SUPERVISEUR')):?> 
+                <li>
+                  <a href="<?php echo $view['router']->generate('reportingsupervision') ?>">
+                     <i class="fa fa-book"></i>                      
+                    <span>Reporting supervision</span>          
+                  </a>
+                </li>
+            <?php endif;?>  
+                
+            <?php if($view['security']->isGranted('ROLE_AR_COMPTABLE_MANAGEUR')):?>             
+                <li>
+                  <a href="<?php echo $view['router']->generate('anomalieseacomptabilite') ?>">
+                    <i class="fa fa-book"></i>   
+                    <span>En attente comptabilité</span>          
+                  </a>
+                </li>
+            <?php endif;?>             
+            
+            <?php if($view['security']->isGranted('ROLE_AR_COMPTABLE_MANAGEUR') ||$view['security']->isGranted('ROLE_AR_COMPTABLE')):?>       
+            <li >
+              <a href="<?php echo $view['router']->generate('reportingcomptabilite') ?>">
+                    <i class="fa fa-book"></i>                   
+                <span >Reporting comptabilité</span>          
+              </a>
+            </li>
+            <?php endif;?> 
+            
+            <?php if($view['security']->isGranted('ROLE_AR_ADMINISTRATEUR')):?>             
+            <li>
+              <a href="<?php echo $view['router']->generate('site') ?>">
+                <i class="fa fa-book"></i>                   
+                <span>Site</span>          
+              </a>
+            </li>
+            <?php endif;?>  
+            
+            <!--  ############################### -->
+            
+            <?php if($view['security']->isGranted('ROLE_AR_ADMINISTRATEUR')):?>             
+            <li>
+              <a href="<?php echo $view['assets']->getUrl('bundles/'.$assets.'/pdf/MO_Comptabilite_Administrateur.pdf');?>" target='_blank'>
+                <i class="fa fa-book"></i>                   
+                <span>M.O. Administrateur</span>          
+              </a>
+            </li>
+            <?php endif;?> 
+            
+            <?php if($view['security']->isGranted('ROLE_AR_COMPTABLE')):?>               
+            <li>
+              <a href="<?php echo $view['assets']->getUrl('bundles/'.$assets.'/pdf/MO_Comptabilite_Comptable.pdf');?>" target='_blank'>
+                <i class="fa fa-book"></i>                   
+                <span>M.O. Comptable</span>          
+              </a>
+            </li>
+            <?php endif;?> 
+            
+            <?php if($view['security']->isGranted('ROLE_AR_SUPERVISEUR')):?>              
+            <li>
+              <a href="<?php echo $view['assets']->getUrl('bundles/'.$assets.'/pdf/MO_Comptabilite_Supervision.pdf')?>" target='_blank'>
+                <i class="fa fa-book"></i>                   
+                <span>M.O. Supervision</span>          
+              </a>
+            </li> 
+            <?php endif;?>
+            
+            <?php if($view['security']->isGranted('ROLE_AR_COMPTABLE_MANAGEUR')):?>               
+            <li>
+              <a href="<?php echo $view['assets']->getUrl('bundles/'.$assets.'/pdf/MO_Comptabilite_Manageur_Comptable.pdf')?>" target='_blank'>
+                <i class="fa fa-book"></i>                   
+                <span>M.O. Manageur Comptable</span>          
+              </a>
+            </li>   
+            <?php endif;?>            
+            <!--  ############################### -->   
+            
+          </ul>
+        </section>
+        <!-- /.sidebar -->
+      </div>
+      
+
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper" style="background-color: #fff">
+        <!-- Content Header (Page header) -->
+<!--        <section class="content-header">
+          <h1>
+            Dashboard
+            <small>Control panel</small>
+          </h1>
+            
+          <ol class="breadcrumb">
+              
+            <li><a href="#">
+                    <i class="fa fa-dashboard"></i> Home</a>
+            </li>
+            
+            <li class="active">Dashboard</li>
+          </ol>
+        </section>-->
+              
+        <!-- Main content -->
+        <section class="content">       
+          <!-- Main row -->
+          <div class="row">
+              
+            <!-- Left col -->
+            <section class="col-lg-12">
+                                                                                  
+                <?php if ($view['slots']->has('list_societes')): ?>
+                     <?php $view['slots']->output('list_societes') ?>     
+                <?php elseif ($view['slots']->has('new_societes')): ?>
+                    <?php $view['slots']->output('new_societes') ?>                 
+                <?php elseif ($view['slots']->has('edit_societes')): ?>
+                    <?php $view['slots']->output('edit_societes') ?> 
+                
+                <?php elseif ($view['slots']->has('list_processcontroles')): ?>
+                     <?php $view['slots']->output('list_processcontroles') ?>     
+                <?php elseif ($view['slots']->has('new_processcontroles')): ?>
+                    <?php $view['slots']->output('new_processcontroles') ?>                 
+                <?php elseif ($view['slots']->has('edit_processcontroles')): ?>
+                    <?php $view['slots']->output('edit_processcontroles') ?>  
+                
+                <?php elseif ($view['slots']->has('list_controles')): ?>
+                     <?php $view['slots']->output('list_controles') ?>     
+                <?php elseif ($view['slots']->has('new_controles')): ?>
+                    <?php $view['slots']->output('new_controles') ?>                 
+                <?php elseif ($view['slots']->has('edit_controles')): ?>
+                    <?php $view['slots']->output('edit_controles') ?>  
+                
+                <?php elseif ($view['slots']->has('list_typetaches')): ?>
+                     <?php $view['slots']->output('list_typetaches') ?>     
+                <?php elseif ($view['slots']->has('new_typetaches')): ?>
+                    <?php $view['slots']->output('new_typetaches') ?>                 
+                <?php elseif ($view['slots']->has('edit_typetaches')): ?>
+                    <?php $view['slots']->output('edit_typetaches') ?>  
+                
+                
+                <?php elseif ($view['slots']->has('list_typecontrole')): ?>
+                     <?php $view['slots']->output('list_typecontrole') ?>     
+                <?php elseif ($view['slots']->has('new_typecontrole')): ?>
+                    <?php $view['slots']->output('new_typecontrole') ?>                 
+                <?php elseif ($view['slots']->has('edit_typecontrole')): ?>
+                    <?php $view['slots']->output('edit_typecontrole') ?>   
+                
+                <?php elseif ($view['slots']->has('list_naturerreur')): ?>
+                    <?php $view['slots']->output('list_naturerreur') ?>                 
+                <?php elseif ($view['slots']->has('new_naturerreur')): ?>
+                    <?php $view['slots']->output('new_naturerreur') ?> 
+               <?php elseif ($view['slots']->has('edit_naturerreur')): ?>
+                    <?php $view['slots']->output('edit_naturerreur') ?>
+                
+                <?php elseif ($view['slots']->has('list_compteimpacte')): ?>
+                    <?php $view['slots']->output('list_compteimpacte') ?> 
+                <?php elseif ($view['slots']->has('new_compteimpacte')): ?>
+                    <?php $view['slots']->output('new_compteimpacte') ?> 
+                <?php elseif ($view['slots']->has('edit_compteimpacte')): ?>
+                    <?php $view['slots']->output('edit_compteimpacte') ?> 
+
+                
+                <?php elseif ($view['slots']->has('list_cyclebilan')): ?>
+                    <?php $view['slots']->output('list_cyclebilan') ?>               
+               <?php elseif ($view['slots']->has('new_cyclebilan')): ?>
+                    <?php $view['slots']->output('new_cyclebilan') ?>                   
+                <?php elseif ($view['slots']->has('edit_cyclebilan')): ?>
+                    <?php $view['slots']->output('edit_cyclebilan') ?> 
+                
+                <?php elseif ($view['slots']->has('list_typologieanomalie')): ?>
+                    <?php $view['slots']->output('list_typologieanomalie') ?>                 
+                <?php elseif ($view['slots']->has('new_typologieanomalie')): ?>
+                    <?php $view['slots']->output('new_typologieanomalie') ?>                 
+                <?php elseif ($view['slots']->has('edit_typologieanomalie')): ?>
+                    <?php $view['slots']->output('edit_typologieanomalie') ?> 
+                
+                
+                <?php elseif ($view['slots']->has('list_qualificationerreur')): ?>
+                    <?php $view['slots']->output('list_qualificationerreur') ?>                 
+                <?php elseif ($view['slots']->has('new_qualificationerreur')): ?>
+                    <?php $view['slots']->output('new_qualificationerreur') ?>                
+                <?php elseif ($view['slots']->has('edit_qualificationerreur')): ?>
+                    <?php $view['slots']->output('edit_qualificationerreur') ?> 
+                
+                <?php elseif ($view['slots']->has('list_niveaurisque')): ?>
+                    <?php $view['slots']->output('list_niveaurisque') ?>                 
+                <?php elseif ($view['slots']->has('new_niveaurisque')): ?>
+                    <?php $view['slots']->output('new_niveaurisque') ?>                
+                <?php elseif ($view['slots']->has('edit_niveaurisque')): ?>
+                    <?php $view['slots']->output('edit_niveaurisque') ?> 
+                
+                <?php elseif ($view['slots']->has('list_departement')): ?>
+                    <?php $view['slots']->output('list_departement') ?>                 
+                <?php elseif ($view['slots']->has('new_departement')): ?>
+                    <?php $view['slots']->output('new_departement') ?>                
+                <?php elseif ($view['slots']->has('edit_departement')): ?>
+                    <?php $view['slots']->output('edit_departement') ?> 
+                
+                <?php elseif ($view['slots']->has('list_site')): ?>
+                    <?php $view['slots']->output('list_site') ?>                 
+                <?php elseif ($view['slots']->has('new_site')): ?>
+                    <?php $view['slots']->output('new_site') ?>                
+                <?php elseif ($view['slots']->has('edit_site')): ?>
+                    <?php $view['slots']->output('edit_site') ?> 
+                
+                <?php elseif ($view['slots']->has('list_status')): ?>
+                    <?php $view['slots']->output('list_status') ?>                 
+                <?php elseif ($view['slots']->has('new_status')): ?>
+                    <?php $view['slots']->output('new_status') ?>                
+                <?php elseif ($view['slots']->has('edit_status')): ?>
+                    <?php $view['slots']->output('edit_status') ?> 
+                
+                <?php elseif ($view['slots']->has('list_processanomalies')): ?>
+                    <?php $view['slots']->output('list_processanomalies') ?>                 
+                <?php elseif ($view['slots']->has('new_processanomalies')): ?>
+                    <?php $view['slots']->output('new_processanomalies') ?>                
+                <?php elseif ($view['slots']->has('edit_processanomalies')): ?>
+                    <?php $view['slots']->output('edit_processanomalies') ?> 
+                
+                <?php elseif ($view['slots']->has('list_societecodsap')): ?>
+                    <?php $view['slots']->output('list_societecodsap') ?>                 
+                <?php elseif ($view['slots']->has('new_societecodsap')): ?>
+                    <?php $view['slots']->output('new_societecodsap') ?>                
+                <?php elseif ($view['slots']->has('edit_societecodsap')): ?>
+                    <?php $view['slots']->output('edit_societecodsap') ?> 
+
+                <?php elseif ($view['slots']->has('list_nomsociete')): ?>
+                    <?php $view['slots']->output('list_nomsociete') ?>                 
+                <?php elseif ($view['slots']->has('new_nomsociete')): ?>
+                    <?php $view['slots']->output('new_nomsociete') ?>                
+                <?php elseif ($view['slots']->has('edit_nomsociete')): ?>
+                    <?php $view['slots']->output('edit_nomsociete') ?>    
+
+                <?php elseif ($view['slots']->has('list_typesociete')): ?>
+                    <?php $view['slots']->output('list_typesociete') ?>                 
+                <?php elseif ($view['slots']->has('new_typesociete')): ?>
+                    <?php $view['slots']->output('new_typesociete') ?>                
+                <?php elseif ($view['slots']->has('edit_typesociete')): ?>
+                    <?php $view['slots']->output('edit_typesociete') ?> 
+
+                <?php elseif ($view['slots']->has('list_anomalieseasupervision')): ?>
+                    <?php $view['slots']->output('list_anomalieseasupervision') ?>                 
+                                    
+                <?php elseif ($view['slots']->has('list_anomalieseacomptabilite')): ?>
+                    <?php $view['slots']->output('list_anomalieseacomptabilite') ?> 
+
+                <?php elseif ($view['slots']->has('list_reportingsupervision')): ?>
+                    <?php $view['slots']->output('list_reportingsupervision') ?>                 
+                
+                <?php elseif ($view['slots']->has('list_reportingcomptabilite')): ?>
+                    <?php $view['slots']->output('list_reportingcomptabilite') ?>  
+                
+                <?php elseif ($view['slots']->has('list_droitsacces')): ?>
+                    <?php $view['slots']->output('list_droitsacces') ?> 
+                <?php elseif ($view['slots']->has('new_droitsacces')): ?>
+                    <?php $view['slots']->output('new_droitsacces') ?>                
+                <?php elseif ($view['slots']->has('edit_droitsacces')): ?>
+                    <?php $view['slots']->output('edit_droitsacces') ?>                 
+
+                <?php elseif ($view['slots']->has('anomalies')): ?>
+                    <?php $view['slots']->output('anomalies') ?> 
+                
+                <?php elseif ($view['slots']->has('login')): ?>
+                    <?php $view['slots']->output('login') ?>              
+                <?php endif; ?>
+                
+                
+
+            </section><!-- /.Left col -->
+
+          </div><!-- /.row (main row) -->
+
+        </section><!-- /.content -->
+      </div><!-- /.content-wrapper -->
+      
+      
+<!--    <footer class="main-footer" >
+        <div class="pull-right hidden-xs">
+          <b>Version</b> 1.0.b
+        </div>
+        <strong>Copyright &copy; 2016 <a href="#">NOZ</a>.</strong> All rights reserved.
+     </footer> -->
+
+
+            <footer class="main-footer" 
+                     style="
+                           // float:left;
+                            position: fixed;
+                           // margin:0 auto;
+                            //left: 0;
+                           // top:20px;
+                            bottom: 0;
+                            height: 30px;
+                            width: 100%;
+                            background-color: #4BACC6;
+                            //overflow:hidden;
+                            "
+                    >
+                    <span style=' font-size:13px;color:#fff'>
+                        <i>Amélioration continue  © <?php echo date('Y');?>.
+                            Contact : <a href="mailto:poleweb@noz.fr" style='color:#fff'>poleweb@noz.fr</a>
+                        </i>
+                   </span>
+
+            </footer>
+
+
+      <!-- Add the sidebar's background. This div must be placed
+           immediately after the control sidebar -->
+      <div class="control-sidebar-bg"></div>
+      
+    </div><!-- ./wrapper -->
+
+
+  </body>
+</html>
+
 
 <div id="content">
     {% block body %}{% endblock %}
