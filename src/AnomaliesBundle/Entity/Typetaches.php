@@ -98,6 +98,7 @@ class Typetaches
     {
         return $this->enabled;
     }
+   
     /**
      * Constructor
      */
@@ -107,32 +108,33 @@ class Typetaches
     }
 
     /**
-     * Add controles
+     * Add controle
      *
-     * @param \AnomaliesBundle\Entity\Controles $controles
+     * @param \AnomaliesBundle\Entity\Controles $controle
+     *
      * @return Typetaches
      */
-    public function addControle(\AnomaliesBundle\Entity\Controles $controles)
+    public function addControle(\AnomaliesBundle\Entity\Controles $controle)
     {
-        $this->controles[] = $controles;
+        $this->controles[] = $controle;
 
         return $this;
     }
 
     /**
-     * Remove controles
+     * Remove controle
      *
-     * @param \AnomaliesBundle\Entity\Controles $controles
+     * @param \AnomaliesBundle\Entity\Controles $controle
      */
-    public function removeControle(\AnomaliesBundle\Entity\Controles $controles)
+    public function removeControle(\AnomaliesBundle\Entity\Controles $controle)
     {
-        $this->controles->removeElement($controles);
+        $this->controles->removeElement($controle);
     }
 
     /**
      * Get controles
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getControles()
     {
