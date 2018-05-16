@@ -1,0 +1,30 @@
+typetaches:
+    path:     /
+    defaults: { _controller: "AnomaliesBundle:Typetaches:index" }
+
+typetaches_show:
+    path:     /{id}/show
+    defaults: { _controller: "AnomaliesBundle:Typetaches:show" }
+
+typetaches_new:
+    path:     /new
+    defaults: { _controller: "AnomaliesBundle:Typetaches:new" }
+
+typetaches_create:
+    path:     /create
+    defaults: { _controller: "AnomaliesBundle:Typetaches:create" }
+    methods:  POST
+
+typetaches_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AnomaliesBundle:Typetaches:edit" }
+
+typetaches_update:
+    path:     /{id}/update
+    defaults: { _controller: "AnomaliesBundle:Typetaches:update" }
+    methods:  [POST, PUT]
+
+typetaches_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AnomaliesBundle:Typetaches:delete" }
+    methods:  [POST, DELETE]

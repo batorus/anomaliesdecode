@@ -1,3 +1,7 @@
+anomalies_typetaches:
+    resource: "@AnomaliesBundle/Resources/config/routing/typetaches.yml"
+    prefix:   /typetaches
+
 anomalies_risklevel:
     resource: "@AnomaliesBundle/Resources/config/routing/risklevel.yml"
     prefix:   /risklevel
