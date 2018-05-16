@@ -73,7 +73,8 @@
                 </div>    
                         
                      {#TRANSLATE IN TWIG#}
-                     {# <?php if(count($entities)): ?> #}             
+
+                     {% if entities|length > 0 %}
                             <div class="table-responsive col-md-12" >
                                 <table class="table no-margin display modules" id="ml">
                                   <thead>
@@ -118,11 +119,9 @@
                                     {% endfor %}
                                   </tbody>
                                 </table>
-
                               </div><!-- /.table-responsive -->   
-                       <?php endif ?> 
+                  {% endif %}
                 </div><!-- /.box-body -->                      
        </div><!-- /.box -->     
     </div>                         
-
-    {% endblock %}
+{% endblock %}
