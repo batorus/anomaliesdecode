@@ -16,14 +16,20 @@
           
          <div class="col-md-12">
 
-            <div style="margin: 10px 0px 20px 50px;">
+            <div style="margin: 10px 0px 20px 10px;">
                         {%if app.session.flashBag.has('error') %}    
                             {% for flash_message in app.session.flashBag.get('error') %}
                                   <div class="flash-notice">
                                       <div style="color:red; font-size:16px;">{{ flash_message }}</div>
                                   </div>
                             {% endfor %}
-                        {%endif%}    
+                        {%endif%}  
+                        
+                          {% if form.risklevel.vars.errors|length > 0 %}       
+                                       {% for error in form.risklevel.vars.errors %}
+                                          <div style="color:red; font-size:16px;">{{ error.message }}</div>
+                                       {% endfor %}        
+                          {% endif %}
             </div>   
         
         
@@ -45,13 +51,7 @@
                       <tbody>                  
                         <tr>                          
 
-                             <td>          
-                                {% if form.risklevel.vars.errors|length > 0 %}       
-                                       {% for error in form.risklevel.vars.errors %}
-                                          {{ error.message }}
-                                       {% endfor %}        
-                               {% endif %}
-                                 
+                             <td>                                                                    
                                {{ form_widget(form.risklevel) }}
                              </td>                             
                              <td>                               
@@ -77,8 +77,6 @@
                 </div>
                                
                 <div class="box-footer clearfix">
-               
-
                 </div>           
        </div>
     </div>             

@@ -1,42 +1,81 @@
 {% extends 'AnomaliesBundle::base.html.twig' %}
 
-
 {% block risklevel_edit %}
-    <h1>Risklevel edit</h1>
-{#controles_create#}
- {{ form_start(form, 
-             {'action': path('risklevel_update', {'id': entity.id}), 
-              'method': 'POST', 
-              'name':'risklevel',
-              'attr': {'novalidate': 'novalidate'}}) 
- }}   
+   
+    <!-- de aici -->
+    <div class="col-md-12">           
+            <div class="box box-info">
+                <div class="box-header with-border">
+                  <h3 class="box-title">Editer</h3>
 
-    <div>
-        {{ form_label(form.risklevel) }}
+                </div><!-- /.box-header -->
+            </div> 
+      <div class="box-body" style="min-height:500px;">
+          
+         <div class="col-md-12">    
+             
+            <div style="margin: 10px 0px 20px 10px;">
+                        
+                          {% if form.risklevel.vars.errors|length > 0 %}       
+                                       {% for error in form.risklevel.vars.errors %}
+                                          <div style="color:red; font-size:16px;">{{ error.message }}</div>
+                                       {% endfor %}        
+                          {% endif %}
+            </div>    
+             
+                    {{ form_start(form, 
+                                 {'action': path('risklevel_update', {'id': entity.id}), 
+                                  'method': 'POST', 
+                                  'name':'risklevel',
+                                  'attr': {'novalidate': 'novalidate'}}) 
+                     }}                  
+                    <table class="table no-margin" >                                        
+                      <thead>
+                        <tr>
+                            <th>{{ form_label(form.risklevel) }}</th>  
+                            <th>Action</th>                  
+                        </tr>
+                      </thead>      
+                                    
+                      <tbody>                  
+                        <tr>                          
 
-         {% if form.risklevel.vars.errors|length > 0 %}
-            <ul>
-                {% for error in form.risklevel.vars.errors %}
-                    <li>{{ error.message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-        
-        {{ form_widget(form.risklevel) }}
-    </div>
-       
-    <div>
-        {{ form_widget(form.save) }}
-    </div>    
-
-{{ form_end(form) }}
-
-    <ul>
-        <li>
-            <a href="{{ path('risklevel') }}">Back to the list</a>
-        </li>
-
-    </ul>
+                             <td>                                        
+                                {{ form_widget(form.risklevel) }}
+                             </td>                             
+                             <td>                               
+{#                                <?php echo $view['form']->widget($form['updatedetails'], 
+                                                                  array(
+                                                                    'attr' => array('class' => 'btn btn-md btn-default btn-flat',
+                                                                                   ),
+                                                                )) 
+                                ?>#}
+                                    {{ form_widget(form.save,{'attr': {'class': 'btn btn-md btn-default btn-flat'}}) }}
+                             </td> 
+                            {{ form_end(form) }}
+                        </tr>                                                   
+                      </tbody>
+                    </table>
+           
+                    <div class="box-footer clearfix">              
+                        <a href="{{ path('risklevel') }}" class="btn btn-sm btn-info btn-flat pull-left">Return</a>
+                    </div><!-- /.box-footer -->
+                </div>
+                               
+                <div class="box-footer clearfix">
+                </div>            
+       </div>
+    </div>            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
 {% endblock %}
 
 
