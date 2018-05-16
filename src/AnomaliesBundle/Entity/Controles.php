@@ -30,11 +30,11 @@ class Controles
     private $fktypecontroles;
 
     
-//    /**
-//     * @ORM\ManyToMany(targetEntity="Typesociete", inversedBy="controles")
-//     * @ORM\JoinTable(name="controles_typesocietes")
-//     */
-//    private $fktypesocietes;
+    /**
+     * @ORM\ManyToMany(targetEntity="Typesociete", inversedBy="controles")
+     * @ORM\JoinTable(name="controles_typesocietes")
+     */
+    private $fktypesocietes;
 //    
 //    /**
 //     * @ORM\ManyToMany(targetEntity="Typetaches", inversedBy="controles")
@@ -224,5 +224,39 @@ class Controles
     public function getFktypecontroles()
     {
         return $this->fktypecontroles;
+    }
+
+    /**
+     * Add fktypesociete
+     *
+     * @param \AnomaliesBundle\Entity\Typesociete $fktypesociete
+     *
+     * @return Controles
+     */
+    public function addFktypesociete(\AnomaliesBundle\Entity\Typesociete $fktypesociete)
+    {
+        $this->fktypesocietes[] = $fktypesociete;
+
+        return $this;
+    }
+
+    /**
+     * Remove fktypesociete
+     *
+     * @param \AnomaliesBundle\Entity\Typesociete $fktypesociete
+     */
+    public function removeFktypesociete(\AnomaliesBundle\Entity\Typesociete $fktypesociete)
+    {
+        $this->fktypesocietes->removeElement($fktypesociete);
+    }
+
+    /**
+     * Get fktypesocietes
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getFktypesocietes()
+    {
+        return $this->fktypesocietes;
     }
 }
