@@ -21,6 +21,7 @@ class TypecontroleController extends Controller
      */
     public function indexAction()
     {
+    
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('AnomaliesBundle:Typecontrole')->findBy(array('enabled'=>1));
