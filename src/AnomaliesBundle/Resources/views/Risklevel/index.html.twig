@@ -1,53 +1,10 @@
 {% extends 'AnomaliesBundle::base.html.twig' %}
 
-{% block risklevel_list -%}
-    <h1>Risklevel list</h1>
-
-    <table class="records_list">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Risklevel</th>
-                <th>Enabled</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for entity in entities %}
-            <tr>
-                <td>{{ entity.id }}</td>
-                <td>{{ entity.risklevel }}</td>
-                <td>{{ entity.enabled }}</td>
-                <td>
-                    <ul>
-
-                        <li>
-                            <a href="{{ path('risklevel_edit', { 'id': entity.id }) }}">edit</a>
-                        </li>
-                        
-                        <li>
-                           <a href="{{ path('risklevel_delete', { 'id': entity.id }) }}">delete</a>
-                        </li>      
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-        
-    <ul>
-        <li>
-            <a href="{{ path('risklevel_new') }}">
-                Create a new entry
-            </a>
-        </li>
-
-    </ul>
-                
+{% block risklevel_list -%}            
   <div class="col-md-12 ">           
             <div class="box box-info">
                 <div class="box-header with-border">
-                  <h3 class="box-title">List processcontroles</h3>
+                  <h3 class="box-title">Risklevel list</h3>
              
                 </div><!-- /.box-header -->
                 <div class="box-body" style="min-height:500px;background-color: #fcf9ed;">
@@ -62,7 +19,17 @@
                        } 
                        ?>
                     </div> #}
-                    
+                  
+{#                <div style="margin: 10px 0px 20px 50px;">
+                    {%if app.session.flashBag.has('notice') %}    
+                        {% for flash_message in app.session.flashBag.get('notice') %}
+                              <div class="flash-notice">
+                                  <div style="color:red; font-size:16px;">{{ flash_message }}</div>
+                              </div>
+                        {% endfor %}
+                    {%endif%}    
+                 </div> #}  
+                 
                 <div style="margin-bottom: 20px;">
                     <a href="{{ path('risklevel_new')}}" >  
                         <span class="glyphicon glyphicon-plus"> </span>
@@ -72,7 +39,6 @@
                     </a>  
                 </div>    
                         
-                     {#TRANSLATE IN TWIG#}
 
                      {% if entities|length > 0 %}
                             <div class="table-responsive col-md-12" >
