@@ -196,38 +196,30 @@ class TypecontroleController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
-        $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('AnomaliesBundle:Typecontrole')->find($id);
-
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('AnomaliesBundle:Typecontrole')->find($id);
+            
+            
+        try{    
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Typecontrole entity.');
             }
 
-            $em->remove($entity);
+        }catch(\Symfony\Component\HttpKernel\Exception\NotFoundHttpException  $e){           
+            
+            //Logare exceptie aici
+            // $this->container->get('session')->getFlashBag()->add("error", "L'enregistrement existe déjà dans la base de données!");           
+            //            echo "<pre>";
+            //            print_r($e->getTraceAsString());
+            //            die();
+            return $this->redirect($this->generateUrl('typecontrole'));
+        };
+        
+            $entity->setEnabled(0);   
+            //$em->remove($entity);
             $em->flush();
-        }
-
+        
         return $this->redirect($this->generateUrl('typecontrole'));
     }
 
-    /**
-     * Creates a form to delete a Typecontrole entity by id.
-     *
-     * @param mixed $id The entity id
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm($id)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('typecontrole_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm()
-        ;
-    }
 }
