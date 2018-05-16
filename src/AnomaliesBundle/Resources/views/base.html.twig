@@ -61,7 +61,19 @@
                   </a>
                 </li>
 
-            
+                 <li>
+                  <a href="{{path('typecontrole')}}">
+                    <i class="fa fa-book"></i>   
+                    <span>Control type</span>          
+                  </a>
+                </li>     
+                
+                <li>
+                  <a href="{{path('typesociete')}}">
+                    <i class="fa fa-book"></i>   
+                    <span>Society type</span>          
+                  </a>
+                </li>     
           </ul>
         </section>
         <!-- /.sidebar -->
@@ -86,6 +98,10 @@
                 {% block typecontrole_list %}{% endblock %}    
                 {% block typecontrole_edit %}{% endblock %}  
                 {% block typecontrole_new %}{% endblock %}  
+                
+                {% block typesociete_list %}{% endblock %}    
+                {% block typesociete_edit %}{% endblock %}  
+                {% block typesociete_new %}{% endblock %}  
                 
 
 
