@@ -1,3 +1,7 @@
+anomalies_typesociete:
+    resource: "@AnomaliesBundle/Resources/config/routing/typesociete.yml"
+    prefix:   /typesociete
+
 anomalies_typetaches:
     resource: "@AnomaliesBundle/Resources/config/routing/typetaches.yml"
     prefix:   /typetaches
