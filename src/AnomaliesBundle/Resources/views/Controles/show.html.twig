@@ -1,0 +1,44 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Controles</h1>
+
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+            <tr>
+                <th>Controle</th>
+                <td>{{ entity.controle }}</td>
+            </tr>
+            <tr>
+                <th>Echantillon</th>
+                <td>{{ entity.echantillon }}</td>
+            </tr>
+            <tr>
+                <th>Periodetravaux</th>
+                <td>{{ entity.periodetravaux }}</td>
+            </tr>
+            <tr>
+                <th>Enabled</th>
+                <td>{{ entity.enabled }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('controles') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('controles_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>{{ form(delete_form) }}</li>
+</ul>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'AnomaliesBundle::base.html.twig' %}
+
+{% block controles_new -%}
+    <h1>Controles creation</h1>
+
+    {{ form(form) }}
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('controles') }}">
+            Back to the list
+        </a>
+    </li>
+</ul>
+{% endblock %}

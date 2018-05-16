@@ -1,0 +1,47 @@
+{% extends 'AnomaliesBundle::base.html.twig' %}
+
+{% block controles_list -%}
+    <h1>Controles list</h1>
+
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Controle</th>
+                <th>Echantillon</th>
+                <th>Periodetravaux</th>
+                <th>Enabled</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('controles_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.controle }}</td>
+                <td>{{ entity.echantillon }}</td>
+                <td>{{ entity.periodetravaux }}</td>
+                <td>{{ entity.enabled }}</td>
+                <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('controles_show', { 'id': entity.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('controles_edit', { 'id': entity.id }) }}">edit</a>
+                    </li>
+                </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+        <ul>
+        <li>
+            <a href="{{ path('controles_new') }}">
+                Create a new entry
+            </a>
+        </li>
+    </ul>
+    {% endblock %}

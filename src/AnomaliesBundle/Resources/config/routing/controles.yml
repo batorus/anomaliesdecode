@@ -1,0 +1,30 @@
+controles:
+    path:     /
+    defaults: { _controller: "AnomaliesBundle:Controles:index" }
+
+controles_show:
+    path:     /{id}/show
+    defaults: { _controller: "AnomaliesBundle:Controles:show" }
+
+controles_new:
+    path:     /new
+    defaults: { _controller: "AnomaliesBundle:Controles:new" }
+
+controles_create:
+    path:     /create
+    defaults: { _controller: "AnomaliesBundle:Controles:create" }
+    methods:  POST
+
+controles_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AnomaliesBundle:Controles:edit" }
+
+controles_update:
+    path:     /{id}/update
+    defaults: { _controller: "AnomaliesBundle:Controles:update" }
+    methods:  [POST, PUT]
+
+controles_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AnomaliesBundle:Controles:delete" }
+    methods:  [POST, DELETE]

@@ -81,6 +81,13 @@
                     <span>Task type</span>          
                   </a>
                 </li> 
+                
+                <li>
+                  <a href="{{path('controles')}}">
+                    <i class="fa fa-book"></i>   
+                    <span>Controles</span>          
+                  </a>
+                </li> 
           </ul>
         </section>
         <!-- /.sidebar -->
@@ -113,6 +120,10 @@
                 {% block typetaches_list %}{% endblock %}    
                 {% block typetaches_edit %}{% endblock %}  
                 {% block typetaches_new %}{% endblock %}  
+                
+                {% block controles_list %}{% endblock %}    
+                {% block controles_edit %}{% endblock %}  
+                {% block controles_new %}{% endblock %}  
 
             </section><!-- /.Left col -->
 

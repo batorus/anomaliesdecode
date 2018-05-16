@@ -1,3 +1,7 @@
+anomalies_controles:
+    resource: "@AnomaliesBundle/Resources/config/routing/controles.yml"
+    prefix:   /controles
+
 anomalies_typecontrole:
     resource: "@AnomaliesBundle/Resources/config/routing/typecontrole.yml"
     prefix:   /typecontrole

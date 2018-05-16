@@ -190,6 +190,8 @@ class Controles
     public function __construct()
     {
         $this->fktypecontroles = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->fktypesocietes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->fktypetaches = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
