@@ -74,6 +74,13 @@
                     <span>Society type</span>          
                   </a>
                 </li>     
+                
+                <li>
+                  <a href="{{path('typetaches')}}">
+                    <i class="fa fa-book"></i>   
+                    <span>Task type</span>          
+                  </a>
+                </li> 
           </ul>
         </section>
         <!-- /.sidebar -->
@@ -103,7 +110,9 @@
                 {% block typesociete_edit %}{% endblock %}  
                 {% block typesociete_new %}{% endblock %}  
                 
-
+                {% block typetaches_list %}{% endblock %}    
+                {% block typetaches_edit %}{% endblock %}  
+                {% block typetaches_new %}{% endblock %}  
 
             </section><!-- /.Left col -->
 
