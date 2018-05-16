@@ -2,10 +2,6 @@ typecontrole:
     path:     /
     defaults: { _controller: "AnomaliesBundle:Typecontrole:index" }
 
-typecontrole_show:
-    path:     /{id}/show
-    defaults: { _controller: "AnomaliesBundle:Typecontrole:show" }
-
 typecontrole_new:
     path:     /new
     defaults: { _controller: "AnomaliesBundle:Typecontrole:new" }
@@ -13,7 +9,7 @@ typecontrole_new:
 typecontrole_create:
     path:     /create
     defaults: { _controller: "AnomaliesBundle:Typecontrole:create" }
-    methods:  POST
+    methods:  [POST, PUT, GET]
 
 typecontrole_edit:
     path:     /{id}/edit
@@ -22,9 +18,9 @@ typecontrole_edit:
 typecontrole_update:
     path:     /{id}/update
     defaults: { _controller: "AnomaliesBundle:Typecontrole:update" }
-    methods:  [POST, PUT]
+    methods:  [POST, PUT, GET]
 
 typecontrole_delete:
     path:     /{id}/delete
     defaults: { _controller: "AnomaliesBundle:Typecontrole:delete" }
-    methods:  [POST, DELETE]
+

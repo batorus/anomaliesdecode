@@ -23,11 +23,15 @@ class TypecontroleController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('AnomaliesBundle:Typecontrole')->findAll();
+        $entities = $em->getRepository('AnomaliesBundle:Typecontrole')->findBy(array('enabled'=>1));
 
         return $this->render('AnomaliesBundle:Typecontrole:index.html.twig', array(
             'entities' => $entities,
         ));
+        
+//        return $this->render('AnomaliesBundle:Typecontrole:index.html.php', array(
+//            'entities' => $entities,
+//        ));
     }
     /**
      * Creates a new Typecontrole entity.

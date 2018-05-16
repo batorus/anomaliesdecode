@@ -1,43 +1,75 @@
 {% extends 'AnomaliesBundle::base.html.twig' %}
 
 {% block typecontrole_list -%}
-    <h1>Typecontrole list</h1>
+                          
+    <div class="col-md-12 ">           
+            <div class="box box-info">
+                <div class="box-header with-border">
+                  <h3 class="box-title">Risklevel list</h3>
+             
+                </div><!-- /.box-header -->
+                <div class="box-body" style="min-height:500px;background-color: #fcf9ed;">
+                 
+                <div style="margin-bottom: 20px;">
+                    <a href="{{ path('risklevel_new')}}" >  
+                        <span class="glyphicon glyphicon-plus"> </span>
+                        <span style="margin-left: 5px; font-size: 15px;">
+                            Nouvel enregistrement
+                        </span>
+                    </a>  
+                </div>    
+                        
 
-    <table class="records_list">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Typecontrole</th>
-                <th>Enabled</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for entity in entities %}
-            <tr>
-                <td><a href="{{ path('typecontrole_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                <td>{{ entity.typecontrole }}</td>
-                <td>{{ entity.enabled }}</td>
-                <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('typecontrole_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('typecontrole_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+                     {% if entities|length > 0 %}
+                            <div class="table-responsive col-md-12" >
+                                <table class="table no-margin display modules" id="ml">
+                                  <thead>
+                                    <tr>
+            
+                                        <th>Id</th>
+                                        <th class="nosort">Typecontrole</th>
+                                        <th class="nosort">Enabled</th>
+                                   
+                                        
+                                        <th class="nosort">Supprimer</th>
+                                        <th class="nosort">Editer</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>                                     
+                                    {% for entity in entities %}                  
+                                        <tr> 
+                                            <td>{{ entity.id }}</td>
+                                            <td>{{ entity.typecontrole }}</td>
+                                            <td>{{ entity.enabled }}</td>
 
-        <ul>
-        <li>
-            <a href="{{ path('typecontrole_new') }}">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
+                                            <td>                                            
+                                                  <a href="{{ path('typecontrole_delete', { 'id': entity.id }) }}"
+                                                           
+                                                        class="btn btn-block btn-danger btn-sm suprimerlink" 
+                                                        style ="width:100px;margin:0 auto;"                                                           
+                                                  >  
+                                                      Supprimer
+                                                  </a>                                              
+                                            </td>    
+
+                                            <td >                                            
+                                                  <a href="{{ path('typecontrole_edit', { 'id': entity.id }) }}" 
+                                                    class="btn btn-block btn-warning btn-sm"
+                                                    style ="width:100px;margin:0 auto;"                                                            
+                                                   >  
+                                                     Editer
+                                                  </a>                                             
+                                            </td>    
+
+                                            
+                                        </tr> 
+                                    {% endfor %}
+                                  </tbody>
+                                </table>
+                              </div><!-- /.table-responsive -->   
+                  {% endif %}
+                </div><!-- /.box-body -->                      
+       </div><!-- /.box -->     
+    </div>                                      
+                
     {% endblock %}
