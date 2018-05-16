@@ -1,16 +1,70 @@
 {% extends 'AnomaliesBundle::base.html.twig' %}
 
 {% block typecontrole_edit -%}
-    <h1>Typecontrole edit</h1>
 
-    {{ form(edit_form) }}
+    <!-- de aici -->
+    <div class="col-md-12">           
+            <div class="box box-info">
+                <div class="box-header with-border">
+                  <h3 class="box-title">Editer</h3>
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('typecontrole') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
+                </div><!-- /.box-header -->
+            </div> 
+      <div class="box-body" style="min-height:500px;">
+          
+         <div class="col-md-12">    
+             
+            <div style="margin: 10px 0px 20px 10px;">
+                        
+                          {% if form.typecontrole.vars.errors|length > 0 %}       
+                                       {% for error in form.typecontrole.vars.errors %}
+                                          <div style="color:red; font-size:16px;">{{ error.message }}</div>
+                                       {% endfor %}        
+                          {% endif %}
+            </div>    
+             
+                    {{ form_start(form, 
+                                 {'action': path('typecontrole_update', {'id': entity.id}), 
+                                  'method': 'POST', 
+                                  'name':'typecontrole',
+                                  'attr': {'novalidate': 'novalidate'}}) 
+                     }}                  
+                    <table class="table no-margin" >                                        
+                      <thead>
+                        <tr>
+                            <th>{{ form_label(form.typecontrole) }}</th>  
+                            <th>Action</th>                  
+                        </tr>
+                      </thead>      
+                                    
+                      <tbody>                  
+                        <tr>                          
+
+                             <td>                                        
+                                {{ form_widget(form.typecontrole) }}
+                             </td>                             
+                             <td>                               
+{#                                <?php echo $view['form']->widget($form['updatedetails'], 
+                                                                  array(
+                                                                    'attr' => array('class' => 'btn btn-md btn-default btn-flat',
+                                                                                   ),
+                                                                )) 
+                                ?>#}
+                                    {{ form_widget(form.save,{'attr': {'class': 'btn btn-md btn-default btn-flat'}}) }}
+                             </td> 
+                            {{ form_end(form) }}
+                        </tr>                                                   
+                      </tbody>
+                    </table>
+           
+                    <div class="box-footer clearfix">              
+                        <a href="{{ path('typecontrole') }}" class="btn btn-sm btn-info btn-flat pull-left">Return</a>
+                    </div><!-- /.box-footer -->
+                </div>
+                               
+                <div class="box-footer clearfix">
+                </div>            
+       </div>
+    </div>            
+
 {% endblock %}

@@ -33,48 +33,61 @@ class TypecontroleController extends Controller
 //            'entities' => $entities,
 //        ));
     }
+    
+    
+    
+    
     /**
      * Creates a new Typecontrole entity.
      *
      */
     public function createAction(Request $request)
     {
-        $entity = new Typecontrole();
-        $form = $this->createCreateForm($entity);
+       $entity = new Typecontrole();
+          
+        $form = $this->createForm(new TypecontroleType(), $entity);
+        
         $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('typecontrole_show', array('id' => $entity->getId())));
+        
+        $validator = $this->get('validator');
+        $errors = $validator->validate($form);    
+                
+        if (count($errors) > 0) 
+        {          
+           
+            return $this->render('AnomaliesBundle:Typecontrole:new.html.twig', array(
+                'entity' => $entity,
+                'form' => $form->createView()
+            ));
+            
+//            return $this->render('AnomaliesBundle:Typecontrole:new.html.php', array(
+//                'entity' => $entity,
+//                'form' => $form->createView()
+//            ));
         }
-
-        return $this->render('AnomaliesBundle:Typecontrole:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        ));
+     
+        $em = $this->getDoctrine()->getManager();
+        $entity->setTypecontrole($request->request->get('anomaliesbundle_typecontrole')['typecontrole']);   
+        $entity->setEnabled(1);
+        $em->persist($entity);
+       
+        try{     
+           
+           $em->flush();
+           
+        }catch(\Doctrine\DBAL\Exception\UniqueConstraintViolationException  $e){           
+            
+           $this->container->get('session')->getFlashBag()->add("error", "L'enregistrement existe déjà dans la base de données!");
+            
+           return $this->redirect($this->generateUrl('typecontrole_new'));
+        };
+              
+        $this->container->get('session')->getFlashBag()->add("notice", "Enregistrement ajouté avec succès!"); 
+        
+        return $this->redirect($this->generateUrl('typecontrole'));              
     }
 
-    /**
-     * Creates a form to create a Typecontrole entity.
-     *
-     * @param Typecontrole $entity The entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createCreateForm(Typecontrole $entity)
-    {
-        $form = $this->createForm(new TypecontroleType(), $entity, array(
-            'action' => $this->generateUrl('typecontrole_create'),
-            'method' => 'POST',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Create'));
-
-        return $form;
-    }
+    
 
     /**
      * Displays a form to create a new Typecontrole entity.
@@ -83,78 +96,43 @@ class TypecontroleController extends Controller
     public function newAction()
     {
         $entity = new Typecontrole();
-        $form   = $this->createCreateForm($entity);
 
+        $form = $this->createForm(new TypecontroleType(), $entity);
+        
         return $this->render('AnomaliesBundle:Typecontrole:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        ));
+                             'entity' => $entity,
+                             'form'   => $form->createView(),
+                            ));
+//            return $this->render('AnomaliesBundle:Typecontrole:new.html.php', array(
+//                         'entity' => $entity,
+//                         'form'   => $form->createView(),
+//                        ));
     }
 
-    /**
-     * Finds and displays a Typecontrole entity.
-     *
-     */
-    public function showAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('AnomaliesBundle:Typecontrole')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Typecontrole entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return $this->render('AnomaliesBundle:Typecontrole:show.html.twig', array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
-        ));
-    }
+   
 
     /**
      * Displays a form to edit an existing Typecontrole entity.
      *
      */
-    public function editAction($id)
+    public function editAction(Typecontrole $typecontrole)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('AnomaliesBundle:Typecontrole')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Typecontrole entity.');
-        }
-
-        $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
-
+         
+        $editForm = $this->createForm(new TypecontroleType(), $typecontrole);  
+        
+        //Echivalenta cu varianta de mai sus
+       // $editForm = $this->createForm('TvdamBundle\Form\ProductType', $product);
+        
+        //$editForm = $this->createUpdateForm($product);
+ 
+       
         return $this->render('AnomaliesBundle:Typecontrole:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+            'entity' => $typecontrole,
+            'form'   => $editForm->createView(),
         ));
     }
 
-    /**
-    * Creates a form to edit a Typecontrole entity.
-    *
-    * @param Typecontrole $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-    private function createEditForm(Typecontrole $entity)
-    {
-        $form = $this->createForm(new TypecontroleType(), $entity, array(
-            'action' => $this->generateUrl('typecontrole_update', array('id' => $entity->getId())),
-            'method' => 'PUT',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Update'));
-
-        return $form;
-    }
+  
     /**
      * Edits an existing Typecontrole entity.
      *
@@ -162,29 +140,56 @@ class TypecontroleController extends Controller
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-
+       
         $entity = $em->getRepository('AnomaliesBundle:Typecontrole')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Typecontrole entity.');
         }
-
-        $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createEditForm($entity);
-        $editForm->handleRequest($request);
-
-        if ($editForm->isValid()) {
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('typecontrole_edit', array('id' => $id)));
+               
+        $form = $this->createForm(new TypecontroleType(), $entity);
+              
+        $form->handleRequest($request);
+        $validator = $this->get('validator');
+        $errors = $validator->validate($form);    
+                
+        if (count($errors) > 0) 
+        {                     
+//           return $this->render('AnomaliesBundle:Typetache:edit.html.twig', array(
+//                                'typetaches' => $entity,
+//                                'form'   => $form->createView(),
+//                                'errors' => $errors
+//            ));
+            
+            return $this->render('AnomaliesBundle:Typecontrole:edit.html.php', array(
+                     'entity' => $entity,
+                     'form'   => $form->createView(),
+                     'errors' => $errors
+            ));
         }
+        
+        $entity->setTypecontrole($request->request->get('anomaliesbundle_typecontrole')['typecontrole']);   
+                
+//        $em->persist($entity);
 
-        return $this->render('AnomaliesBundle:Typecontrole:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
+        try{     
+
+             $em->flush();
+
+        }catch(\Doctrine\DBAL\Exception\UniqueConstraintViolationException  $e){           
+
+             $this->container->get('session')->getFlashBag()->add("error", "L'enregistrement existe déjà dans la base de données!");
+
+             return $this->redirect($this->generateUrl('typecontrole_new'));
+        };
+
+
+        $this->container->get('session')->getFlashBag()->add("notice", "Enregistrement ajouté avec succès!"); 
+
+        return $this->redirect($this->generateUrl('typecontrole'));  
     }
+    
+    
     /**
      * Deletes a Typecontrole entity.
      *
