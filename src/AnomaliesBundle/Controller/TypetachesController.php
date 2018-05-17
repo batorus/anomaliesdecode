@@ -35,22 +35,49 @@ class TypetachesController extends Controller
      */
     public function createAction(Request $request)
     {
+            
         $entity = new Typetaches();
-        $form = $this->createCreateForm($entity);
+          
+        $form = $this->createForm(new TypetachesType(), $entity);
+        
         $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('typetaches_show', array('id' => $entity->getId())));
+        
+        $validator = $this->get('validator');
+        $errors = $validator->validate($form);    
+                
+        if (count($errors) > 0) 
+        {          
+           
+            return $this->render('AnomaliesBundle:Typetaches:new.html.twig', array(
+                'entity' => $entity,
+                'form' => $form->createView()
+            ));
+            
+//            return $this->render('AnomaliesBundle:Typecontrole:new.html.php', array(
+//                'entity' => $entity,
+//                'form' => $form->createView()
+//            ));
         }
-
-        return $this->render('AnomaliesBundle:Typetaches:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        ));
+     
+        $em = $this->getDoctrine()->getManager();
+        $entity->setTypetache($request->request->get('anomaliesbundle_typetaches')['typetache']);   
+        $entity->setEnabled(1);
+        $em->persist($entity);
+       
+        try{     
+           
+           $em->flush();
+           
+        }catch(\Doctrine\DBAL\Exception\UniqueConstraintViolationException  $e){           
+            
+           $this->container->get('session')->getFlashBag()->add("error", "L'enregistrement existe déjà dans la base de données!");
+            
+           return $this->redirect($this->generateUrl('typetaches_new'));
+        };
+              
+        $this->container->get('session')->getFlashBag()->add("notice", "Enregistrement ajouté avec succès!"); 
+        
+        return $this->redirect($this->generateUrl('typetaches'));     
     }
 
    
@@ -76,73 +103,77 @@ class TypetachesController extends Controller
      * Displays a form to edit an existing Typetaches entity.
      *
      */
-    public function editAction($id)
+    public function editAction(Typetaches $typetaches)
     {
-        $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('AnomaliesBundle:Typetaches')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Typetaches entity.');
-        }
-
-        $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
-
+        $editForm = $this->createForm(new TypetachesType(), $typetaches);  
+        
+        //Echivalenta cu varianta de mai sus
+       // $editForm = $this->createForm('TvdamBundle\Form\ProductType', $product);
+        
+        //$editForm = $this->createUpdateForm($product);
+      
         return $this->render('AnomaliesBundle:Typetaches:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
+            'entity' => $typetaches,
+            'form'   => $editForm->createView(),
+        ));    
     }
 
-    /**
-    * Creates a form to edit a Typetaches entity.
-    *
-    * @param Typetaches $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-    private function createEditForm(Typetaches $entity)
-    {
-        $form = $this->createForm(new TypetachesType(), $entity, array(
-            'action' => $this->generateUrl('typetaches_update', array('id' => $entity->getId())),
-            'method' => 'PUT',
-        ));
 
-        $form->add('submit', 'submit', array('label' => 'Update'));
-
-        return $form;
-    }
     /**
      * Edits an existing Typetaches entity.
      *
      */
     public function updateAction(Request $request, $id)
-    {
+    {    
         $em = $this->getDoctrine()->getManager();
-
+       
         $entity = $em->getRepository('AnomaliesBundle:Typetaches')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Typetaches entity.');
         }
-
-        $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createEditForm($entity);
-        $editForm->handleRequest($request);
-
-        if ($editForm->isValid()) {
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('typetaches_edit', array('id' => $id)));
+               
+        $form = $this->createForm(new TypetachesType(), $entity);
+              
+        $form->handleRequest($request);
+        $validator = $this->get('validator');
+        $errors = $validator->validate($form);    
+                
+        if (count($errors) > 0) 
+        {                     
+           return $this->render('AnomaliesBundle:Typetaches:edit.html.twig', array(
+                                'entity' => $entity,
+                                'form'   => $form->createView(),
+                                'errors' => $errors
+            ));
+            
+//            return $this->render('AnomaliesBundle:Typecontrole:edit.html.php', array(
+//                     'entity' => $entity,
+//                     'form'   => $form->createView(),
+//                     'errors' => $errors
+//            ));
         }
+        
+        $entity->setTypetache($request->request->get('anomaliesbundle_typetaches')['typetache']);   
+                
+//        $em->persist($entity);
 
-        return $this->render('AnomaliesBundle:Typetaches:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
+        try{     
+
+             $em->flush();
+
+        }catch(\Doctrine\DBAL\Exception\UniqueConstraintViolationException  $e){           
+
+             $this->container->get('session')->getFlashBag()->add("error", "L'enregistrement existe déjà dans la base de données!");
+
+             return $this->redirect($this->generateUrl('typetaches_new'));
+        };
+
+
+        $this->container->get('session')->getFlashBag()->add("notice", "Enregistrement ajouté avec succès!"); 
+
+        return $this->redirect($this->generateUrl('typetaches'));  
     }
     /**
      * Deletes a Typetaches entity.
@@ -150,38 +181,29 @@ class TypetachesController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
-        $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('AnomaliesBundle:Typetaches')->find($id);
-
+        
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('AnomaliesBundle:Typetaches')->find($id);
+                       
+        try{    
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Typetaches entity.');
             }
 
-            $em->remove($entity);
-            $em->flush();
-        }
-
+        }catch(\Symfony\Component\HttpKernel\Exception\NotFoundHttpException  $e){           
+            
+            //Logare exceptie aici
+            // $this->container->get('session')->getFlashBag()->add("error", "L'enregistrement existe déjà dans la base de données!");           
+            //            echo "<pre>";
+            //            print_r($e->getTraceAsString());
+            //            die();
+            return $this->redirect($this->generateUrl('typetaches'));
+        };
+        
+        $entity->setEnabled(0);   
+        //$em->remove($entity);
+        $em->flush();
+        
         return $this->redirect($this->generateUrl('typetaches'));
-    }
-
-    /**
-     * Creates a form to delete a Typetaches entity by id.
-     *
-     * @param mixed $id The entity id
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm($id)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('typetaches_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm()
-        ;
     }
 }

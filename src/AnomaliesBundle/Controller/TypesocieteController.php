@@ -185,8 +185,7 @@ class TypesocieteController extends Controller
      *
      */
     public function deleteAction(Request $request, $id)
-    {
-        
+    {      
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('AnomaliesBundle:Typesociete')->find($id);
                        
