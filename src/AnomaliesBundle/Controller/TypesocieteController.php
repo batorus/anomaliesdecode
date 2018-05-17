@@ -21,56 +21,71 @@ class TypesocieteController extends Controller
      */
     public function indexAction()
     {
+        
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('AnomaliesBundle:Typesociete')->findAll();
+        $entities = $em->getRepository('AnomaliesBundle:Typesociete')->findBy(array('enabled'=>1));
 
         return $this->render('AnomaliesBundle:Typesociete:index.html.twig', array(
             'entities' => $entities,
         ));
     }
+    
+    
     /**
      * Creates a new Typesociete entity.
      *
      */
     public function createAction(Request $request)
     {
+           
         $entity = new Typesociete();
-        $form = $this->createCreateForm($entity);
+          
+        $form = $this->createForm(new TypesocieteType(), $entity);
+        
         $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('typesociete_show', array('id' => $entity->getId())));
+        
+        $validator = $this->get('validator');
+        $errors = $validator->validate($form);    
+                
+        if (count($errors) > 0) 
+        {          
+           
+            return $this->render('AnomaliesBundle:Typesociete:new.html.twig', array(
+                'entity' => $entity,
+                'form' => $form->createView()
+            ));
+            
+//            return $this->render('AnomaliesBundle:Typecontrole:new.html.php', array(
+//                'entity' => $entity,
+//                'form' => $form->createView()
+//            ));
         }
-
-        return $this->render('AnomaliesBundle:Typesociete:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        ));
+     
+        $em = $this->getDoctrine()->getManager();
+        $entity->setTypesociete($request->request->get('anomaliesbundle_typesociete')['typesociete']);   
+        $entity->setEnabled(1);
+        $em->persist($entity);
+       
+        try{     
+           
+           $em->flush();
+           
+        }catch(\Doctrine\DBAL\Exception\UniqueConstraintViolationException  $e){           
+            
+           $this->container->get('session')->getFlashBag()->add("error", "L'enregistrement existe déjà dans la base de données!");
+            
+           return $this->redirect($this->generateUrl('typesociete_new'));
+        };
+              
+        $this->container->get('session')->getFlashBag()->add("notice", "Enregistrement ajouté avec succès!"); 
+        
+        return $this->redirect($this->generateUrl('typesociete'));     
+        
     }
 
-    /**
-     * Creates a form to create a Typesociete entity.
-     *
-     * @param Typesociete $entity The entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createCreateForm(Typesociete $entity)
-    {
-        $form = $this->createForm(new TypesocieteType(), $entity, array(
-            'action' => $this->generateUrl('typesociete_create'),
-            'method' => 'POST',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Create'));
-
-        return $form;
-    }
+   
+    
 
     /**
      * Displays a form to create a new Typesociete entity.
@@ -78,108 +93,93 @@ class TypesocieteController extends Controller
      */
     public function newAction()
     {
+      
         $entity = new Typesociete();
-        $form   = $this->createCreateForm($entity);
 
+        $form = $this->createForm(new TypesocieteType(), $entity);
+        
         return $this->render('AnomaliesBundle:Typesociete:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        ));
+                             'entity' => $entity,
+                             'form'   => $form->createView(),
+                            ));        
     }
-
-    /**
-     * Finds and displays a Typesociete entity.
-     *
-     */
-    public function showAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('AnomaliesBundle:Typesociete')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Typesociete entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return $this->render('AnomaliesBundle:Typesociete:show.html.twig', array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
-        ));
-    }
+    
+   
 
     /**
      * Displays a form to edit an existing Typesociete entity.
      *
      */
-    public function editAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('AnomaliesBundle:Typesociete')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Typesociete entity.');
-        }
-
-        $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
-
+    public function editAction(Typesociete $typesociete)
+    {        
+         $editForm = $this->createForm(new TypesocieteType(), $typesociete);  
+        
+        //Echivalenta cu varianta de mai sus
+       // $editForm = $this->createForm('TvdamBundle\Form\ProductType', $product);
+        
+        //$editForm = $this->createUpdateForm($product);
+      
         return $this->render('AnomaliesBundle:Typesociete:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+            'entity' => $typesociete,
+            'form'   => $editForm->createView(),
         ));
     }
 
-    /**
-    * Creates a form to edit a Typesociete entity.
-    *
-    * @param Typesociete $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-    private function createEditForm(Typesociete $entity)
-    {
-        $form = $this->createForm(new TypesocieteType(), $entity, array(
-            'action' => $this->generateUrl('typesociete_update', array('id' => $entity->getId())),
-            'method' => 'PUT',
-        ));
 
-        $form->add('submit', 'submit', array('label' => 'Update'));
-
-        return $form;
-    }
     /**
      * Edits an existing Typesociete entity.
      *
      */
     public function updateAction(Request $request, $id)
     {
-        $em = $this->getDoctrine()->getManager();
-
+       $em = $this->getDoctrine()->getManager();
+       
         $entity = $em->getRepository('AnomaliesBundle:Typesociete')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Typesociete entity.');
         }
-
-        $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createEditForm($entity);
-        $editForm->handleRequest($request);
-
-        if ($editForm->isValid()) {
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('typesociete_edit', array('id' => $id)));
+               
+        $form = $this->createForm(new TypesocieteType(), $entity);
+              
+        $form->handleRequest($request);
+        $validator = $this->get('validator');
+        $errors = $validator->validate($form);    
+                
+        if (count($errors) > 0) 
+        {                     
+           return $this->render('AnomaliesBundle:Typesociete:edit.html.twig', array(
+                                'entity' => $entity,
+                                'form'   => $form->createView(),
+                                'errors' => $errors
+            ));
+            
+//            return $this->render('AnomaliesBundle:Typecontrole:edit.html.php', array(
+//                     'entity' => $entity,
+//                     'form'   => $form->createView(),
+//                     'errors' => $errors
+//            ));
         }
+        
+        $entity->setTypesociete($request->request->get('anomaliesbundle_typesociete')['typesociete']);   
+                
+//        $em->persist($entity);
 
-        return $this->render('AnomaliesBundle:Typesociete:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
+        try{     
+
+             $em->flush();
+
+        }catch(\Doctrine\DBAL\Exception\UniqueConstraintViolationException  $e){           
+
+             $this->container->get('session')->getFlashBag()->add("error", "L'enregistrement existe déjà dans la base de données!");
+
+             return $this->redirect($this->generateUrl('typesociete_new'));
+        };
+
+
+        $this->container->get('session')->getFlashBag()->add("notice", "Enregistrement ajouté avec succès!"); 
+
+        return $this->redirect($this->generateUrl('typesociete'));  
     }
     /**
      * Deletes a Typesociete entity.
@@ -187,38 +187,30 @@ class TypesocieteController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
-        $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('AnomaliesBundle:Typesociete')->find($id);
-
+        
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('AnomaliesBundle:Typesociete')->find($id);
+                       
+        try{    
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Typesociete entity.');
             }
 
-            $em->remove($entity);
-            $em->flush();
-        }
-
+        }catch(\Symfony\Component\HttpKernel\Exception\NotFoundHttpException  $e){           
+            
+            //Logare exceptie aici
+            // $this->container->get('session')->getFlashBag()->add("error", "L'enregistrement existe déjà dans la base de données!");           
+            //            echo "<pre>";
+            //            print_r($e->getTraceAsString());
+            //            die();
+            return $this->redirect($this->generateUrl('typesociete'));
+        };
+        
+        $entity->setEnabled(0);   
+        //$em->remove($entity);
+        $em->flush();
+        
         return $this->redirect($this->generateUrl('typesociete'));
     }
 
-    /**
-     * Creates a form to delete a Typesociete entity by id.
-     *
-     * @param mixed $id The entity id
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm($id)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('typesociete_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm()
-        ;
-    }
 }

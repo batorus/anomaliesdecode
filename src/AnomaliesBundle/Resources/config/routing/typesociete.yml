@@ -2,10 +2,6 @@ typesociete:
     path:     /
     defaults: { _controller: "AnomaliesBundle:Typesociete:index" }
 
-typesociete_show:
-    path:     /{id}/show
-    defaults: { _controller: "AnomaliesBundle:Typesociete:show" }
-
 typesociete_new:
     path:     /new
     defaults: { _controller: "AnomaliesBundle:Typesociete:new" }
@@ -13,7 +9,7 @@ typesociete_new:
 typesociete_create:
     path:     /create
     defaults: { _controller: "AnomaliesBundle:Typesociete:create" }
-    methods:  POST
+    methods:  [POST, PUT, GET]
 
 typesociete_edit:
     path:     /{id}/edit
@@ -22,9 +18,9 @@ typesociete_edit:
 typesociete_update:
     path:     /{id}/update
     defaults: { _controller: "AnomaliesBundle:Typesociete:update" }
-    methods:  [POST, PUT]
+    methods:  [POST, PUT, GET]
 
 typesociete_delete:
     path:     /{id}/delete
     defaults: { _controller: "AnomaliesBundle:Typesociete:delete" }
-    methods:  [POST, DELETE]
+    methods:  [POST,GET, DELETE]

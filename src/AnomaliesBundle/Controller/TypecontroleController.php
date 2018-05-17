@@ -156,17 +156,12 @@ class TypecontroleController extends Controller
                 
         if (count($errors) > 0) 
         {                     
-//           return $this->render('AnomaliesBundle:Typetache:edit.html.twig', array(
-//                                'typetaches' => $entity,
-//                                'form'   => $form->createView(),
-//                                'errors' => $errors
-//            ));
-            
-            return $this->render('AnomaliesBundle:Typecontrole:edit.html.php', array(
-                     'entity' => $entity,
-                     'form'   => $form->createView(),
-                     'errors' => $errors
+           return $this->render('AnomaliesBundle:Typecontrole:edit.html.twig', array(
+                                'entity' => $entity,
+                                'form'   => $form->createView(),
+                                'errors' => $errors
             ));
+            
         }
         
         $entity->setTypecontrole($request->request->get('anomaliesbundle_typecontrole')['typecontrole']);   
