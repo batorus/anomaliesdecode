@@ -20,8 +20,7 @@ class TypesocieteController extends Controller
      *
      */
     public function indexAction()
-    {
-        
+    {      
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('AnomaliesBundle:Typesociete')->findBy(array('enabled'=>1));

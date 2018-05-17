@@ -23,7 +23,7 @@ class TypetachesController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('AnomaliesBundle:Typetaches')->findAll();
+        $entities = $em->getRepository('AnomaliesBundle:Typetaches')->findBy(array('enabled'=>1));
 
         return $this->render('AnomaliesBundle:Typetaches:index.html.twig', array(
             'entities' => $entities,
@@ -53,24 +53,7 @@ class TypetachesController extends Controller
         ));
     }
 
-    /**
-     * Creates a form to create a Typetaches entity.
-     *
-     * @param Typetaches $entity The entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createCreateForm(Typetaches $entity)
-    {
-        $form = $this->createForm(new TypetachesType(), $entity, array(
-            'action' => $this->generateUrl('typetaches_create'),
-            'method' => 'POST',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Create'));
-
-        return $form;
-    }
+   
 
     /**
      * Displays a form to create a new Typetaches entity.
@@ -79,36 +62,16 @@ class TypetachesController extends Controller
     public function newAction()
     {
         $entity = new Typetaches();
-        $form   = $this->createCreateForm($entity);
+
+        $form = $this->createForm(new TypetachesType(), $entity);
 
         return $this->render('AnomaliesBundle:Typetaches:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        ));
+                             'entity' => $entity,
+                             'form'   => $form->createView(),
+                            ));    
     }
 
-    /**
-     * Finds and displays a Typetaches entity.
-     *
-     */
-    public function showAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('AnomaliesBundle:Typetaches')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Typetaches entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return $this->render('AnomaliesBundle:Typetaches:show.html.twig', array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
-        ));
-    }
-
+    
     /**
      * Displays a form to edit an existing Typetaches entity.
      *
