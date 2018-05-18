@@ -77,9 +77,17 @@ class ControlesController extends Controller
         {             
            $em->flush();                                        
         }
+        catch(\Doctrine\DBAL\Exception\UniqueConstraintViolationException $e){
+            
+            $this->container->get('session')->getFlashBag()->add("notice", "L'enregistrement existe déjà dans la base de données!");
+            return $this->redirect($this->generateUrl('controles'));
+            
+        }
         catch( Doctrine\ORM\ORMException $e)
-        {                  
+        { 
+            
            return $this->redirect($this->generateUrl('controles'));
+           
         };
               
         $this->container->get('session')->getFlashBag()->add("notice", "Enregistrement ajouté avec succès!"); 
