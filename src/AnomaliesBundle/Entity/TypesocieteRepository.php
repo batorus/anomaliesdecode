@@ -10,4 +10,12 @@ namespace AnomaliesBundle\Entity;
  */
 class TypesocieteRepository extends \Doctrine\ORM\EntityRepository
 {
+    
+    public function getEnabledRecords()
+    {
+        return $this->createQueryBuilder('t')
+                    ->where('t.enabled = :enabled')
+                    ->setParameter('enabled', '1')
+                    ->orderBy('t.typesociete', 'ASC');
+    }
 }
