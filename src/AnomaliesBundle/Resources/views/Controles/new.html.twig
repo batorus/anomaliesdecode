@@ -1,15 +1,131 @@
 {% extends 'AnomaliesBundle::base.html.twig' %}
 
 {% block controles_new -%}
-    <h1>Controles creation</h1>
+      <!-- de aici -->
+    <div class="col-md-12">           
+            <div class="box box-info">
+                <div class="box-header with-border">
+                  <h3 class="box-title">Nouveau</h3>
 
-    {{ form(form) }}
+                </div><!-- /.box-header -->
+            </div> 
+      <div class="box-body" style="min-height:500px;">
+                  
+         <div>  
+             {%if app.session.flashBag.has('error') %}    
+                    {% for flash_message in app.session.flashBag.get('error') %}
+                          <div class="flash-notice">
+                              <div style="color:red; font-size:16px;">{{ flash_message }}</div>
+                          </div>
+                    {% endfor %}
+            {%endif%}  
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('controles') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
+             
+                {{ form_start(form, 
+                             {'action': path('controles_create', {'id': entity.id}), 
+                              'method': 'POST', 
+                              'name':'controles',
+                              'attr': {'novalidate': 'novalidate'}}) 
+                 }}                                          
+                    <table class="table no-margin modules" >
+                                         
+                      <thead>
+                        <tr>
+                            <th> {{ form_label(form.controle) }}</th> 
+                            <th> {{ form_label(form.echantillon) }}</th>  
+                            <th> {{ form_label(form.periodetravaux) }}</th> 
+                            <th> {{ form_label(form.typesociete) }} </th> 
+                            <th> {{ form_label(form.typetache) }}</th> 
+                            <th> {{ form_label(form.typecontrole) }}</th>                              
+                        </tr>
+                      </thead>      
+                                    
+                      <tbody>                  
+                        <tr>                          
+                             <td>                                          
+                                {% if form.controle.vars.errors|length > 0 %}       
+                                    {% for error in form.controle.vars.errors %}
+                                       <div style="color:red; font-size:16px;">{{ error.message }}</div>
+                                    {% endfor %}        
+                                {% endif %}
+                                
+                                {{ form_widget(form.controle) }}
+                             </td>   
+                             
+                             <td>          
+
+                                {% if form.echantillon.vars.errors|length > 0 %}       
+                                    {% for error in form.echantillon.vars.errors %}
+                                       <div style="color:red; font-size:16px;">{{ error.message }}</div>
+                                    {% endfor %}        
+                                {% endif %}
+                                
+                                {{ form_widget(form.echantillon) }}
+                             </td>   
+                             
+                             <td>          
+
+                                {% if form.periodetravaux.vars.errors|length > 0 %}       
+                                    {% for error in form.periodetravaux.vars.errors %}
+                                       <div style="color:red; font-size:16px;">{{ error.message }}</div>
+                                    {% endfor %}        
+                                {% endif %}
+                                
+                                {{ form_widget(form.periodetravaux) }}                                
+                             </td>  
+                             
+                             <td> 
+
+                                {% if form.typesociete.vars.errors|length > 0 %}       
+                                    {% for error in form.typesociete.vars.errors %}
+                                       <div style="color:red; font-size:16px;">{{ error.message }}</div>
+                                    {% endfor %}        
+                                {% endif %}
+                                
+                                {{ form_widget(form.typesociete) }}                                    
+                             </td>  
+                             
+                             <td>          
+                                {% if form.typetache.vars.errors|length > 0 %}       
+                                    {% for error in form.typetache.vars.errors %}
+                                       <div style="color:red; font-size:16px;">{{ error.message }}</div>
+                                    {% endfor %}        
+                                {% endif %}
+                                
+                                {{ form_widget(form.typetache) }}                                    
+                             </td>
+
+                             <td>          
+                                {% if form.typecontrole.vars.errors|length > 0 %}       
+                                    {% for error in form.typecontrole.vars.errors %}
+                                       <div style="color:red; font-size:16px;">{{ error.message }}</div>
+                                    {% endfor %}        
+                                {% endif %}
+                                
+                                {{ form_widget(form.typecontrole) }}                                   
+                             </td>                             
+                        </tr>                                                   
+                      </tbody>
+                    </table>
+                             
+                <div class="box-footer clearfix">              
+{#                    <?php echo $view['form']->widget($form['save'], 
+                                                      array(
+                                                        'attr' => array('class' => 'btn btn-md btn-default btn-flat',
+                                                                       ),
+                                                    )) 
+                    ?>#}
+                   {{ form_widget(form.save,{'attr': {'class': 'btn btn-md btn-default btn-flat'}}) }}
+                    <a href="{{ path('controles') }}" 
+                     class="btn btn-md btn-default btn-flat"
+                     style ="width:100px;"                                                            
+                    >                                                       
+                    Canceler
+                    </a> 
+                </div>
+                {{ form_end(form) }}
+                </div>
+                                   
+       </div>
+    </div> 
 {% endblock %}

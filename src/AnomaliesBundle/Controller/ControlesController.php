@@ -23,7 +23,7 @@ class ControlesController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('AnomaliesBundle:Controles')->findAll();
+        $entities = $em->getRepository('AnomaliesBundle:Controles')->findBy(array('enabled'=>1));
 
         return $this->render('AnomaliesBundle:Controles:index.html.twig', array(
             'entities' => $entities,
@@ -36,57 +36,74 @@ class ControlesController extends Controller
      *
      */
     public function createAction(Request $request)
-    {
+    {      
         $entity = new Controles();
-        $form = $this->createCreateForm($entity);
+          
+        $form = $this->createForm(new ControlesType($this->container), $entity);
+ 
         $form->handleRequest($request);
+        $validator = $this->get('validator');
+        $errors = $validator->validate($form);    
+    
+        if (count($errors) > 0) 
+        {          
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('controles_show', array('id' => $entity->getId())));
+            return $this->render('AnomaliesBundle:Controles:new.html.twig', array(
+                'entity' => $entity,
+                'form' => $form->createView()
+            ));
+    
+//            return $this->render('AnomaliesBundle:Controles:new.html.php', array(
+//                'entity' => $entity,
+//                'form' => $form->createView()
+//            ));
         }
 
-        return $this->render('AnomaliesBundle:Controles:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        ));
+        $em = $this->getDoctrine()->getManager();
+        
+        $entity->setControle($request->request->get('anomaliesbundle_controles')['controle']);  
+        $entity->setEchantillon($request->request->get('anomaliesbundle_controles')['echantillon']);      
+        $entity->setPeriodetravaux($request->request->get('anomaliesbundle_controles')['periodetravaux']);
+        
+        //momentan datele sunt serializate dar nefolosite la afisare
+        //$entity->setTypesociete(serialize($request->request->get('anomaliesbundle_controles')['typesociete']));        
+        //$entity->setTypetache(serialize($request->request->get('anomaliesbundle_controles')['typetache']));  
+        //$entity->setTypecontrole(serialize($request->request->get('anomaliesbundle_controles')['typecontrole']));  
+        
+        $entity->setEnabled(1);
+        $em->persist($entity);
+
+        try
+        {             
+           $em->flush();                                        
+        }
+        catch( Doctrine\ORM\ORMException $e)
+        {                  
+           return $this->redirect($this->generateUrl('controles'));
+        };
+              
+        $this->container->get('session')->getFlashBag()->add("notice", "Enregistrement ajouté avec succès!"); 
+        
+        return $this->redirect($this->generateUrl('controles')); 
     }
 
-    /**
-     * Creates a form to create a Controles entity.
-     *
-     * @param Controles $entity The entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createCreateForm(Controles $entity)
-    {
-        $form = $this->createForm(new ControlesType(), $entity, array(
-            'action' => $this->generateUrl('controles_create'),
-            'method' => 'POST',
-        ));
 
-        $form->add('submit', 'submit', array('label' => 'Create'));
-
-        return $form;
-    }
 
     /**
      * Displays a form to create a new Controles entity.
      *
      */
     public function newAction()
-    {
+    {        
         $entity = new Controles();
-        $form   = $this->createCreateForm($entity);
 
+        $form = $this->createForm(new ControlesType($this->container), $entity);
+        
         return $this->render('AnomaliesBundle:Controles:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        ));
+                             'entity' => $entity,
+                             'form'   => $form->createView(),
+                            ));
+  
     }
 
     /**
