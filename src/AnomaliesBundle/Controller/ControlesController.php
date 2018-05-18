@@ -79,7 +79,7 @@ class ControlesController extends Controller
         }
         catch(\Doctrine\DBAL\Exception\UniqueConstraintViolationException $e){
             
-            $this->container->get('session')->getFlashBag()->add("notice", "L'enregistrement existe déjà dans la base de données!");
+            $this->container->get('session')->getFlashBag()->add("notice", $e->getMessage());
             return $this->redirect($this->generateUrl('controles'));
             
         }
