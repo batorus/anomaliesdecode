@@ -29,6 +29,8 @@ class ControlesController extends Controller
             'entities' => $entities,
         ));
     }
+    
+    
     /**
      * Creates a new Controles entity.
      *
