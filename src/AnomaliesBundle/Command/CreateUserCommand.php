@@ -18,7 +18,6 @@ class CreateUserCommand extends ContainerAwareCommand
 
         // the short description shown while running "php app/console list"
         ->setDescription('Creates a new user.')
-
         // the full command description shown when running the command with
         // the "--help" option
         ->setHelp('This command allows you to create a user...');
