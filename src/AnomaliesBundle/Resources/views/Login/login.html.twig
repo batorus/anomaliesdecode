@@ -35,12 +35,13 @@
                 {% endif %}
                 
               <form class="form-signin" action="{{ path("login") }}" method="post"  id="form_login">
-                    {% if csrf_token is defined %}
+{#                    {% if csrf_token is defined %}
                         <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />  
-                    {% endif %}
+                    {% endif %}#}
                     <div class="form-group has-feedback">
                         <input type="text" class="form-control" placeholder="Identifiant windows" 
                                name='_username' 
+                               {% if last_username is defined %}value="{{ last_username }}"{% endif %}
                         />
                         <span class="glyphicon glyphicon-user form-control-feedback"></span>
                     </div>

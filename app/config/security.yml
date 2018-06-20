@@ -82,7 +82,7 @@ security:
             security: false
         main:
             form_login:
-                csrf_provider: form.csrf_provider
+#                csrf_provider: form.csrf_provider
                 login_path: login
                 check_path: login
             anonymous: ~
