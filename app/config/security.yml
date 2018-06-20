@@ -96,7 +96,11 @@ security:
 #        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
        # - {path: ^/anomalies/risklevel, roles: ROLE_SUPER_ADMIN}
         - {path: ^/anomalies/risklevel/*, roles: ROLE_SUPER_ADMIN}
-        
+        - {path: ^/anomalies/typecontrole/*, roles: ROLE_ADMIN}
+        - {path: ^/anomalies/typesociete/*, roles: ROLE_ADMIN}
+        - {path: ^/anomalies/typetaches/*, roles: ROLE_USER_DEFAULT} 
+        - {path: ^/anomalies/controles/*, roles: ROLE_USER_DEFAULT}         
+
     role_hierarchy:
         ROLE_USER_DEFAULT:
         ROLE_ADMIN: ROLE_USER_DEFAULT 
