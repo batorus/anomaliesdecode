@@ -94,8 +94,11 @@ security:
         - { path: ^/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
 #        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
 #        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/admin/, role: ROLE_ADMIN }
+       # - {path: ^/anomalies/risklevel, roles: ROLE_SUPER_ADMIN}
+        - {path: ^/anomalies/risklevel/*, roles: ROLE_SUPER_ADMIN}
         
     role_hierarchy:
+        ROLE_USER_DEFAULT:
+        ROLE_ADMIN: ROLE_USER_DEFAULT 
         ROLE_SUPER_ADMIN: ROLE_ADMIN
-        ROLE_ADMIN:       ROLE_USER        
+      

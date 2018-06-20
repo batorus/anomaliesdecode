@@ -13,13 +13,34 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface{
     
     public function load(ObjectManager $manager) {
         $user = new User();
+        $user->setUsername("sadmin");
+        $user->setEmail("sadmin@sadmin.com");
+        $encoder = $this->container->get("security.password_encoder");
+        $password = $encoder->encodePassword($user, "1234");
+        $user->setPassword($password);
+        $user->addRole('ROLE_SUPER_ADMIN');
+        $user->setEnabled(true);
+        $manager->persist($user);
+        $manager->flush();
+        
+        $user = new User();
         $user->setUsername("admin");
         $user->setEmail("admin@admin.com");
         $encoder = $this->container->get("security.password_encoder");
         $password = $encoder->encodePassword($user, "1234");
         $user->setPassword($password);
+        $user->addRole('ROLE_ADMIN');
+        $user->setEnabled(true);
+        $manager->persist($user);
+        $manager->flush();
+        
+        $user = new User();
+        $user->setUsername("user");
+        $user->setEmail("user@user.com");
+        $encoder = $this->container->get("security.password_encoder");
+        $password = $encoder->encodePassword($user, "1234");
+        $user->setPassword($password);
         $user->addRole('ROLE_USER_DEFAULT');
-        $user->addRole('ROLE_USER_TEST');
         $user->setEnabled(true);
         $manager->persist($user);
         $manager->flush();
