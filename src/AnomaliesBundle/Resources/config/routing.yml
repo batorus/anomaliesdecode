@@ -21,3 +21,7 @@ anomalies_risklevel:
 anomalies_homepage:
     path:     /hello/{name}
     defaults: { _controller: AnomaliesBundle:Default:index }
+
+login:
+    path:     /login
+    defaults: { _controller: AnomaliesBundle:Login:login }
