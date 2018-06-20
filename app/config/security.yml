@@ -86,10 +86,13 @@ security:
                 login_path: login
                 check_path: login
                 default_target_path: /anomalies/risklevel/
+            logout: 
+                path: logout
+                target: login
             anonymous: ~
-
-#access_control:
-#    - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-#    - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
-#    - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
-#    - { path: ^/admin/, role: ROLE_ADMIN }
+#            security: true           
+    access_control:
+        - { path: ^/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
+#        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+#        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/, role: ROLE_ADMIN }

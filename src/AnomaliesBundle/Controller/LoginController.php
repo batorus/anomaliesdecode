@@ -25,5 +25,10 @@ class LoginController extends Controller
                                     )
                             );        
     }
+    
+//    public function logoutAction()
+//    {
+//        return $this->redirect("login");
+//    }
 
 }
