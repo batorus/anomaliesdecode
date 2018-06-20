@@ -52,7 +52,7 @@
 #        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
 #        - { path: ^/admin/, role: ROLE_ADMIN }
 
-security:
+#security:
 #    encoders:
 #        FOS\UserBundle\Model\UserInterface: bcrypt
 #
@@ -63,25 +63,31 @@ security:
 #    providers:
 #        fos_userbundle:
 #            id: fos_user.user_provider.username
+
+security:
+    encoders:
+        AnomaliesBundle\Entity\User:
+            algorithm: bcrypt
+        
     providers:
         db_provider:
             entity:
                 class: AnomaliesBundle:User
                 property: username
-               
+
 
     firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
         main:
-            pattern: ^/
             form_login:
-                provider: fos_userbundle
-                csrf_provider: form.csrf_provider
-                default_target_path: /anomalies/risklevel/
-            logout:       true
-            anonymous:    true
+                login_path: login
+                check_path: login
+            anonymous: ~
 
-    access_control:
-        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/admin/, role: ROLE_ADMIN }
+#access_control:
+#    - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+#    - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+#    - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+#    - { path: ^/admin/, role: ROLE_ADMIN }
