@@ -1,0 +1,26 @@
+roleuser:
+    path:     /
+    defaults: { _controller: "AnomaliesBundle:Roleuser:index" }
+
+roleuser_new:
+    path:     /new
+    defaults: { _controller: "AnomaliesBundle:Roleuser:new" }
+
+roleuser_create:
+    path:     /create
+    defaults: { _controller: "AnomaliesBundle:Roleuser:create" }
+    methods:  [POST, PUT, GET]
+
+roleuser_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AnomaliesBundle:Roleuser:edit" }
+
+roleuser_update:
+    path:     /{id}/update
+    defaults: { _controller: "AnomaliesBundle:Roleuser:update" }
+    methods:  [POST, PUT, GET]
+
+roleuser_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AnomaliesBundle:Roleuser:delete" }
+    methods:  [POST,GET, DELETE]

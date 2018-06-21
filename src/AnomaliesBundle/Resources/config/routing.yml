@@ -18,6 +18,10 @@ anomalies_risklevel:
     resource: "@AnomaliesBundle/Resources/config/routing/risklevel.yml"
     prefix:   /risklevel
 
+anomalies_roleuser:
+    resource: "@AnomaliesBundle/Resources/config/routing/roleuser.yml"
+    prefix:   /roleuser
+
 anomalies_homepage:
     path:     /hello/{name}
     defaults: { _controller: AnomaliesBundle:Default:index }

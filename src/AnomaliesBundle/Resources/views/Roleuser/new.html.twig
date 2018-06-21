@@ -1,0 +1,94 @@
+{% extends 'AnomaliesBundle::base.html.twig' %}
+
+{% block roleuser_new -%}
+              
+ <!-- de aici -->
+    <div class="col-md-12">           
+            <div class="box box-info">
+                <div class="box-header with-border">
+                  <h3 class="box-title">Nouveau</h3>
+
+                </div><!-- /.box-header -->
+            </div> 
+      <div class="box-body" style="min-height:500px;">
+          
+         <div class="col-md-12">
+
+            <div style="margin: 10px 0px 20px 10px;">
+                        {%if app.session.flashBag.has('error') %}    
+                            {% for flash_message in app.session.flashBag.get('error') %}
+                                  <div class="flash-notice">
+                                      <div style="color:red; font-size:16px;">{{ flash_message }}</div>
+                                  </div>
+                            {% endfor %}
+                        {%endif%}  
+                        
+                          {% if form.username.vars.errors|length > 0 %}       
+                                       {% for error in form.username.vars.errors %}
+                                          <div style="color:red; font-size:16px;">{{ error.message }}</div>
+                                       {% endfor %}        
+                          {% endif %}
+            </div>   
+        
+        
+                {{ form_start(form, 
+                             {'action': path('roleuser_create', {'id': entity.id}), 
+                              'method': 'POST', 
+                              'name':'roleuser',
+                              'attr': {'novalidate': 'novalidate'}}) 
+                }}                       
+                    <table class="table no-margin" >
+                                         
+                      <thead>
+                        <tr>
+                            <th> {{ form_label(form.username) }}</th>  
+                            <th> {{ form_label(form.password) }}</th>  
+                            <th> {{ form_label(form.email) }}</th>                              
+                            <th> {{ form_label(form.roles) }}</th>                            
+                            <th>Action</th>                  
+                        </tr>
+                      </thead>      
+                                    
+                      <tbody>                  
+                        <tr>                          
+
+                             <td>                                                                    
+                               {{ form_widget(form.username) }}
+                             </td>  
+                             <td>                                                                    
+                               {{ form_widget(form.password) }}
+                             </td> 
+                             <td>                                                                    
+                               {{ form_widget(form.email) }}
+                             </td>  
+                             <td>                                                                    
+                               {{ form_widget(form.roles) }}
+                             </td>                              
+                             <td>                               
+{#                                <?php echo $view['form']->widget($form['updatedetails'], 
+                                                                  array(
+                                                                    'attr' => array('class' => 'btn btn-md btn-default btn-flat',
+                                                                                   ),
+                                                                )) 
+                                ?>#}
+                                
+                                {{ form_widget(form.save,{'attr': {'class': 'btn btn-md btn-default btn-flat'}}) }}
+                             </td> 
+                             
+                        </tr>                                                   
+                      </tbody>
+                    </table>
+                {{ form_end(form) }}
+        <div class="box-footer clearfix">              
+
+            <a href="{{ path('roleuser') }}" class="btn btn-sm btn-info btn-flat pull-left">Return</a>
+
+        </div><!-- /.box-footer -->
+        </div>
+
+        <div class="box-footer clearfix">
+        </div>           
+       </div>
+    </div>             
+        
+{% endblock %}
