@@ -16,7 +16,7 @@ class RoleuserType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        //var_dump($this->container);die();
+       // var_dump($options['roles']);die();
 
                
         $builder->add('username', 'text',
@@ -70,6 +70,7 @@ class RoleuserType extends AbstractType
                 ->add('roles', 'choice', array(
                                          'label' =>"Roles",                        
                                          'choices' =>$options['roles'],
+                                         //'choices_as_values' => true,
                                          'mapped' => false,
                                          'multiple' => false,
 
