@@ -82,9 +82,12 @@ security:
         main:
             form_login:
 #                csrf_provider: form.csrf_provider
+                csrf_provider: security.csrf.token_manager
                 login_path: login
                 check_path: login
                 default_target_path: /anomalies/risklevel/
+                #failure_path: login_failure_route_name
+                #always_use_default_target_path: true
             logout: 
                 path: logout
                 target: login

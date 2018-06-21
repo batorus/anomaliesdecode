@@ -35,9 +35,9 @@
                 {% endif %}
                 
               <form class="form-signin" action="{{ path("login") }}" method="post"  id="form_login">
-{#                    {% if csrf_token is defined %}
-                        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />  
-                    {% endif %}#}
+                 {#   {% if csrf_token is defined %}#}
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate')  }}" />  
+                {#    {% endif %}#}
                     <div class="form-group has-feedback">
                         <input type="text" class="form-control" placeholder="Identifiant windows" 
                                name='_username' 
