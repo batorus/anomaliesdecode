@@ -32,15 +32,23 @@ class RoleuserController extends Controller
                             ));
     }
     
+    public function getRolesInSecurity(){
+        $rolesarray = array();
+        foreach (array_keys($this->getParameter('security.role_hierarchy.roles')) as $value)
+            $rolesarray[$value] = $value;
+        
+        return $rolesarray;
+    }
+    
     ########################################## Datele sunt trimise aici din New #####################
     public function createAction(Request $request)
     {
-       echo "<pre>";var_dump($request->request->get('anomaliesbundle_roleuser')['roles']);die(); 
+       //echo "<pre>";var_dump($request->request->get('anomaliesbundle_roleuser')['roles']);die(); 
         $entity = new User();
-          
+            
         $form = $this->createForm(new RoleuserType(), $entity,  
                                   array(
-                                        'roles' => array_keys($this->getParameter('security.role_hierarchy.roles')),
+                                        'roles' => $this->getRolesInSecurity(),
                                  ));
         
         $form->handleRequest($request);
@@ -60,10 +68,11 @@ class RoleuserController extends Controller
         }
      
         $em = $this->getDoctrine()->getManager();       
-        $searchent = $em->getRepository('AnomaliesBundle:User')->findOneBy(array("username"=>$request->request->get('anomaliesbundle_roleuser')['username']));
+        $user = $em->getRepository('AnomaliesBundle:User')->findOneBy(array("username"=>$request->request->get('anomaliesbundle_roleuser')['username']));
         $eid = 0;    
         //echo "<pre>";var_dump($searchent);die();
-        if(!$searchent)
+
+        if(!$user)
         {            
             $entity->setUsername($request->request->get('anomaliesbundle_roleuser')['username']);       
            // $entity->setGivenname("ttt");
@@ -82,7 +91,7 @@ class RoleuserController extends Controller
             $entity->setRoles(array());         
             $em->persist($entity);
             $em->flush(); 
-            $eid = $entity->getId();
+           // $eid = $entity->getId();
         }
         else
         {           
@@ -102,24 +111,24 @@ class RoleuserController extends Controller
             //$entity->setDisplayname("ttt"); 
             $entity->setRoles(array());       
             $em->flush(); 
-            $eid = $searchent->getId();
+           // $eid = $searchent->getId();
         };
                
 
-        $user = $em->getRepository('AnomaliesBundle:User')->find($eid);   
+       // $user = $em->getRepository('AnomaliesBundle:User')->find($eid);   
         if(isset($request->request->get('anomaliesbundle_roleuser')['roles']))
         {   
 
             $role = $request->request->get('anomaliesbundle_roleuser')['roles'];
           // var_dump($user);die();
             if ($user && $role) {
-                //$userRoles = $user->getRoles();
-                // remove user roles
-//                if(count($userRoles)){
-//                    foreach ($userRoles as $role) {
-//                        $user->removeRole($role);
-//                    }
-//                }
+                $userRoles = $user->getRoles();
+                 //remove user roles
+                if(count($userRoles)){
+                    foreach ($userRoles as $role) {
+                        $user->removeRole($role);
+                    }
+                }
 
                 // add new roles 
               //  foreach ($roles as $role) {
@@ -132,15 +141,15 @@ class RoleuserController extends Controller
         }
         else
         {   
-            //$userRoles = $user->getRoles();
-                // remove user roles
-//            if(count($userRoles)){
-//                foreach ($userRoles as $role) 
-//                {
-//                    $user->removeRole($role);
-//                }
-//            
-//            }
+            $userRoles = $user->getRoles();
+               //  remove user roles
+            if(count($userRoles)){
+                foreach ($userRoles as $role) 
+                {
+                    $user->removeRole($role);
+                }
+            
+            }
             
             $user->addRole('ROLE_USER_DEFAULT');
             $em->flush();
@@ -169,16 +178,11 @@ class RoleuserController extends Controller
     #################################### NEW FORM #############################
     public function newAction()
     {    
-        //var_dump($this->getParameter('security.role_hierarchy.roles'));die;
-        
-        $rolesarray = array();
-        foreach (array_keys($this->getParameter('security.role_hierarchy.roles')) as $value)
-            $rolesarray[$value] = $value;
-        
+       
         $entity = new User();
         $form = $this->createForm(new RoleuserType(), $entity,  
                                   array(
-                                        'roles' => $rolesarray,
+                                        'roles' => $this->getRolesInSecurity(),
                                  ));
         
         return $this->render('AnomaliesBundle:Roleuser:new.html.twig', array(
