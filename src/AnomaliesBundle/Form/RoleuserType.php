@@ -16,11 +16,10 @@ class RoleuserType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-       // var_dump($options['roles']);die();
+       //var_dump($options['data']->getRoles());die();
 
                
-        $builder->add('username', 'text',
-                                        array(
+        $builder->add('username', 'text',array(
                                                 'data' => $options['data']->getUsername(),
                                                 'label' => "User Name",
                                                 'constraints'=>array( 
@@ -28,15 +27,14 @@ class RoleuserType extends AbstractType
                                                                               array(
                                                                                     'message' => 'Value should not be empty!',
                                                                                     )        
-                                                                            )
+                                                                            )                                                 
                                                                     ),
                                                 'attr' => array(
                                                                 //'style' => 'width:250px', 
                                                                 )                                   
                                             )
                     )
-                ->add('password', 'text',
-                                        array(
+                ->add('password', 'text',array(
                                                 'data' => $options['data']->getPassword(),
                                                 'label' => "Password",
                                                 'constraints'=>array( 
@@ -51,8 +49,7 @@ class RoleuserType extends AbstractType
                                                                 )                                   
                                             )
                     )
-                ->add('email', 'text',
-                                        array(
+                ->add('email', 'text',array(
                                                 'data' => $options['data']->getEmail(),
                                                 'label' => "Email",
                                                 'constraints'=>array( 
@@ -60,7 +57,12 @@ class RoleuserType extends AbstractType
                                                                               array(
                                                                                     'message' => 'Value should not be empty!',
                                                                                     )        
-                                                                            )
+                                                                            ),
+                                                                       new Assert\Email(
+                                                                              array(
+                                                                                    'message' => 'Not a valid email!',
+                                                                                    ) 
+                                                                       )  
                                                                     ),
                                                 'attr' => array(
                                                                 //'style' => 'width:250px', 
@@ -68,6 +70,7 @@ class RoleuserType extends AbstractType
                                             )
                     )                
                 ->add('roles', 'choice', array(
+                                        // "data" => $options['data']->getRoles(),
                                          'label' =>"Roles",                        
                                          'choices' =>$options['roles'],
                                          'choices_as_values' => true,
