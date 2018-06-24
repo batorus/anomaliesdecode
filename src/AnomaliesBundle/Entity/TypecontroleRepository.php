@@ -10,7 +10,7 @@ namespace AnomaliesBundle\Entity;
  */
 class TypecontroleRepository extends \Doctrine\ORM\EntityRepository
 {
-        public function getEnabledRecords()
+    public function getEnabledRecords()
     {
         return $this->createQueryBuilder('t')
                     ->where('t.enabled = :enabled')

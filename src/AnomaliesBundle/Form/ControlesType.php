@@ -15,6 +15,8 @@ class ControlesType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        echo "<pre>";
+        print_r($options['data']->getFktypesocietes());die();
         $builder
             ->add('controle', 'text',
                                 array(
@@ -71,9 +73,9 @@ class ControlesType extends AbstractType
                                                        {
                                                             return $repository->getEnabledRecords();
                                                         },            
-                                    //indicii sunt luati din Controles
+                                    //indicii sunt luati din Controles pentru a se vedea care e selectia (owning side)
                                     'data' => $options['data']->getFktypesocietes(),
-                                    //denumirea o ia din Typesociete
+                                    //denumirea o ia din Typesociete;campul pe care-l vrei afisat in drop down
                                     'choice_label' => 'typesociete',
                                    // 'choice_label' => '',
                                     'label'=>"Type societe",
