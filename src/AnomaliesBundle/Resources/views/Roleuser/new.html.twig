@@ -18,7 +18,7 @@
                         {%if app.session.flashBag.has('error') %}    
                             {% for flash_message in app.session.flashBag.get('error') %}
                                   <div class="flash-notice">
-                                      <div style="color:red; font-size:16px;">{{ flash_message }}</div>
+                                      <div style="color:red; font-size:16px;">{{flash_message }}</div>
                                   </div>
                             {% endfor %}
                         {%endif%}                          
@@ -73,13 +73,7 @@
                                {{ form_widget(form.roles) }}
                              </td>                              
                              <td>                               
-{#                                <?php echo $view['form']->widget($form['updatedetails'], 
-                                                                  array(
-                                                                    'attr' => array('class' => 'btn btn-md btn-default btn-flat',
-                                                                                   ),
-                                                                )) 
-                                ?>#}
-                                
+                             
                                 {{ form_widget(form.save,{'attr': {'class': 'btn btn-md btn-default btn-flat'}}) }}
                              </td> 
                              

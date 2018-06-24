@@ -19,16 +19,25 @@ use AnomaliesBundle\Form\RoleuserType;
 
 class RoleuserController extends Controller
 {
-    public function indexAction()
+    public function indexAction(Request $request)
     {
 //        $user = $this->getUser();
 //        var_dump($user->getRoles());die();
         $em = $this->getDoctrine()->getManager();
-
         $entities = $em->getRepository('AnomaliesBundle:User')->findBy(array('enabled'=>1));
+        
+        $paginator  = $this->get('knp_paginator');
+        
+        $pagination = $paginator->paginate(
+                        $entities, /* query NOT result */
+                        $request->query->getInt('page', 1)/*page number*/,
+                        5/*limit per page*/
+        );
+
 
         return $this->render('AnomaliesBundle:Roleuser:index.html.twig', array(
-                             'entities' => $entities,
+                             'entities' => $pagination,
+                             //'pagination' => $pagination,
                             ));
     }
     
@@ -307,11 +316,11 @@ class RoleuserController extends Controller
     public function deleteAction(Request $request, $id)
     {      
         $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('AnomaliesBundle:Typesociete')->find($id);
+        $entity = $em->getRepository('AnomaliesBundle:User')->find($id);
                        
         try{    
             if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Typesociete entity.');
+                throw $this->createNotFoundException('Unable to find User entity.');
             }
 
         }catch(\Symfony\Component\HttpKernel\Exception\NotFoundHttpException  $e){           
@@ -321,14 +330,14 @@ class RoleuserController extends Controller
             //            echo "<pre>";
             //            print_r($e->getTraceAsString());
             //            die();
-            return $this->redirect($this->generateUrl('typesociete'));
+            return $this->redirect($this->generateUrl('roleuser'));
         };
         
         $entity->setEnabled(0);   
         //$em->remove($entity);
         $em->flush();
         
-        return $this->redirect($this->generateUrl('typesociete'));
+        return $this->redirect($this->generateUrl('roleuser'));
     }
 
 }

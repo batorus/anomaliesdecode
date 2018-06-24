@@ -16,7 +16,7 @@ class RoleuserType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-       //var_dump($options['data']->getRoles()[0]);die();
+      // var_dump($options['data']);die();
 
                
         $builder->add('username', 'text',array(
@@ -36,7 +36,7 @@ class RoleuserType extends AbstractType
                     )
                 ->add('password', 'text',array(
                                                 'data' => "",
-                                                'label' => "Password",
+                                                'label' => ($options['data']->getId())==null ? "Password" : "New Password",
 //                                                'constraints'=>array( 
 //                                                                      new Assert\NotBlank(
 //                                                                              array(
@@ -75,7 +75,7 @@ class RoleuserType extends AbstractType
                                          'choices' =>$options['roles'],
                                          'choices_as_values' => true,
                                          'mapped' => false,
-                                         'multiple' => false,
+                                         'multiple' => false
                          )
                     )            
                 ->add('save', 'submit', array('label' => 'Save',
@@ -94,7 +94,7 @@ class RoleuserType extends AbstractType
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-         $resolver->setRequired('roles');
+        $resolver->setRequired('roles');
         $resolver->setDefaults(array(
             'data_class' => 'AnomaliesBundle\Entity\User'
         ));

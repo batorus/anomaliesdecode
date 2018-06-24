@@ -52,8 +52,8 @@
                                         <th class="nosort">Enabled</th>
                                    
                                         
-                                        <th class="nosort">Supprimer</th>
-                                        <th class="nosort">Editer</th>
+                                        <th class="nosort">Edit</th>
+                                        <th class="nosort">Delete</th>
                                     </tr>
                                   </thead>
                                   <tbody>                                     
@@ -65,10 +65,19 @@
                                             
                                             <td>
                                                 {% for role in entity.roles %} 
-                                                   {{role}}
+                                                  <div>{{role}}</div>
                                                 {% endfor%} 
                                             </td>   
                                             <td>{{ entity.enabled }}</td>
+                                            
+                                            <td>                                            
+                                                  <a href="{{ path('roleuser_edit', { 'id': entity.id }) }}" 
+                                                    class="btn btn-block btn-warning btn-sm"
+                                                    style ="width:100px;margin:0 auto;"                                                            
+                                                   >  
+                                                     Edit
+                                                  </a>                                             
+                                            </td>                                               
 
                                            <td>                                            
                                                   <a href="{{ path('roleuser_delete', { 'id': entity.id }) }}"
@@ -76,24 +85,18 @@
                                                         class="btn btn-block btn-danger btn-sm suprimerlink" 
                                                         style ="width:100px;margin:0 auto;"                                                           
                                                   >  
-                                                      Supprimer
+                                                      Delete
                                                   </a>                                              
                                             </td>   
-
-                                            <td>                                            
-                                                  <a href="{{ path('roleuser_edit', { 'id': entity.id }) }}" 
-                                                    class="btn btn-block btn-warning btn-sm"
-                                                    style ="width:100px;margin:0 auto;"                                                            
-                                                   >  
-                                                     Editer
-                                                  </a>                                             
-                                            </td>    
-
-                                            
+                                           
                                         </tr> 
                                     {% endfor %}
                                   </tbody>
                                 </table>
+                                  {# display navigation #}
+                                    <div class="navigation">
+                                        {{ knp_pagination_render(entities) }}
+                                    </div>
                               </div><!-- /.table-responsive -->   
                   {% endif %}
                 </div><!-- /.box-body -->                      
