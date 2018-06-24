@@ -15,8 +15,8 @@ class ControlesType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        echo "<pre>";
-        print_r($options['data']->getFktypesocietes());die();
+//        echo "<pre>";
+//        print_r($options['data']->getFktypesocietes());die();
         $builder
             ->add('controle', 'text',
                                 array(
