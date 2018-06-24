@@ -35,7 +35,7 @@ class RoleuserType extends AbstractType
                                             )
                     )
                 ->add('password', 'text',array(
-                                                //'data' => $options['data']->getPassword(),
+                                                'data' => "",
                                                 'label' => "Password",
 //                                                'constraints'=>array( 
 //                                                                      new Assert\NotBlank(

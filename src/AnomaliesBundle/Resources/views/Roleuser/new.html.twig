@@ -63,7 +63,7 @@
                              <td> 
                                 {% if form.email.vars.errors|length > 0 %}       
                                     {% for error in form.email.vars.errors %}
-                                       <div style="color:red; font-size:16px;">{{ error.message }}</div>
+                                       <div style="color:red; font-size:16px;">{{error.message }}</div>
                                     {% endfor %}        
                                 {% endif %}                                   
                                {{ form_widget(form.email) }}

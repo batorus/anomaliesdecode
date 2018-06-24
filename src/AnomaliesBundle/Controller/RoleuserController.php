@@ -221,9 +221,26 @@ class RoleuserController extends Controller
         ));
     }
     
+    public function purgeRoles(Request $request, User $user){
+        $userRoles = $user->getRoles();
+          // var_dump($userRoles);die();
+
+        if(count($userRoles)){
+            foreach ($userRoles as $role) {
+                $user->removeRole($role);
+            }
+        }
+    }
+    
     public function updateAction(Request $request, $id)
     {
-        $entity = new User();
+        $em = $this->getDoctrine()->getManager();
+       
+        $entity = $em->getRepository('AnomaliesBundle:User')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find User entity.');
+        }
             
         $form = $this->createForm(new RoleuserType(), $entity,  
                                   array(
@@ -244,13 +261,8 @@ class RoleuserController extends Controller
             ));
             
         }
+      
      
-        $em = $this->getDoctrine()->getManager();       
-     
-        $encoder = $this->get("security.password_encoder");
-        $password = $encoder->encodePassword($entity, $request->request->get('anomaliesbundle_roleuser')['password']);
-        $entity->setPassword($password);
-
         $entity->setUsername($request->request->get('anomaliesbundle_roleuser')['username']);       
        // $entity->setGivenname("ttt");
         //$entity->setSurname("ttt");
@@ -259,14 +271,20 @@ class RoleuserController extends Controller
         $entity->setEmailCanonical(strtolower($request->request->get('anomaliesbundle_roleuser')['email']));
         $entity->setEnabled(1);
         $entity->setSalt(null);
-
+        
+        if(!empty($request->request->get('anomaliesbundle_roleuser')['password'])){
+            //die("not empty");
+            $encoder = $this->get("security.password_encoder");
+            $password = $encoder->encodePassword($entity, $request->request->get('anomaliesbundle_roleuser')['password']);
+            $entity->setPassword($password);
+        }
        // $entity->setLocked(0);
         //$entity->setExpired(0);
         //$entity->setCredentialsExpired(0);
         //$entity->setDn("dn");  
         //$entity->setDisplayname("ttt"); 
+        $this->purgeRoles($request, $entity);
         $entity->addRole($request->request->get('anomaliesbundle_roleuser')['roles']);         
-//            $em->persist($entity);
 
         try{     
            $em->flush();
