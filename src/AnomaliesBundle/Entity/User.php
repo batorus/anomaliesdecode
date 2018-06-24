@@ -98,7 +98,7 @@ class User extends BaseUser
         }
 
         // we need to make sure to have at least one role
-       // $roles[] = static::ROLE_DEFAULT;
+        $roles[] = "ROLE_USER_DEFAULT";
 
         return array_unique($roles);
     }

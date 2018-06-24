@@ -77,7 +77,7 @@ class RoleuserController extends Controller
         
             $encoder = $this->get("security.password_encoder");
             $password = $encoder->encodePassword($entity, $request->request->get('anomaliesbundle_roleuser')['password']);
-        
+
             $entity->setUsername($request->request->get('anomaliesbundle_roleuser')['username']);       
            // $entity->setGivenname("ttt");
             //$entity->setSurname("ttt");
@@ -110,10 +110,7 @@ class RoleuserController extends Controller
 
             return $this->redirect($this->generateUrl('roleuser')); 
             
-            
-            
-            
-            
+         
             //$em->flush(); 
            // $eid = $entity->getId();
 //        }
@@ -188,8 +185,7 @@ class RoleuserController extends Controller
 
     #################################### NEW FORM #############################
     public function newAction()
-    {    
-       
+    {          
         $entity = new User();
         $form = $this->createForm(new RoleuserType(), $entity,  
                                   array(
@@ -200,12 +196,11 @@ class RoleuserController extends Controller
                              'entity' => $entity,
                              'form'   => $form->createView(),
                             ));
-
     }
     
     
      /**
-     * Displays a form to edit an existing Typesociete entity.
+     * Displays a form to edit an existing User entity.
      *
      */
     public function editAction(User $roleuser)
@@ -225,4 +220,97 @@ class RoleuserController extends Controller
             'form'   => $editForm->createView(),
         ));
     }
+    
+    public function updateAction(Request $request, $id)
+    {
+        $entity = new User();
+            
+        $form = $this->createForm(new RoleuserType(), $entity,  
+                                  array(
+                                        'roles' => $this->getRolesInSecurity(),
+                                 ));
+        
+        $form->handleRequest($request);
+        
+        $validator = $this->get('validator');
+        $errors = $validator->validate($form);    
+                
+        if (count($errors) > 0) 
+        {                    
+            return $this->render('AnomaliesBundle:Roleuser:edit.html.twig', array(
+                'entity' => $entity,
+                'form' => $form->createView(),
+                'errors' => $errors
+            ));
+            
+        }
+     
+        $em = $this->getDoctrine()->getManager();       
+     
+        $encoder = $this->get("security.password_encoder");
+        $password = $encoder->encodePassword($entity, $request->request->get('anomaliesbundle_roleuser')['password']);
+        $entity->setPassword($password);
+
+        $entity->setUsername($request->request->get('anomaliesbundle_roleuser')['username']);       
+       // $entity->setGivenname("ttt");
+        //$entity->setSurname("ttt");
+        $entity->setUsernameCanonical("ttt");
+        $entity->setEmail($request->request->get('anomaliesbundle_roleuser')['email']);       
+        $entity->setEmailCanonical(strtolower($request->request->get('anomaliesbundle_roleuser')['email']));
+        $entity->setEnabled(1);
+        $entity->setSalt(null);
+
+       // $entity->setLocked(0);
+        //$entity->setExpired(0);
+        //$entity->setCredentialsExpired(0);
+        //$entity->setDn("dn");  
+        //$entity->setDisplayname("ttt"); 
+        $entity->addRole($request->request->get('anomaliesbundle_roleuser')['roles']);         
+//            $em->persist($entity);
+
+        try{     
+           $em->flush();
+        }catch(\Doctrine\DBAL\Exception\UniqueConstraintViolationException  $e){           
+
+           $this->container->get('session')->getFlashBag()->add("error", "L'enregistrement existe déjà dans la base de données!");
+
+           return $this->redirect($this->generateUrl('roleuser_new'));
+        };
+
+        $this->container->get('session')->getFlashBag()->add("notice", "Enregistrement ajouté avec succès!"); 
+
+        return $this->redirect($this->generateUrl('roleuser'));  
+    }
+    
+    /**
+     * Deletes a Typesociete entity.
+     *
+     */
+    public function deleteAction(Request $request, $id)
+    {      
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('AnomaliesBundle:Typesociete')->find($id);
+                       
+        try{    
+            if (!$entity) {
+                throw $this->createNotFoundException('Unable to find Typesociete entity.');
+            }
+
+        }catch(\Symfony\Component\HttpKernel\Exception\NotFoundHttpException  $e){           
+            
+            //Logare exceptie aici
+            // $this->container->get('session')->getFlashBag()->add("error", "L'enregistrement existe déjà dans la base de données!");           
+            //            echo "<pre>";
+            //            print_r($e->getTraceAsString());
+            //            die();
+            return $this->redirect($this->generateUrl('typesociete'));
+        };
+        
+        $entity->setEnabled(0);   
+        //$em->remove($entity);
+        $em->flush();
+        
+        return $this->redirect($this->generateUrl('typesociete'));
+    }
+
 }

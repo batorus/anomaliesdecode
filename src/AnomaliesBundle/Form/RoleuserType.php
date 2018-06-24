@@ -35,15 +35,15 @@ class RoleuserType extends AbstractType
                                             )
                     )
                 ->add('password', 'text',array(
-                                                'data' => $options['data']->getPassword(),
+                                                //'data' => $options['data']->getPassword(),
                                                 'label' => "Password",
-                                                'constraints'=>array( 
-                                                                      new Assert\NotBlank(
-                                                                              array(
-                                                                                    'message' => 'Value should not be empty!',
-                                                                                    )        
-                                                                            )
-                                                                    ),
+//                                                'constraints'=>array( 
+//                                                                      new Assert\NotBlank(
+//                                                                              array(
+//                                                                                    'message' => 'Value should not be empty!',
+//                                                                                    )        
+//                                                                            )
+//                                                                    ),
                                                 'attr' => array(
                                                                 //'style' => 'width:250px', 
                                                                 )                                   
@@ -70,7 +70,7 @@ class RoleuserType extends AbstractType
                                             )
                     )                
                 ->add('roles', 'choice', array(
-                                         "data" => $options['data']->getRoles()[0],
+                                         "data" => isset($options['data']->getRoles()[0])?$options['data']->getRoles()[0]:null,
                                          'label' =>"Roles",                        
                                          'choices' =>$options['roles'],
                                          'choices_as_values' => true,
