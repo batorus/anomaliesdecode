@@ -31,7 +31,7 @@
                  </div> #}  
                  
                 <div style="margin-bottom: 20px;">
-                    <a href="{{ path('risklevel_new')}}" >  
+                    <a href="{{ path('roleuser_new')}}" >  
                         <span class="glyphicon glyphicon-plus"> </span>
                         <span style="margin-left: 5px; font-size: 15px;">
                             Nouvel enregistrement
@@ -70,7 +70,7 @@
                                             </td>   
                                             <td>{{ entity.enabled }}</td>
 
-                                     {#       <td>                                            
+                                           <td>                                            
                                                   <a href="{{ path('roleuser_delete', { 'id': entity.id }) }}"
                                                            
                                                         class="btn btn-block btn-danger btn-sm suprimerlink" 
@@ -78,16 +78,16 @@
                                                   >  
                                                       Supprimer
                                                   </a>                                              
-                                            </td>    
+                                            </td>   
 
-                                            <td >                                            
-                                                  <a href="{{ path('risklevel_edit', { 'id': entity.id }) }}" 
+                                            <td>                                            
+                                                  <a href="{{ path('roleuser_edit', { 'id': entity.id }) }}" 
                                                     class="btn btn-block btn-warning btn-sm"
                                                     style ="width:100px;margin:0 auto;"                                                            
                                                    >  
                                                      Editer
                                                   </a>                                             
-                                            </td>    #}
+                                            </td>    
 
                                             
                                         </tr> 

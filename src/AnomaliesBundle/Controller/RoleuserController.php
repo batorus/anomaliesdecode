@@ -73,7 +73,11 @@ class RoleuserController extends Controller
         //echo "<pre>";var_dump($searchent);die();
 
 //        if(!$user)
-//        {            
+//        {  
+        
+            $encoder = $this->get("security.password_encoder");
+            $password = $encoder->encodePassword($entity, $request->request->get('anomaliesbundle_roleuser')['password']);
+        
             $entity->setUsername($request->request->get('anomaliesbundle_roleuser')['username']);       
            // $entity->setGivenname("ttt");
             //$entity->setSurname("ttt");
@@ -81,16 +85,36 @@ class RoleuserController extends Controller
             $entity->setEmail($request->request->get('anomaliesbundle_roleuser')['email']);       
             $entity->setEmailCanonical(strtolower($request->request->get('anomaliesbundle_roleuser')['email']));
             $entity->setEnabled(1);
-            $entity->setSalt("salt");
-            $entity->setPassword("");
+            $entity->setSalt(null);
+            $entity->setPassword($password);
            // $entity->setLocked(0);
             //$entity->setExpired(0);
             //$entity->setCredentialsExpired(0);
             //$entity->setDn("dn");  
             //$entity->setDisplayname("ttt"); 
-            $entity->setRoles(array());         
+            $entity->addRole($request->request->get('anomaliesbundle_roleuser')['roles']);         
             $em->persist($entity);
-            $em->flush(); 
+            
+            try{     
+
+               $em->flush();
+
+            }catch(\Doctrine\DBAL\Exception\UniqueConstraintViolationException  $e){           
+
+               $this->container->get('session')->getFlashBag()->add("error", "L'enregistrement existe déjà dans la base de données!");
+
+               return $this->redirect($this->generateUrl('roleuser_new'));
+            };
+
+            $this->container->get('session')->getFlashBag()->add("notice", "Enregistrement ajouté avec succès!"); 
+
+            return $this->redirect($this->generateUrl('roleuser')); 
+            
+            
+            
+            
+            
+            //$em->flush(); 
            // $eid = $entity->getId();
 //        }
 //        else
@@ -116,62 +140,49 @@ class RoleuserController extends Controller
                
 
        // $user = $em->getRepository('AnomaliesBundle:User')->find($eid);   
-        if(isset($request->request->get('anomaliesbundle_roleuser')['roles']))
-        {   
-
-            $role = $request->request->get('anomaliesbundle_roleuser')['roles'];
-          // var_dump($user);die();
-            if ($user && $role) {
-                $userRoles = $user->getRoles();
-                 //remove user roles
-                if(count($userRoles)){
-                    foreach ($userRoles as $role) {
-                        $user->removeRole($role);
-                    }
-                }
-
-                // add new roles 
-              //  foreach ($roles as $role) {
-                    $user->addRole($role);
-              //  }                   
-                //$user->setLocked(1);
-                //$em->persist($user);
-                $em->flush();
-            }
-        }
-        else
-        {   
-            $userRoles = $user->getRoles();
-               //  remove user roles
-            if(count($userRoles)){
-                foreach ($userRoles as $role) 
-                {
-                    $user->removeRole($role);
-                }
-            
-            }
-            
-            $user->addRole('ROLE_USER_DEFAULT');
-            $em->flush();
-        }
+//        if(isset($request->request->get('anomaliesbundle_roleuser')['roles']))
+//        {   
+//
+//            $role = $request->request->get('anomaliesbundle_roleuser')['roles'];
+//          // var_dump($user);die();
+//            if ($role) {
+//                $userRoles = $user->getRoles();
+//                 //remove user roles
+//                if(count($userRoles)){
+//                    foreach ($userRoles as $role) {
+//                        $user->removeRole($role);
+//                    }
+//                }
+//
+//                // add new roles 
+//              //  foreach ($roles as $role) {
+//                    $user->addRole($role);
+//              //  }                   
+//                //$user->setLocked(1);
+//                //$em->persist($user);
+//                //$em->flush();
+//            }
+//        }
+//        else
+//        {   
+//            $userRoles = $user->getRoles();
+//               //  remove user roles
+//            if(count($userRoles)){
+//                foreach ($userRoles as $role) 
+//                {
+//                    $user->removeRole($role);
+//                }
+//            
+//            }
+//            
+//            $user->addRole('ROLE_USER_DEFAULT');
+//            //$em->flush();
+//        }
 
        // return $this->redirect($this->generateUrl('processanomalies_edit', array('id' => $entity->getId())));
-        return $this->redirect($this->generateUrl('roleuser'));
+        //return $this->redirect($this->generateUrl('roleuser'));
        
-//        try{     
-//           
-//           $em->flush();
-//           
-//        }catch(\Doctrine\DBAL\Exception\UniqueConstraintViolationException  $e){           
-//            
-//           $this->container->get('session')->getFlashBag()->add("error", "L'enregistrement existe déjà dans la base de données!");
-//            
-//           return $this->redirect($this->generateUrl('risklevel_new'));
-//        };
-//              
-//        $this->container->get('session')->getFlashBag()->add("notice", "Enregistrement ajouté avec succès!"); 
-//        
-//        return $this->redirect($this->generateUrl('risklevel'));    
+   
               
     }
 
@@ -190,5 +201,28 @@ class RoleuserController extends Controller
                              'form'   => $form->createView(),
                             ));
 
+    }
+    
+    
+     /**
+     * Displays a form to edit an existing Typesociete entity.
+     *
+     */
+    public function editAction(User $roleuser)
+    {        
+         $editForm = $this->createForm(new RoleuserType(), $roleuser,  
+                                  array(
+                                        'roles' => $this->getRolesInSecurity(),
+                                 ));  
+        
+        //Echivalenta cu varianta de mai sus
+       // $editForm = $this->createForm('TvdamBundle\Form\ProductType', $product);
+        
+        //$editForm = $this->createUpdateForm($product);
+      
+        return $this->render('AnomaliesBundle:Roleuser:edit.html.twig', array(
+            'entity' => $roleuser,
+            'form'   => $editForm->createView(),
+        ));
     }
 }
