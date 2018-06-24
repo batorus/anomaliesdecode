@@ -9,13 +9,14 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * User
  *
- * @ORM\Table(name="ar_user", uniqueConstraints={@ORM\UniqueConstraint(name="UNIQ_8D93D64992FC23A8", columns={"username_canonical"}), @ORM\UniqueConstraint(name="UNIQ_8D93D649A0D96FBF", columns={"email_canonical"})})
+ * @ORM\Table(name="ar_user", uniqueConstraints={@ORM\UniqueConstraint(name="UNIQ_8D93D64992FC23A8", columns={"username_canonical"}), 
+ *                            @ORM\UniqueConstraint(name="UNIQ_8D93D649A0D96FBF", columns={"email_canonical"}), 
+ *                            @ORM\UniqueConstraint(name="UNIQ_username", columns={"username"}) })
  * @ORM\Entity
  */
 class User extends BaseUser
 {
-    
-       
+        
     /**
      * @var integer
      *

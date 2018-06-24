@@ -68,12 +68,12 @@ class RoleuserController extends Controller
         }
      
         $em = $this->getDoctrine()->getManager();       
-        $user = $em->getRepository('AnomaliesBundle:User')->findOneBy(array("username"=>$request->request->get('anomaliesbundle_roleuser')['username']));
-        $eid = 0;    
+        //$user = $em->getRepository('AnomaliesBundle:User')->findOneBy(array("username"=>$request->request->get('anomaliesbundle_roleuser')['username']));
+        //$eid = 0;    
         //echo "<pre>";var_dump($searchent);die();
 
-        if(!$user)
-        {            
+//        if(!$user)
+//        {            
             $entity->setUsername($request->request->get('anomaliesbundle_roleuser')['username']);       
            // $entity->setGivenname("ttt");
             //$entity->setSurname("ttt");
@@ -92,27 +92,27 @@ class RoleuserController extends Controller
             $em->persist($entity);
             $em->flush(); 
            // $eid = $entity->getId();
-        }
-        else
-        {           
-            $entity->setUsername($request->request->get('anomaliesbundle_roleuser')['username']);       
-           // $entity->setGivenname("ttt");
-            //$entity->setSurname("ttt");
-            $entity->setUsernameCanonical("ttt");
-            $entity->setEmail($request->request->get('anomaliesbundle_roleuser')['email']);       
-            $entity->setEmailCanonical(strtolower($request->request->get('anomaliesbundle_roleuser')['email']));
-            $entity->setEnabled(1);
-            $entity->setSalt("salt");
-            $entity->setPassword("");
-           // $entity->setLocked(0);
-            //$entity->setExpired(0);
-            //$entity->setCredentialsExpired(0);
-            //$entity->setDn("dn");  
-            //$entity->setDisplayname("ttt"); 
-            $entity->setRoles(array());       
-            $em->flush(); 
-           // $eid = $searchent->getId();
-        };
+//        }
+//        else
+//        {           
+//            $entity->setUsername($request->request->get('anomaliesbundle_roleuser')['username']);       
+//           // $entity->setGivenname("ttt");
+//            //$entity->setSurname("ttt");
+//            $entity->setUsernameCanonical("ttt");
+//            $entity->setEmail($request->request->get('anomaliesbundle_roleuser')['email']);       
+//            $entity->setEmailCanonical(strtolower($request->request->get('anomaliesbundle_roleuser')['email']));
+//            $entity->setEnabled(1);
+//            $entity->setSalt("salt");
+//            $entity->setPassword("");
+//           // $entity->setLocked(0);
+//            //$entity->setExpired(0);
+//            //$entity->setCredentialsExpired(0);
+//            //$entity->setDn("dn");  
+//            //$entity->setDisplayname("ttt"); 
+//            $entity->setRoles(array());       
+//            $em->flush(); 
+//           // $eid = $searchent->getId();
+//        };
                
 
        // $user = $em->getRepository('AnomaliesBundle:User')->find($eid);   
