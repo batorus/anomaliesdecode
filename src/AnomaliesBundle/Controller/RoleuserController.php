@@ -24,14 +24,32 @@ class RoleuserController extends Controller
 //        $user = $this->getUser();
 //        var_dump($user->getRoles());die();
         $em = $this->getDoctrine()->getManager();
-        $entities = $em->getRepository('AnomaliesBundle:User')->findBy(array('enabled'=>1));
+        
+//        $sql = "SELECT * FROM ar_user u";
+//        $stmt = $em->prepare($sql);
+//        $stmt->execute();
+//        $query = $stmt->fetchAll();
+//        
+//        $queryBuilder = $em->getRepository('AnomaliesBundle:User')
+//                           ->createQueryBuilder('u')
+//                           //->select("u.id","u.username","u.email","u.roles","u.enabled")
+//                           ->andWhere('u.enabled = :enabled')
+//                           ->addSelect("u.id","u.username","u.email","u.roles","u.enabled")
+//                           ->setParameter('enabled', '1');
+//        $query = $queryBuilder->getQuery()->execute();
+        
+//        $query = $em->createQuery('SELECT u.id,u.username,u.email,u.roles,u.enabled FROM AnomaliesBundle\Entity\User u');
+//        $users = $query->getResult();    
+        
+        
+        $query = $em->getRepository('AnomaliesBundle:User')->findBy(array('enabled'=>1));
         
         $paginator  = $this->get('knp_paginator');
         
         $pagination = $paginator->paginate(
-                        $entities, /* query NOT result */
+                        $query, /* query NOT result */
                         $request->query->getInt('page', 1)/*page number*/,
-                        5/*limit per page*/
+                        6/*limit per page*/
         );
 
 
