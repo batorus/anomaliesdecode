@@ -14,6 +14,7 @@ use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\ORM\EntityRepository;
 
 use AnomaliesBundle\Entity\User;
+use AnomaliesBundle\Entity\Documents;
 
 use AnomaliesBundle\Form\RoleuserType;
 
@@ -70,7 +71,12 @@ class RoleuserController extends Controller
     ########################################## Datele sunt trimise aici din New #####################
     public function createAction(Request $request)
     {
-       echo "<pre>";var_dump($request->request->get('anomaliesbundle_roleuser'));die(); 
+      //  print_r($_FILES);
+       //echo "<pre>";
+       //var_dump($request->files->get('anomaliesbundle_roleuser')['documents']['userfile']);
+       //var_dump($request->request->get('anomaliesbundle_roleuser'));
+       //die(); 
+              
         $entity = new User();
             
         $form = $this->createForm(new RoleuserType(), $entity,  
@@ -81,26 +87,37 @@ class RoleuserController extends Controller
         $form->handleRequest($request);
         
         $validator = $this->get('validator');
-        $errors = $validator->validate($form);    
-                
-        if (count($errors) > 0) 
-        {                    
-            return $this->render('AnomaliesBundle:Roleuser:new.html.twig', array(
-                'entity' => $entity,
-                'form' => $form->createView(),
-                'errors' => $errors
-            ));
+        $errors = $validator->validate($form);   
+        
+       // var_dump($request->files->get('anomaliesbundle_roleuser')['documents']);die();
+     //  $errors = $validator->validatePropertyValue(new Documents(),'userfile', $request->request->get('anomaliesbundle_roleuser')['documents']['description']);
+           
+//               if($form->get('save')->isClicked()){
+//                die("save");  }
+//                if($form->get('documents')->get('upload')->isClicked()){
+//                die("upload");  } 
+    //   echo "<pre>";
+      // print_r($form->getData());
+     // print_r(count($errors));die();
+        
+        if($form->get('save')->isClicked()){
             
+            if (count($errors) > 0) 
+            {                    
+                return $this->render('AnomaliesBundle:Roleuser:new.html.twig', array(
+                    'entity' => $entity,
+                    'form' => $form->createView(),
+                    'errors' => $errors
+                ));           
+            }
+      
+            $em = $this->getDoctrine()->getManager();       
+            //$user = $em->getRepository('AnomaliesBundle:User')->findOneBy(array("username"=>$request->request->get('anomaliesbundle_roleuser')['username']));
+            //$eid = 0;    
+            //echo "<pre>";var_dump($searchent);die();
 
-        }
-     
-        $em = $this->getDoctrine()->getManager();       
-        //$user = $em->getRepository('AnomaliesBundle:User')->findOneBy(array("username"=>$request->request->get('anomaliesbundle_roleuser')['username']));
-        //$eid = 0;    
-        //echo "<pre>";var_dump($searchent);die();
-
-//        if(!$user)
-//        {  
+    //        if(!$user)
+    //        {  
         
             $encoder = $this->get("security.password_encoder");
             $password = $encoder->encodePassword($entity, $request->request->get('anomaliesbundle_roleuser')['password']);
@@ -136,78 +153,14 @@ class RoleuserController extends Controller
             $this->container->get('session')->getFlashBag()->add("notice", "Enregistrement ajouté avec succès!"); 
 
             return $this->redirect($this->generateUrl('roleuser')); 
+        }     
+        elseif($form->get('documents')->get('upload')->isClicked()){
             
-         
-            //$em->flush(); 
-           // $eid = $entity->getId();
-//        }
-//        else
-//        {           
-//            $entity->setUsername($request->request->get('anomaliesbundle_roleuser')['username']);       
-//           // $entity->setGivenname("ttt");
-//            //$entity->setSurname("ttt");
-//            $entity->setUsernameCanonical("ttt");
-//            $entity->setEmail($request->request->get('anomaliesbundle_roleuser')['email']);       
-//            $entity->setEmailCanonical(strtolower($request->request->get('anomaliesbundle_roleuser')['email']));
-//            $entity->setEnabled(1);
-//            $entity->setSalt("salt");
-//            $entity->setPassword("");
-//           // $entity->setLocked(0);
-//            //$entity->setExpired(0);
-//            //$entity->setCredentialsExpired(0);
-//            //$entity->setDn("dn");  
-//            //$entity->setDisplayname("ttt"); 
-//            $entity->setRoles(array());       
-//            $em->flush(); 
-//           // $eid = $searchent->getId();
-//        };
-               
-
-       // $user = $em->getRepository('AnomaliesBundle:User')->find($eid);   
-//        if(isset($request->request->get('anomaliesbundle_roleuser')['roles']))
-//        {   
-//
-//            $role = $request->request->get('anomaliesbundle_roleuser')['roles'];
-//          // var_dump($user);die();
-//            if ($role) {
-//                $userRoles = $user->getRoles();
-//                 //remove user roles
-//                if(count($userRoles)){
-//                    foreach ($userRoles as $role) {
-//                        $user->removeRole($role);
-//                    }
-//                }
-//
-//                // add new roles 
-//              //  foreach ($roles as $role) {
-//                    $user->addRole($role);
-//              //  }                   
-//                //$user->setLocked(1);
-//                //$em->persist($user);
-//                //$em->flush();
-//            }
-//        }
-//        else
-//        {   
-//            $userRoles = $user->getRoles();
-//               //  remove user roles
-//            if(count($userRoles)){
-//                foreach ($userRoles as $role) 
-//                {
-//                    $user->removeRole($role);
-//                }
-//            
-//            }
-//            
-//            $user->addRole('ROLE_USER_DEFAULT');
-//            //$em->flush();
-//        }
-
-       // return $this->redirect($this->generateUrl('processanomalies_edit', array('id' => $entity->getId())));
-        //return $this->redirect($this->generateUrl('roleuser'));
-       
-   
-              
+            //var_dump($request->files->get('anomaliesbundle_roleuser')['documents']['userfile']);die();
+            
+        }
+        
+        return $this->redirect($this->generateUrl('roleuser')); 
     }
 
     #################################### NEW FORM #############################

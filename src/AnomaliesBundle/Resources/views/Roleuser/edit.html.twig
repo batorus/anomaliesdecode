@@ -73,7 +73,14 @@
                                {{ form_widget(form.roles) }}
                              </td>   
                        
-                             <td>     
+                                                  
+                             <td>                                                            
+                                {{ form_widget(form.save,{'attr': {'class': 'btn btn-md btn-default btn-flat'}}) }}
+                             </td> 
+                             
+                        </tr>  
+                        <tr>
+                           <td>     
                                  
 {#                                   {% for row in form.documents%}
                                         <div class="panel panel-warning">
@@ -81,25 +88,12 @@
                                             <div class="panel-body">#}
                                                 {{ form_row(form.documents.description) }}
                                                 {{ form_row(form.documents.userfile) }}
-                                                {{ form_row(form.documents.save) }}
+                                                {{ form_row(form.documents.upload) }}
 {#                                            </div>
                                         </div>
                                    {% endfor %}#}
-                             </td>                                            
-                             
-                             
-                             <td>                               
-{#                                <?php echo $view['form']->widget($form['updatedetails'], 
-                                                                  array(
-                                                                    'attr' => array('class' => 'btn btn-md btn-default btn-flat',
-                                                                                   ),
-                                                                )) 
-                                ?>#}
-                                
-                                {{ form_widget(form.save,{'attr': {'class': 'btn btn-md btn-default btn-flat'}}) }}
-                             </td> 
-                             
-                        </tr>                                                   
+                          </td>
+                        </tr>                         
                       </tbody>
                     </table>
                 {{ form_end(form) }}

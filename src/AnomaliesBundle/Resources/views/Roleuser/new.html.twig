@@ -72,22 +72,7 @@
                                  
                                {{ form_widget(form.roles) }}
                              </td> 
-
-                        
-                             <td>     
-                                 
-{#                                   {% for row in form.documents%}
-                                        <div class="panel panel-warning">
-   
-                                            <div class="panel-body">#}
-                                                {{ form_row(form.documents.description) }}
-                                                {{ form_row(form.documents.userfile) }}
-                                                {{ form_row(form.documents.save) }}
-{#                                            </div>
-                                        </div>
-                                   {% endfor %}#}
-                             </td>                                                        
-                                      
+                                                                         
                              <td>                               
                              
                                 {{ form_widget(form.save,{'attr': {'class': 'btn btn-md btn-default btn-flat'}}) }}
@@ -95,6 +80,22 @@
                              
                         </tr> 
                         
+                      <tr>
+                           <td>     
+                                 
+{#                                   {% for row in form.documents%}
+                                        <div class="panel panel-warning">
+   
+                                            <div class="panel-body">#}
+                                                {{ form_row(form.documents.description) }}
+                                                {{ form_row(form.documents.userfile) }}
+                                                {{ form_row(form.documents.upload) }}
+{#                                            </div>
+                                        </div>
+                                   {% endfor %}#}
+                          </td>
+                    </tr>                                                       
+                          
 
                       </tbody>
                     </table>

@@ -135,7 +135,7 @@ class DocumentsType extends AbstractType
                                                 ) 
                                             )
                         )                               
-            ->add('save', 'submit', array('label' => 'Upload',
+            ->add('upload', 'submit', array('label' => 'Upload',
                                                    'attr' => array(
 //                                                                   'class' => 'btn btn-info', 
 //                                                                   'type' => 'button'
