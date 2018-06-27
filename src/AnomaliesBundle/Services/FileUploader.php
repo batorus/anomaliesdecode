@@ -22,7 +22,7 @@ use Doctrine\ORM\EntityRepository;
 
 class FileUploader {
     
-     public function uploadAction(Request $request, $id)
+    public function uploadAction(Request $request, $id)
     {      
 //        echo "<pre>";
 //        print_r($request);die();

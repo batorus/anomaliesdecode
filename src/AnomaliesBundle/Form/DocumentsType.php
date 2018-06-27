@@ -128,14 +128,15 @@ class DocumentsType extends AbstractType
                                                                                                           "text/plain",
                                                                                                         ),
                                                                                     'maxSizeMessage' => "La taille de fichier maxmimum autorisée est 5MB.",
-                                                                                    'mimeTypesMessage' => "Ce type de fichier n'est pas autorisé."
+                                                                                    'mimeTypesMessage' => "Ce type de fichier n'est pas autorisé.",
+                                                                                    'uploadErrorMessage'=>"The file could not be uploaded."
                                                                                 )
 
                                                                          )       
                                                 ) 
                                             )
                         )                               
-            ->add('save', 'submit', array('label' => 'Upload',
+            ->add('upload', 'submit', array('label' => 'Upload',
                                                    'attr' => array(
 //                                                                   'class' => 'btn btn-info', 
 //                                                                   'type' => 'button'

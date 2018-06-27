@@ -82,20 +82,20 @@
                        
                       </tbody>
                     </table>
-                {{ form_end(form) }}
+{#                {{ form_end(form) }}#}
                 <div class="box-footer clearfix">              
 
                     <a href="{{ path('roleuser') }}" class="btn btn-sm btn-info btn-flat pull-left">Return</a>
 
                 </div><!-- /.box-footer -->
             </div>
-                    
+        {#            
             {{ form_start(uploadForm, 
                      {'action': path('roleuser_update', {'id': entity.id}), 
                       'method': 'POST', 
                       'name':'roleuser',
                       'attr': {'novalidate': 'novalidate'}}) 
-            }}  
+            }}  #}
             
             <div class="col-md-12">                          
                 <span class="col-md-2 pull-left">
@@ -106,30 +106,58 @@
                      </span>
                 </span> 
                         
-                 <div class="col-md-4">                      
-
-                </div>                           
+                        
                 <span class="col-md-2">
-                    <span class="pull-left">
+                    <span class="pull-right">
                      {{ form_widget(uploadForm.description,{'attr': {'id':'description', 'class': 'form-control', 'style' : 'width:250px;height:40px;'}}) }}    
                     </span>
                 </span> 
                     
-                <span class="col-md-2">
-                    <span class="pull-left">
-                     {{ form_widget(uploadForm.userfile) }} 
-                    </span>
-                </span>    
+                <span class="col-md-4 pull-left">                      
+                    {% if uploadForm.description.vars.errors|length > 0 %}       
+                        {% for error in uploadForm.description.vars.errors %}
+                           <div style="color:red; font-size:16px;">{{ error.message }}</div>
+                        {% endfor %}        
+                    {% endif %} 
+                </span>   
                     
+            </div> 
+            <div class='col-md-12' style="margin:10px 0px 10px 0px;"></div>                       
+    
+
+             <div class="col-md-12">                          
+                <span class="col-md-2 pull-left">
+                    <span class="pull-right">
+                        <strong id='desc'> 
+                            {{ form_label(uploadForm.description) }} : 
+                        </strong>    
+                     </span>
+                </span> 
+                       
                 <span class="col-md-2">
                     <span class="pull-left">
-                {{ form_widget(uploadForm.save) }}
+                     {{ form_widget(uploadForm.userfile,{'attr': {'id':'userfile', 'style' : 'width:250px;height:40px;'}}) }}    
                     </span>
-                </span>  
-
-            </div>  
+                </span> 
+                <span class="col-md-4">    
+                    
+                   {% if uploadForm.userfile.vars.errors|length > 0 %}       
+                        {% for error in uploadForm.userfile.vars.errors %}
+                           <div style="color:red; font-size:16px;">{{ error.message }}</div>
+                        {% endfor %}        
+                    {% endif %} 
+                </span>                      
+            </div> 
+            <div class='col-md-12' style="margin:10px 0px 10px 0px;"></div>              
             
-            {{ form_end(uploadForm) }}
+            <span class="col-md-2">
+               <span class="pull-left">
+                {{ form_widget(uploadForm.upload,{'attr': {'class':'btn btn-md btn-default btn-flat', 'style' : 'width:150px;margin:0 auto;display: block;'}}) }}
+               </span>
+           </span>             
+            <div class='col-md-12' style="margin:10px 0px 20px 0px; border-bottom: 1px solid #E7E7E7;"></div>         
+            
+            {{ form_end(form) }}
         <div class="box-footer clearfix">
         </div>           
        </div>

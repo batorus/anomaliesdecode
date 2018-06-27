@@ -8,8 +8,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 //importuri comune
 use Doctrine\Common\Collections\Criteria;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\Validator\Constraints as Assert;
+//use Symfony\Component\HttpFoundation\Session\Session;
+//use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\ORM\EntityRepository;
 
@@ -182,6 +182,17 @@ class RoleuserController extends Controller
     }
     
     
+    public function purgeRoles(Request $request, User $user){
+        $userRoles = $user->getRoles();
+          // var_dump($userRoles);die();
+
+        if(count($userRoles)){
+            foreach ($userRoles as $role) {
+                $user->removeRole($role);
+            }
+        }
+    }
+    
      /**
      * Displays a form to edit an existing User entity.
      *
@@ -197,8 +208,7 @@ class RoleuserController extends Controller
         
         //Echivalenta cu varianta de mai sus
        // $editForm = $this->createForm('TvdamBundle\Form\ProductType', $product);
-        
-        //$editForm = $this->createUpdateForm($product);
+
       
         return $this->render('AnomaliesBundle:Roleuser:edit.html.twig', array(
             'entity' => $roleuser,
@@ -207,19 +217,10 @@ class RoleuserController extends Controller
         ));
     }
     
-    public function purgeRoles(Request $request, User $user){
-        $userRoles = $user->getRoles();
-          // var_dump($userRoles);die();
 
-        if(count($userRoles)){
-            foreach ($userRoles as $role) {
-                $user->removeRole($role);
-            }
-        }
-    }
     
     public function updateAction(Request $request, $id)
-    {
+    { 
         $em = $this->getDoctrine()->getManager();
        
         $entity = $em->getRepository('AnomaliesBundle:User')->find($id);
@@ -233,57 +234,84 @@ class RoleuserController extends Controller
                                         'roles' => $this->getRolesInSecurity(),
                                  ));
         
+        $uploadForm = $this->createForm(new DocumentsType(), new Documents());
+        
         $form->handleRequest($request);
-        
+        $uploadForm->handleRequest($request);
+       
         $validator = $this->get('validator');
-        $errors = $validator->validate($form);    
-                
-        if (count($errors) > 0) 
-        {                    
-            return $this->render('AnomaliesBundle:Roleuser:edit.html.twig', array(
-                'entity' => $entity,
-                'form' => $form->createView(),
-                'errors' => $errors
-            ));
+
             
+        if($form->get('save')->isClicked()){
+           // die("ss");
+            $errors = $validator->validate($form);    
+            if (count($errors) > 0) 
+            {                    
+                return $this->render('AnomaliesBundle:Roleuser:edit.html.twig', array(
+                    'entity' => $entity,
+                    'form' => $form->createView(),
+                    'uploadForm'=>$uploadForm->createView(),
+                    'errors' => $errors
+                ));
+
+            }
+
+
+            $entity->setUsername($request->request->get('anomaliesbundle_roleuser')['username']);       
+           // $entity->setGivenname("ttt");
+            //$entity->setSurname("ttt");
+            $entity->setUsernameCanonical("ttt");
+            $entity->setEmail($request->request->get('anomaliesbundle_roleuser')['email']);       
+            $entity->setEmailCanonical(strtolower($request->request->get('anomaliesbundle_roleuser')['email']));
+            $entity->setEnabled(1);
+            $entity->setSalt(null);
+
+            if(!empty($request->request->get('anomaliesbundle_roleuser')['password'])){
+                //die("not empty");
+                $encoder = $this->get("security.password_encoder");
+                $password = $encoder->encodePassword($entity, $request->request->get('anomaliesbundle_roleuser')['password']);
+                $entity->setPassword($password);
+            }
+           // $entity->setLocked(0);
+            //$entity->setExpired(0);
+            //$entity->setCredentialsExpired(0);
+            //$entity->setDn("dn");  
+            //$entity->setDisplayname("ttt"); 
+            $this->purgeRoles($request, $entity);
+            $entity->addRole($request->request->get('anomaliesbundle_roleuser')['roles']);         
+
+            try{     
+               $em->flush();
+            }catch(\Doctrine\DBAL\Exception\UniqueConstraintViolationException  $e){           
+
+               $this->container->get('session')->getFlashBag()->add("error", "L'enregistrement existe déjà dans la base de données!");
+
+               return $this->redirect($this->generateUrl('roleuser_new'));
+            };
+
+            $this->container->get('session')->getFlashBag()->add("notice", "Enregistrement ajouté avec succès!"); 
+
+            return $this->redirect($this->generateUrl('roleuser'));          
         }
-      
-     
-        $entity->setUsername($request->request->get('anomaliesbundle_roleuser')['username']);       
-       // $entity->setGivenname("ttt");
-        //$entity->setSurname("ttt");
-        $entity->setUsernameCanonical("ttt");
-        $entity->setEmail($request->request->get('anomaliesbundle_roleuser')['email']);       
-        $entity->setEmailCanonical(strtolower($request->request->get('anomaliesbundle_roleuser')['email']));
-        $entity->setEnabled(1);
-        $entity->setSalt(null);
+        elseif($uploadForm->get('upload')->isClicked())
+        {
+            $errors = $validator->validate($uploadForm);    
+            if (count($errors) > 0) 
+            {                    
+                return $this->render('AnomaliesBundle:Roleuser:edit.html.twig', array(
+                    'entity' => $entity,
+                    'form' => $form->createView(),
+                    'uploadForm'=>$uploadForm->createView(),
+                    'errors' => $errors
+                ));
+
+            }
+           var_dump($request->request->get('anomaliesbundle_roleuser'));
+           var_dump($request->files->get('anomaliesbundle_roleuser')['userfile']);
+            die();
+        }
         
-        if(!empty($request->request->get('anomaliesbundle_roleuser')['password'])){
-            //die("not empty");
-            $encoder = $this->get("security.password_encoder");
-            $password = $encoder->encodePassword($entity, $request->request->get('anomaliesbundle_roleuser')['password']);
-            $entity->setPassword($password);
-        }
-       // $entity->setLocked(0);
-        //$entity->setExpired(0);
-        //$entity->setCredentialsExpired(0);
-        //$entity->setDn("dn");  
-        //$entity->setDisplayname("ttt"); 
-        $this->purgeRoles($request, $entity);
-        $entity->addRole($request->request->get('anomaliesbundle_roleuser')['roles']);         
-
-        try{     
-           $em->flush();
-        }catch(\Doctrine\DBAL\Exception\UniqueConstraintViolationException  $e){           
-
-           $this->container->get('session')->getFlashBag()->add("error", "L'enregistrement existe déjà dans la base de données!");
-
-           return $this->redirect($this->generateUrl('roleuser_new'));
-        };
-
-        $this->container->get('session')->getFlashBag()->add("notice", "Enregistrement ajouté avec succès!"); 
-
-        return $this->redirect($this->generateUrl('roleuser'));  
+       return $this->redirect($this->generateUrl('roleuser'));        
     }
     
     /**
