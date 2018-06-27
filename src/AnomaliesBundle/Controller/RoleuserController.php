@@ -155,8 +155,10 @@ class RoleuserController extends Controller
             return $this->redirect($this->generateUrl('roleuser')); 
         }     
         elseif($form->get('documents')->get('upload')->isClicked()){
-            
-            //var_dump($request->files->get('anomaliesbundle_roleuser')['documents']['userfile']);die();
+                       
+//            var_dump($request->request->get('anomaliesbundle_roleuser')['documents']['description']);
+//            var_dump($request->files->get('anomaliesbundle_roleuser')['documents']['userfile']);
+//            die();
             
         }
         
