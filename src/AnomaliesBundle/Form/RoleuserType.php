@@ -7,6 +7,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
+use AnomaliesBundle\Form\DocumentsType;
+
 class RoleuserType extends AbstractType
 {
 
@@ -77,7 +79,15 @@ class RoleuserType extends AbstractType
                                          'mapped' => false,
                                          'multiple' => false
                          )
-                    )            
+                    )  
+                
+                
+//                ->add('documents', 'collection', array(
+//                        'type' => new DocumentsType(),
+//                        'options' => array('label' => false),
+//                    ))
+                
+                ->add('documents', new DocumentsType())
                 ->add('save', 'submit', array('label' => 'Save',
                                        'attr' => array(
 //                                                                   'class' => 'btn btn-info', 

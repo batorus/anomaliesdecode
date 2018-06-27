@@ -41,7 +41,7 @@ class RoleuserController extends Controller
 //        $query = $em->createQuery('SELECT u.id,u.username,u.email,u.roles,u.enabled FROM AnomaliesBundle\Entity\User u');
 //        $users = $query->getResult();    
         
-        
+
         $query = $em->getRepository('AnomaliesBundle:User')->findBy(array('enabled'=>1));
         
         $paginator  = $this->get('knp_paginator');
@@ -70,7 +70,7 @@ class RoleuserController extends Controller
     ########################################## Datele sunt trimise aici din New #####################
     public function createAction(Request $request)
     {
-       //echo "<pre>";var_dump($request->request->get('anomaliesbundle_roleuser')['roles']);die(); 
+       echo "<pre>";var_dump($request->request->get('anomaliesbundle_roleuser'));die(); 
         $entity = new User();
             
         $form = $this->createForm(new RoleuserType(), $entity,  
@@ -212,7 +212,7 @@ class RoleuserController extends Controller
 
     #################################### NEW FORM #############################
     public function newAction()
-    {          
+    {      
         $entity = new User();
         $form = $this->createForm(new RoleuserType(), $entity,  
                                   array(

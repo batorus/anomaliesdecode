@@ -71,7 +71,23 @@
                              <td>
                                  
                                {{ form_widget(form.roles) }}
-                             </td>                              
+                             </td>   
+                       
+                             <td>     
+                                 
+{#                                   {% for row in form.documents%}
+                                        <div class="panel panel-warning">
+   
+                                            <div class="panel-body">#}
+                                                {{ form_row(form.documents.description) }}
+                                                {{ form_row(form.documents.userfile) }}
+                                                {{ form_row(form.documents.save) }}
+{#                                            </div>
+                                        </div>
+                                   {% endfor %}#}
+                             </td>                                            
+                             
+                             
                              <td>                               
 {#                                <?php echo $view['form']->widget($form['updatedetails'], 
                                                                   array(
