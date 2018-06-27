@@ -59,7 +59,7 @@ class DocumentsType extends AbstractType
         $builder
             ->add('description', 'text',
                                 array(
-                                        //'data' => $options['data']->getDescription(),
+                                        'data' => $options['data']->getDescription(),
                                         'label' => "Description du fichier",
                                         'constraints'=>array( 
                                                               new Assert\NotBlank(
@@ -135,7 +135,7 @@ class DocumentsType extends AbstractType
                                                 ) 
                                             )
                         )                               
-            ->add('upload', 'submit', array('label' => 'Upload',
+            ->add('save', 'submit', array('label' => 'Upload',
                                                    'attr' => array(
 //                                                                   'class' => 'btn btn-info', 
 //                                                                   'type' => 'button'
@@ -149,7 +149,7 @@ class DocumentsType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' =>null
+            'data_class' => 'AnomaliesBundle\Entity\Documents'
         ));
     }
 

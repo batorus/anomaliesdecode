@@ -80,21 +80,21 @@
                              
                         </tr> 
                         
-                      <tr>
+{#                      <tr>
                            <td>     
                                  
-{#                                   {% for row in form.documents%}
+                                   {% for row in form.documents%}
                                         <div class="panel panel-warning">
    
-                                            <div class="panel-body">#}
+                                            <div class="panel-body">
                                                 {{ form_row(form.documents.description) }}
                                                 {{ form_row(form.documents.userfile) }}
                                                 {{ form_row(form.documents.upload) }}
-{#                                            </div>
+                                            </div>
                                         </div>
-                                   {% endfor %}#}
+                                   {% endfor %}
                           </td>
-                    </tr>                                                       
+                    </tr>   #}                                                    
                           
 
                       </tbody>

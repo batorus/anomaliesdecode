@@ -15,8 +15,9 @@ use Doctrine\ORM\EntityRepository;
 
 use AnomaliesBundle\Entity\User;
 use AnomaliesBundle\Entity\Documents;
-
 use AnomaliesBundle\Form\RoleuserType;
+use AnomaliesBundle\Form\DocumentsType;
+
 
 class RoleuserController extends Controller
 {
@@ -100,7 +101,7 @@ class RoleuserController extends Controller
       // print_r($form->getData());
      // print_r(count($errors));die();
         
-        if($form->get('save')->isClicked()){
+       // if($form->get('save')->isClicked()){
             
             if (count($errors) > 0) 
             {                    
@@ -153,16 +154,16 @@ class RoleuserController extends Controller
             $this->container->get('session')->getFlashBag()->add("notice", "Enregistrement ajouté avec succès!"); 
 
             return $this->redirect($this->generateUrl('roleuser')); 
-        }     
-        elseif($form->get('documents')->get('upload')->isClicked()){
+      //  }     
+       // elseif($form->get('documents')->get('upload')->isClicked()){
                        
 //            var_dump($request->request->get('anomaliesbundle_roleuser')['documents']['description']);
 //            var_dump($request->files->get('anomaliesbundle_roleuser')['documents']['userfile']);
 //            die();
             
-        }
+       // }
         
-        return $this->redirect($this->generateUrl('roleuser')); 
+    //    return $this->redirect($this->generateUrl('roleuser')); 
     }
 
     #################################### NEW FORM #############################
@@ -190,7 +191,9 @@ class RoleuserController extends Controller
          $editForm = $this->createForm(new RoleuserType(), $roleuser,  
                                   array(
                                         'roles' => $this->getRolesInSecurity(),
-                                 ));  
+                                 )); 
+         
+        $uploadForm = $this->createForm(new DocumentsType(), new Documents());
         
         //Echivalenta cu varianta de mai sus
        // $editForm = $this->createForm('TvdamBundle\Form\ProductType', $product);
@@ -200,6 +203,7 @@ class RoleuserController extends Controller
         return $this->render('AnomaliesBundle:Roleuser:edit.html.twig', array(
             'entity' => $roleuser,
             'form'   => $editForm->createView(),
+            "uploadForm" =>$uploadForm->createView() 
         ));
     }
     

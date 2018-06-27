@@ -87,7 +87,7 @@ class RoleuserType extends AbstractType
 //                        'options' => array('label' => false),
 //                    ))
                 
-                ->add('documents', new DocumentsType())
+            //    ->add('documents', new DocumentsType())
                 ->add('save', 'submit', array('label' => 'Save',
                                        'attr' => array(
 //                                                                   'class' => 'btn btn-info', 

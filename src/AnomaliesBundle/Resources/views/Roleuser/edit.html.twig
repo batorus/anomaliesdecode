@@ -79,31 +79,57 @@
                              </td> 
                              
                         </tr>  
-                        <tr>
-                           <td>     
-                                 
-{#                                   {% for row in form.documents%}
-                                        <div class="panel panel-warning">
-   
-                                            <div class="panel-body">#}
-                                                {{ form_row(form.documents.description) }}
-                                                {{ form_row(form.documents.userfile) }}
-                                                {{ form_row(form.documents.upload) }}
-{#                                            </div>
-                                        </div>
-                                   {% endfor %}#}
-                          </td>
-                        </tr>                         
+                       
                       </tbody>
                     </table>
                 {{ form_end(form) }}
-        <div class="box-footer clearfix">              
+                <div class="box-footer clearfix">              
 
-            <a href="{{ path('roleuser') }}" class="btn btn-sm btn-info btn-flat pull-left">Return</a>
+                    <a href="{{ path('roleuser') }}" class="btn btn-sm btn-info btn-flat pull-left">Return</a>
 
-        </div><!-- /.box-footer -->
-        </div>
+                </div><!-- /.box-footer -->
+            </div>
+                    
+            {{ form_start(uploadForm, 
+                     {'action': path('roleuser_update', {'id': entity.id}), 
+                      'method': 'POST', 
+                      'name':'roleuser',
+                      'attr': {'novalidate': 'novalidate'}}) 
+            }}  
+            
+            <div class="col-md-12">                          
+                <span class="col-md-2 pull-left">
+                    <span class="pull-right">
+                        <strong id='desc'> 
+                            {{ form_label(uploadForm.description) }} : 
+                        </strong>    
+                     </span>
+                </span> 
+                        
+                 <div class="col-md-4">                      
 
+                </div>                           
+                <span class="col-md-2">
+                    <span class="pull-left">
+                     {{ form_widget(uploadForm.description,{'attr': {'id':'description', 'class': 'form-control', 'style' : 'width:250px;height:40px;'}}) }}    
+                    </span>
+                </span> 
+                    
+                <span class="col-md-2">
+                    <span class="pull-left">
+                     {{ form_widget(uploadForm.userfile) }} 
+                    </span>
+                </span>    
+                    
+                <span class="col-md-2">
+                    <span class="pull-left">
+                {{ form_widget(uploadForm.save) }}
+                    </span>
+                </span>  
+
+            </div>  
+            
+            {{ form_end(uploadForm) }}
         <div class="box-footer clearfix">
         </div>           
        </div>
