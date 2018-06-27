@@ -107,4 +107,49 @@ class User extends BaseUser
 
         return array_unique($roles);
     }
+    
+    
+    
+     /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->documents = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+
+    /**
+     * Add document
+     *
+     * @param \AnomaliesBundle\Entity\Documents $document
+     *
+     * @return User
+     */
+    public function addDocument(\AnomaliesBundle\Entity\Documents $document)
+    {
+        $this->documents[] = $document;
+
+        return $this;
+    }
+
+    /**
+     * Remove document
+     *
+     * @param \AnomaliesBundle\Entity\Documents $document
+     */
+    public function removeDocument(\AnomaliesBundle\Entity\Documents $document)
+    {
+        $this->documents->removeElement($document);
+    }
+
+    /**
+     * Get documents
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getDocuments()
+    {
+        return $this->documents;
+    }
 }

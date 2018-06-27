@@ -21,8 +21,12 @@ class Documents
      */
     private $id;
     
+    /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="documents")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    protected $user;
     
-
     
 
     /**
@@ -156,53 +160,29 @@ class Documents
         return $this->enabled;
     }
     
-    ############################# START M-TO-M documents<->processanomalies #################################
-    /**
-     * @ORM\ManyToMany(targetEntity="Processanomalies", mappedBy="fkdocuments")
-     *
-     */
-    private $processanomalies;
-    
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->processanomalies = new \Doctrine\Common\Collections\ArrayCollection();
-    }
+   
 
     /**
-     * Add processanomalies
+     * Set user
      *
-     * @param \AnomaliesBundle\Entity\Processanomalies $processanomalies
+     * @param \AnomaliesBundle\Entity\User $user
+     *
      * @return Documents
      */
-    public function addProcessanomaly(\AnomaliesBundle\Entity\Processanomalies $processanomalies)
+    public function setUser(\AnomaliesBundle\Entity\User $user = null)
     {
-        $this->processanomalies[] = $processanomalies;
+        $this->user = $user;
 
         return $this;
     }
 
     /**
-     * Remove processanomalies
+     * Get user
      *
-     * @param \AnomaliesBundle\Entity\Processanomalies $processanomalies
+     * @return \AnomaliesBundle\Entity\User
      */
-    public function removeProcessanomaly(\AnomaliesBundle\Entity\Processanomalies $processanomalies)
+    public function getUser()
     {
-        $this->processanomalies->removeElement($processanomalies);
+        return $this->user;
     }
-
-    /**
-     * Get processanomalies
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getProcessanomalies()
-    {
-        return $this->processanomalies;
-    }
-    
-   ############################# END M-TO-M  documents<->processanomalies #################################
 }
