@@ -25,6 +25,11 @@ class User extends BaseUser
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Documents", mappedBy="user", cascade={"persist"})
+     */
+    protected $documents;
 
 
     /**
