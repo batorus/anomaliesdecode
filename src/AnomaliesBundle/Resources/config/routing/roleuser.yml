@@ -19,6 +19,11 @@ roleuser_update:
     path:     /{id}/update
     defaults: { _controller: "AnomaliesBundle:Roleuser:update" }
     methods:  [POST, PUT, GET]
+    
+roleuser_upload:
+    path:     /{id}/upload
+    defaults: { _controller: "AnomaliesBundle:Roleuser:upload" }
+    methods:  [POST, PUT, GET]   
 
 roleuser_delete:
     path:     /{id}/delete

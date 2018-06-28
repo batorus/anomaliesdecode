@@ -93,9 +93,9 @@
                     
                     
             {{ form_start(uploadForm, 
-                     {'action': path('roleuser_update', {'id': entity.id}), 
+                     {'action': path('roleuser_upload', {'id': entity.id}), 
                       'method': 'POST', 
-                      'name':'roleuser',
+                      'name':'roleuserupdate',
                       'attr': {'novalidate': 'novalidate'}}) 
             }}  
             

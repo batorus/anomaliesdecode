@@ -18,7 +18,7 @@ use AnomaliesBundle\Entity\Documents;
 use AnomaliesBundle\Form\RoleuserType;
 use AnomaliesBundle\Form\DocumentsType;
 
-
+use AnomaliesBundle\Services\FileUploader;
 class RoleuserController extends Controller
 {
     public function indexAction(Request $request)
@@ -237,12 +237,12 @@ class RoleuserController extends Controller
         $uploadForm = $this->createForm(new DocumentsType(), new Documents());
         
         $form->handleRequest($request);
-        $uploadForm->handleRequest($request);
+      //  $uploadForm->handleRequest($request);
        
         $validator = $this->get('validator');
 
             
-        if($form->get('save')->isClicked()){
+       // if($form->get('save')->isClicked()){
            // die("ss");
             $errors = $validator->validate($form);    
             if (count($errors) > 0) 
@@ -292,28 +292,68 @@ class RoleuserController extends Controller
             $this->container->get('session')->getFlashBag()->add("notice", "Enregistrement ajouté avec succès!"); 
 
             return $this->redirect($this->generateUrl('roleuser'));          
-        }
-        elseif($uploadForm->get('upload')->isClicked())
-        {
-            $errors = $validator->validate($uploadForm);    
-            if (count($errors) > 0) 
-            {                    
-                return $this->render('AnomaliesBundle:Roleuser:edit.html.twig', array(
-                    'entity' => $entity,
-                    'form' => $form->createView(),
-                    'uploadForm'=>$uploadForm->createView(),
-                    'errors' => $errors
-                ));
-
-            }
-           var_dump($request->request->get('anomaliesbundle_roleuser'));
-           var_dump($request->files->get('anomaliesbundle_roleuser')['userfile']);
-            die();
-        }
-        
-       return $this->redirect($this->generateUrl('roleuser'));        
+//        }
+//        elseif($uploadForm->get('upload')->isClicked())
+//        {
+//            $errors = $validator->validate($uploadForm);    
+//            if (count($errors) > 0) 
+//            {                    
+//                return $this->render('AnomaliesBundle:Roleuser:edit.html.twig', array(
+//                    'entity' => $entity,
+//                    'form' => $form->createView(),
+//                    'uploadForm'=>$uploadForm->createView(),
+//                    'errors' => $errors
+//                ));
+//
+//            }
+//           var_dump($request->request->get('anomaliesbundle_roleuser'));
+//           var_dump($request->files->get('anomaliesbundle_roleuser')['userfile']);
+//            die();
+//        }
+//        
+//       return $this->redirect($this->generateUrl('roleuser'));        
     }
     
+    
+    public function uploadAction(Request $request, $id)
+    { 
+        $em = $this->getDoctrine()->getManager();
+       
+        $entity = $em->getRepository('AnomaliesBundle:User')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find User entity.');
+        }
+            
+        $form = $this->createForm(new RoleuserType(), $entity,  
+                                  array(
+                                        'roles' => $this->getRolesInSecurity(),
+                                 ));
+        
+        $uploadForm = $this->createForm(new DocumentsType(), new Documents());      
+        $uploadForm->handleRequest($request);
+        
+        $validator = $this->get('validator');
+        $errors = $validator->validate($uploadForm);  
+        
+        if (count($errors) > 0) 
+        {                    
+            return $this->render('AnomaliesBundle:Roleuser:edit.html.twig', array(
+                'entity' => $entity,
+                'form' => $form->createView(),
+                'uploadForm'=>$uploadForm->createView(),
+                'errors' => $errors
+            ));
+
+        }
+ 
+//           var_dump($request->request->get('anomaliesbundle_documents'));
+//           var_dump($request->files->get('anomaliesbundle_documents')['userfile']);
+//            die();        
+        (new FileUploader())->uploadAction($request, $id, $em, $this->container);
+        
+        return $this->redirectToRoute('roleuser_update',array('id'=>$id));
+    }    
     /**
      * Deletes a Typesociete entity.
      *
