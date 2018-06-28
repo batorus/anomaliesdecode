@@ -198,7 +198,8 @@ class RoleuserController extends Controller
      *
      */
     public function editAction(User $roleuser)
-    {        
+    {      
+         $em = $this->getDoctrine()->getManager();
          $editForm = $this->createForm(new RoleuserType(), $roleuser,  
                                   array(
                                         'roles' => $this->getRolesInSecurity(),
@@ -206,12 +207,24 @@ class RoleuserController extends Controller
          
         $uploadForm = $this->createForm(new DocumentsType(), new Documents());
         
+        $criteria = new \Doctrine\Common\Collections\Criteria();               
+        $criteria->where($criteria->expr()->eq("enabled", 1));
+        
+      //  $documents = $em->getRepository('AnomaliesBundle:Documents')->findBy(array('user_id'=>$roleuser->getId()));
+       // dump($roleuser->getId());die();
+         //$documents = $em->getRepository('AnomaliesBundle:Documents')->find($roleuser->getId());     
+        $documents = $roleuser->getDocuments();
+        if (!$documents) {
+            throw $this->createNotFoundException('Unable to find Documents entity.');
+        }
+        
         //Echivalenta cu varianta de mai sus
        // $editForm = $this->createForm('TvdamBundle\Form\ProductType', $product);
 
       
         return $this->render('AnomaliesBundle:Roleuser:edit.html.twig', array(
             'entity' => $roleuser,
+            'documents'=>$documents,
             'form'   => $editForm->createView(),
             "uploadForm" =>$uploadForm->createView() 
         ));
@@ -224,11 +237,17 @@ class RoleuserController extends Controller
         $em = $this->getDoctrine()->getManager();
        
         $entity = $em->getRepository('AnomaliesBundle:User')->find($id);
-
+        
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find User entity.');
         }
-            
+        
+        $documents = $em->getRepository('AnomaliesBundle:Documents')->findBy(array('user_id'=>$id),array('enabled'=>1));
+        
+        if (!$documents) {
+            throw $this->createNotFoundException('Unable to find Documents entity.');
+        }
+                   
         $form = $this->createForm(new RoleuserType(), $entity,  
                                   array(
                                         'roles' => $this->getRolesInSecurity(),
@@ -243,12 +262,13 @@ class RoleuserController extends Controller
 
             
        // if($form->get('save')->isClicked()){
-           // die("ss");
+       // die("ss");
             $errors = $validator->validate($form);    
             if (count($errors) > 0) 
             {                    
                 return $this->render('AnomaliesBundle:Roleuser:edit.html.twig', array(
                     'entity' => $entity,
+                    'documents'=>$documents,
                     'form' => $form->createView(),
                     'uploadForm'=>$uploadForm->createView(),
                     'errors' => $errors
@@ -319,10 +339,16 @@ class RoleuserController extends Controller
     { 
         $em = $this->getDoctrine()->getManager();
        
-        $entity = $em->getRepository('AnomaliesBundle:User')->find($id);
+        $entity = $em->getRepository('AnomaliesBundle:User')->findBy($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find User entity.');
+        }
+        
+        $documents = $em->getRepository('AnomaliesBundle:Documents')->findBy(array('user_id'=>$id),array('enabled'=>1));
+        
+        if (!$documents) {
+            throw $this->createNotFoundException('Unable to find Documents entity.');
         }
             
         $form = $this->createForm(new RoleuserType(), $entity,  
@@ -340,6 +366,7 @@ class RoleuserController extends Controller
         {                    
             return $this->render('AnomaliesBundle:Roleuser:edit.html.twig', array(
                 'entity' => $entity,
+                'documents'=>$documents,                
                 'form' => $form->createView(),
                 'uploadForm'=>$uploadForm->createView(),
                 'errors' => $errors
@@ -353,11 +380,10 @@ class RoleuserController extends Controller
         (new FileUploader())->uploadAction($request, $id, $em, $this->container);
         
         return $this->redirectToRoute('roleuser_update',array('id'=>$id));
-    }    
-    /**
-     * Deletes a Typesociete entity.
-     *
-     */
+    }   
+    
+    
+
     public function deleteAction(Request $request, $id)
     {      
         $em = $this->getDoctrine()->getManager();

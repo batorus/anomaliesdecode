@@ -161,8 +161,59 @@
             
             {{ form_end(uploadForm) }}
         <div class="box-footer clearfix">
-        </div>           
-       </div>
-    </div>             
+        </div> 
         
+        
+  {% if documents|length > 0 %}        
+ 
+        <table class="table no-margin modules" >                                        
+            <thead>
+              <tr>
+                  <th>Description</th>  
+                  <th>File name</th>  
+                  <th>Delete</th>  
+              </tr>
+            </thead>      
+
+            <tbody> 
+                
+            {% for doc in documents %}
+
+                {% if documents|length > 0 %} 
+                                       
+                    <tr>  
+                        <td>  
+                     <a href="{{asset('bundles/anomaliesdecode/images/originals/')}}{{doc.name}}.{{doc.extension}}"
+                                target="_blank"
+                                style ="width:150px;" > 
+                         {{doc.description}}
+                     </a>                           
+                           
+                        </td>    
+                        <td>  
+                            {{doc.name}}.{{doc.extension}}
+
+                        </td>                   
+                        <td>                  
+                            <a href="{{ path('roleuser_deletedocument',{'did':doc.id}) }}" 
+                                class="btn btn-md btn-danger btn-flat"
+                                style ="width:150px;"                                                            
+                            >                                                       
+                               Delete
+                            </a> 
+                        </td>   
+                     </tr> 
+                    
+                {% endif %} 
+                
+            {% endfor %}
+        </tbody>
+     </table>    
+    {% endif %}                                 
+       </div>
+    </div>                
 {% endblock %}
+
+
+
+

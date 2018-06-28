@@ -248,4 +248,51 @@ class FileUploader {
        // return $container->get('router')->generate('roleuser_update',array('id'=>$id)); 
         
     }
+    
+    public function deletedocumentAction($id, $did, $em, $container)
+    {      
+        $fs = new Filesystem();  
+
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('AnomaliesBundle:Documents')->find($did);
+
+        if (!$entity) 
+        {
+            throw $this->createNotFoundException('Unable to find entity.');
+        }
+        
+        ################### NEEDS FURTHER ABSTRACTION!!!!!!!!!!!!!!!!!!!!!
+        if(  
+               is_file($this->container->getParameter('kernel.root_dir').'/../web/bundles/anomalies/images/thumbs/'.$entity->getName().".".$entity->getExtension())
+            && is_file($this->container->getParameter('kernel.root_dir').'/../web/bundles/anomalies/images/originals/'.$entity->getName().".".$entity->getExtension())
+        )
+        {
+            $target_dir = realpath($container->getParameter('kernel.root_dir').'/../web/bundles/anomalies/images/originals');
+            $tmb_dir = realpath($container->getParameter('kernel.root_dir').'/../web/bundles/anomalies/images/thumbs');
+
+            $thumb_path = $tmb_dir."/".$entity->getName().".".$entity->getExtension();
+            $img_path =  $target_dir."/".$entity->getName().".".$entity->getExtension();
+
+            //echivalent cu unlink($img_path);
+            $fs->remove(array($img_path, $thumb_path));
+        }
+        elseif(is_file($this->container->getParameter('kernel.root_dir').'/../web/bundles/anomalies/documents/'.$entity->getName().".".$entity->getExtension()))
+        {
+            $target_dir = realpath($this->container->getParameter('kernel.root_dir').'/../web/bundles/anomalies/documents');
+
+            $filepath =  $target_dir."/".$entity->getName().".".$entity->getExtension();
+
+            //echivalent cu unlink($img_path);
+            $fs->remove(array($filepath));         
+        }
+
+        //foreach($entity->getFkdocuments() as $doc)
+        // $em->remove($doc);
+        //$entity->setEnabled(0);  
+        
+        $em->remove($entity);
+        $em->flush();
+        
+        return $this->redirect($this->generateUrl('processanomalies_edit', array('id' => $id)));    
+    }
 }
