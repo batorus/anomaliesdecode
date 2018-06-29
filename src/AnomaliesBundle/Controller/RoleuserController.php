@@ -26,22 +26,7 @@ class RoleuserController extends Controller
 //        $user = $this->getUser();
 //        var_dump($user->getRoles());die();
         $em = $this->getDoctrine()->getManager();
-        
-//        $sql = "SELECT * FROM ar_user u";
-//        $stmt = $em->prepare($sql);
-//        $stmt->execute();
-//        $query = $stmt->fetchAll();
-//        
-//        $queryBuilder = $em->getRepository('AnomaliesBundle:User')
-//                           ->createQueryBuilder('u')
-//                           //->select("u.id","u.username","u.email","u.roles","u.enabled")
-//                           ->andWhere('u.enabled = :enabled')
-//                           ->addSelect("u.id","u.username","u.email","u.roles","u.enabled")
-//                           ->setParameter('enabled', '1');
-//        $query = $queryBuilder->getQuery()->execute();
-        
-//        $query = $em->createQuery('SELECT u.id,u.username,u.email,u.roles,u.enabled FROM AnomaliesBundle\Entity\User u');
-//        $users = $query->getResult();    
+  
         
 
         $query = $em->getRepository('AnomaliesBundle:User')->findBy(array('enabled'=>1));
@@ -72,12 +57,7 @@ class RoleuserController extends Controller
     ########################################## Datele sunt trimise aici din New #####################
     public function createAction(Request $request)
     {
-      //  print_r($_FILES);
-       //echo "<pre>";
-       //var_dump($request->files->get('anomaliesbundle_roleuser')['documents']['userfile']);
-       //var_dump($request->request->get('anomaliesbundle_roleuser'));
-       //die(); 
-              
+            
         $entity = new User();
             
         $form = $this->createForm(new RoleuserType(), $entity,  
@@ -89,19 +69,7 @@ class RoleuserController extends Controller
         
         $validator = $this->get('validator');
         $errors = $validator->validate($form);   
-        
-       // var_dump($request->files->get('anomaliesbundle_roleuser')['documents']);die();
-     //  $errors = $validator->validatePropertyValue(new Documents(),'userfile', $request->request->get('anomaliesbundle_roleuser')['documents']['description']);
-           
-//               if($form->get('save')->isClicked()){
-//                die("save");  }
-//                if($form->get('documents')->get('upload')->isClicked()){
-//                die("upload");  } 
-    //   echo "<pre>";
-      // print_r($form->getData());
-     // print_r(count($errors));die();
-        
-       // if($form->get('save')->isClicked()){
+
             
             if (count($errors) > 0) 
             {                    
@@ -113,12 +81,7 @@ class RoleuserController extends Controller
             }
       
             $em = $this->getDoctrine()->getManager();       
-            //$user = $em->getRepository('AnomaliesBundle:User')->findOneBy(array("username"=>$request->request->get('anomaliesbundle_roleuser')['username']));
-            //$eid = 0;    
-            //echo "<pre>";var_dump($searchent);die();
-
-    //        if(!$user)
-    //        {  
+ 
         
             $encoder = $this->get("security.password_encoder");
             $password = $encoder->encodePassword($entity, $request->request->get('anomaliesbundle_roleuser')['password']);
@@ -154,16 +117,7 @@ class RoleuserController extends Controller
             $this->container->get('session')->getFlashBag()->add("notice", "Enregistrement ajouté avec succès!"); 
 
             return $this->redirect($this->generateUrl('roleuser')); 
-      //  }     
-       // elseif($form->get('documents')->get('upload')->isClicked()){
-                       
-//            var_dump($request->request->get('anomaliesbundle_roleuser')['documents']['description']);
-//            var_dump($request->files->get('anomaliesbundle_roleuser')['documents']['userfile']);
-//            die();
-            
-       // }
-        
-    //    return $this->redirect($this->generateUrl('roleuser')); 
+ 
     }
 
     #################################### NEW FORM #############################
@@ -207,13 +161,7 @@ class RoleuserController extends Controller
          
         $uploadForm = $this->createForm(new DocumentsType(), new Documents());
         
-//        $criteria = new \Doctrine\Common\Collections\Criteria();               
-//        $criteria->where($criteria->expr()->eq("enabled", 1));       
-      //  $documents = $em->getRepository('AnomaliesBundle:Documents')->findBy(array('user_id'=>$roleuser->getId()));
-       // dump($roleuser->getId());die();
-         //$documents = $em->getRepository('AnomaliesBundle:Documents')->find($roleuser->getId()); 
-        
-        
+
         $documents = $roleuser->getDocuments();
         if (!$documents) {
             throw $this->createNotFoundException('Unable to find Documents entity.');
