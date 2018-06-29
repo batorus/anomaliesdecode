@@ -195,7 +195,6 @@ class RoleuserController extends Controller
             throw $this->createNotFoundException('Unable to find User entity.');
         }
         
-       // $documents = $em->getRepository('AnomaliesBundle:Documents')->findBy(array('user_id'=>$id),array('enabled'=>1));
         $documents = $entity->getDocuments();
         if (!$documents) {
             throw $this->createNotFoundException('Unable to find Documents entity.');
@@ -220,9 +219,6 @@ class RoleuserController extends Controller
        
         $validator = $this->get('validator');
 
-            
-       // if($form->get('save')->isClicked()){
-       // die("ss");
             $errors = $validator->validate($form);    
             if (count($errors) > 0) 
             {                    
@@ -272,26 +268,7 @@ class RoleuserController extends Controller
             $this->container->get('session')->getFlashBag()->add("notice", "Enregistrement ajouté avec succès!"); 
 
             return $this->redirect($this->generateUrl('roleuser'));          
-//        }
-//        elseif($uploadForm->get('upload')->isClicked())
-//        {
-//            $errors = $validator->validate($uploadForm);    
-//            if (count($errors) > 0) 
-//            {                    
-//                return $this->render('AnomaliesBundle:Roleuser:edit.html.twig', array(
-//                    'entity' => $entity,
-//                    'form' => $form->createView(),
-//                    'uploadForm'=>$uploadForm->createView(),
-//                    'errors' => $errors
-//                ));
-//
-//            }
-//           var_dump($request->request->get('anomaliesbundle_roleuser'));
-//           var_dump($request->files->get('anomaliesbundle_roleuser')['userfile']);
-//            die();
-//        }
-//        
-//       return $this->redirect($this->generateUrl('roleuser'));        
+     
     }
     
     
@@ -340,10 +317,7 @@ class RoleuserController extends Controller
             ));
 
         }
- 
-//           var_dump($request->request->get('anomaliesbundle_documents'));
-//           var_dump($request->files->get('anomaliesbundle_documents')['userfile']);
-//            die();        
+  
         (new FileUploader())->uploadAction($request, $id, $em, $this->container);
         
         return $this->redirectToRoute('roleuser_update',array('id'=>$id));
