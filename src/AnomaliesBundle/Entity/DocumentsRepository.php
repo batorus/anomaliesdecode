@@ -12,11 +12,13 @@ use Doctrine\ORM\EntityRepository;
  */
 class DocumentsRepository extends EntityRepository
 {
-     public function getRecord($id)
+    public function getRecords($id)
     {
         return $this->createQueryBuilder('d')
-                    ->where('d.id = :id')
+                    ->andWhere('d.user_id = :id')
+                    ->andWhere('d.enabled = :enabled')               
                     ->setParameter('id', $id)
-                    ->getQuery()->getOneOrNullResult();
+                    ->setParameter('enabled', 1)                
+                    ->getQuery()->execute();
     }
 }
