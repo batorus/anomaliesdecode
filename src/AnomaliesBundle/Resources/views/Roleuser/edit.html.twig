@@ -178,7 +178,6 @@
             <tbody> 
                 
             {% for doc in documents %}
-{#$this->container->getParameter('kernel.root_dir').'/../web/bundles/anomalies/images/thumbs/'.$doc->getName().".".$doc->getExtension()#}
 
                     {%set imagepath = kernelRootDir~'/../web/bundles/anomaliesdecode/images/originals/'~doc.name~'.'~doc.extension%}
                     {%set thumbimagepath = kernelRootDir~'/../web/bundles/anomaliesdecode/images/thumbs/'~doc.name~'.'~doc.extension%}

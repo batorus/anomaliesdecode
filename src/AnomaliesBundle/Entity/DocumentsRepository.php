@@ -12,4 +12,11 @@ use Doctrine\ORM\EntityRepository;
  */
 class DocumentsRepository extends EntityRepository
 {
+     public function getRecord($id)
+    {
+        return $this->createQueryBuilder('d')
+                    ->where('d.id = :id')
+                    ->setParameter('id', $id)
+                    ->getQuery()->execute();
+    }
 }

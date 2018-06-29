@@ -253,22 +253,22 @@ class FileUploader {
     {      
         $fs = new Filesystem();  
 
-        $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('AnomaliesBundle:Documents')->find($did);
+      //  $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('AnomaliesBundle:Documents')->getRecord($did);
 
         if (!$entity) 
         {
-            throw $this->createNotFoundException('Unable to find entity.');
+           die('Unable to find entity.');
         }
         
         ################### NEEDS FURTHER ABSTRACTION!!!!!!!!!!!!!!!!!!!!!
         if(  
-               is_file($this->container->getParameter('kernel.root_dir').'/../web/bundles/anomalies/images/thumbs/'.$entity->getName().".".$entity->getExtension())
-            && is_file($this->container->getParameter('kernel.root_dir').'/../web/bundles/anomalies/images/originals/'.$entity->getName().".".$entity->getExtension())
+               is_file($container->getParameter('kernel.root_dir').'/../web/bundles/anomaliesdecode/images/thumbs/'.$entity->getName().".".$entity->getExtension())
+            && is_file($container->getParameter('kernel.root_dir').'/../web/bundles/anomaliesdecode/images/originals/'.$entity->getName().".".$entity->getExtension())
         )
         {
-            $target_dir = realpath($container->getParameter('kernel.root_dir').'/../web/bundles/anomalies/images/originals');
-            $tmb_dir = realpath($container->getParameter('kernel.root_dir').'/../web/bundles/anomalies/images/thumbs');
+            $target_dir = realpath($container->getParameter('kernel.root_dir').'/../web/bundles/anomaliesdecode/images/originals');
+            $tmb_dir = realpath($container->getParameter('kernel.root_dir').'/../web/bundles/anomaliesdecode/images/thumbs');
 
             $thumb_path = $tmb_dir."/".$entity->getName().".".$entity->getExtension();
             $img_path =  $target_dir."/".$entity->getName().".".$entity->getExtension();
@@ -276,9 +276,9 @@ class FileUploader {
             //echivalent cu unlink($img_path);
             $fs->remove(array($img_path, $thumb_path));
         }
-        elseif(is_file($this->container->getParameter('kernel.root_dir').'/../web/bundles/anomalies/documents/'.$entity->getName().".".$entity->getExtension()))
+        elseif(is_file($container->getParameter('kernel.root_dir').'/../web/bundles/anomaliesdecode/documents/'.$entity->getName().".".$entity->getExtension()))
         {
-            $target_dir = realpath($this->container->getParameter('kernel.root_dir').'/../web/bundles/anomalies/documents');
+            $target_dir = realpath($container->getParameter('kernel.root_dir').'/../web/bundles/anomaliesdecode/documents');
 
             $filepath =  $target_dir."/".$entity->getName().".".$entity->getExtension();
 
@@ -293,6 +293,6 @@ class FileUploader {
         $em->remove($entity);
         $em->flush();
         
-        return $this->redirect($this->generateUrl('processanomalies_edit', array('id' => $id)));    
+        //return $this->redirect($this->generateUrl('processanomalies_edit', array('id' => $id)));    
     }
 }

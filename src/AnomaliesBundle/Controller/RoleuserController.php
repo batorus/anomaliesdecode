@@ -383,8 +383,9 @@ class RoleuserController extends Controller
     }   
     
     public function deletedocumentAction(Request $request, $id, $did)
-    {
-        //apel stergere aici
+    {   
+        $em = $this->getDoctrine()->getManager();
+        (new FileUploader())->deletedocumentAction($request, $id, $em, $this->container);
         return $this->redirectToRoute('roleuser_update',array('id'=>$id));
     }
     
