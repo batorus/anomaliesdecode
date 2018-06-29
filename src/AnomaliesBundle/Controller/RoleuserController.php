@@ -24,7 +24,6 @@ class RoleuserController extends Controller
     public function indexAction(Request $request)
     {
 //        $user = $this->getUser();
-//        var_dump($user->getRoles());die();
         $em = $this->getDoctrine()->getManager();
   
         
@@ -215,7 +214,6 @@ class RoleuserController extends Controller
         $uploadForm = $this->createForm(new DocumentsType(), new Documents());
         
         $form->handleRequest($request);
-      //  $uploadForm->handleRequest($request);
        
         $validator = $this->get('validator');
 
