@@ -242,8 +242,8 @@ class RoleuserController extends Controller
             throw $this->createNotFoundException('Unable to find User entity.');
         }
         
-        $documents = $em->getRepository('AnomaliesBundle:Documents')->findBy(array('user_id'=>$id),array('enabled'=>1));
-        
+       // $documents = $em->getRepository('AnomaliesBundle:Documents')->findBy(array('user_id'=>$id),array('enabled'=>1));
+        $documents = $entity->getDocuments();
         if (!$documents) {
             throw $this->createNotFoundException('Unable to find Documents entity.');
         }
@@ -339,14 +339,14 @@ class RoleuserController extends Controller
     { 
         $em = $this->getDoctrine()->getManager();
        
-        $entity = $em->getRepository('AnomaliesBundle:User')->findBy($id);
+        $entity = $em->getRepository('AnomaliesBundle:User')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find User entity.');
         }
         
-        $documents = $em->getRepository('AnomaliesBundle:Documents')->findBy(array('user_id'=>$id),array('enabled'=>1));
-        
+       // $documents = $em->getRepository('AnomaliesBundle:Documents')->findBy(array('user_id'=>$id),array('enabled'=>1));
+        $documents = $entity->getDocuments();
         if (!$documents) {
             throw $this->createNotFoundException('Unable to find Documents entity.');
         }
@@ -382,6 +382,11 @@ class RoleuserController extends Controller
         return $this->redirectToRoute('roleuser_update',array('id'=>$id));
     }   
     
+    public function deletedocumentAction(Request $request, $id, $did)
+    {
+        //apel stergere aici
+        return $this->redirectToRoute('roleuser_update',array('id'=>$id));
+    }
     
 
     public function deleteAction(Request $request, $id)

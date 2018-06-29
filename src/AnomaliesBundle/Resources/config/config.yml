@@ -1,0 +1,6 @@
+services:            
+    anomalies.twig_extension:
+        class: AnomaliesBundle\Twig\AnomaliesdecodeExtension
+        public: false
+        tags:
+            - { name: twig.extension }

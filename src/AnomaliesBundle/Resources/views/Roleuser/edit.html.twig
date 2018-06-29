@@ -164,7 +164,7 @@
         </div> 
         
         
-  {% if documents|length > 0 %}        
+  {% if  documents is defined and documents|length > 0 %}        
  
         <table class="table no-margin modules" >                                        
             <thead>
@@ -178,34 +178,63 @@
             <tbody> 
                 
             {% for doc in documents %}
+{#$this->container->getParameter('kernel.root_dir').'/../web/bundles/anomalies/images/thumbs/'.$doc->getName().".".$doc->getExtension()#}
 
-                {% if documents|length > 0 %} 
-                                       
-                    <tr>  
-                        <td>  
-                     <a href="{{asset('bundles/anomaliesdecode/images/originals/')}}{{doc.name}}.{{doc.extension}}"
-                                target="_blank"
-                                style ="width:150px;" > 
-                         {{doc.description}}
-                     </a>                           
-                           
-                        </td>    
-                        <td>  
-                            {{doc.name}}.{{doc.extension}}
-
-                        </td>                   
-                        <td>                  
-                            <a href="{{ path('roleuser_deletedocument',{'did':doc.id}) }}" 
-                                class="btn btn-md btn-danger btn-flat"
-                                style ="width:150px;"                                                            
-                            >                                                       
-                               Delete
-                            </a> 
-                        </td>   
-                     </tr> 
+                    {%set imagepath = kernelRootDir~'/../web/bundles/anomaliesdecode/images/originals/'~doc.name~'.'~doc.extension%}
+                    {%set thumbimagepath = kernelRootDir~'/../web/bundles/anomaliesdecode/images/thumbs/'~doc.name~'.'~doc.extension%}
+                    {%set documentpath = kernelRootDir~'/../web/bundles/anomaliesdecode/documents/'~doc.name~'.'~doc.extension%}   
                     
-                {% endif %} 
-                
+                    {% set assetimagepath = asset('bundles/anomaliesdecode/images/originals/')~doc.name~'.'~doc.extension %}
+                    {% set assetthumbimagepath = asset('bundles/anomaliesdecode/images/thumbs/')~doc.name~'.'~doc.extension %}
+                    {% set assetdocumentpath = asset('bundles/anomaliesdecode/documents/')~doc.name~'.'~doc.extension %}
+                    
+                    {% if  isfile(imagepath) and  isfile(thumbimagepath) %}
+                        <tr>  
+                            <td>  
+                                <a href="{{assetimagepath}}"
+                                           target="_blank"
+                                           style ="width:150px;" > 
+                                    {{doc.description}}
+                                </a>                           
+
+                            </td>    
+                            <td>  
+                                {{doc.name}}.{{doc.extension}}
+                            </td>                   
+                            <td>                  
+                                <a href="{{ path('roleuser_deletedocument',{'id':entity.id, 'did':doc.id}) }}" 
+                                    class="btn btn-md btn-danger btn-flat"
+                                    style ="width:150px;"                                                            
+                                >                                                       
+                                   Delete
+                                </a> 
+                            </td>   
+                         </tr> 
+                    {% endif %}
+ 
+                    {% if  isfile(documentpath)%}
+                        <tr>  
+                            <td>  
+                                <a href="{{assetdocumentpath}}"
+                                           target="_blank"
+                                           style ="width:150px;" > 
+                                    {{doc.description}}
+                                </a>                           
+
+                            </td>    
+                            <td>  
+                                {{doc.name}}.{{doc.extension}}
+                            </td>                   
+                            <td>                  
+                                <a href="{{ path('roleuser_deletedocument',{'id':entity.id, 'did':doc.id}) }}" 
+                                    class="btn btn-md btn-danger btn-flat"
+                                    style ="width:150px;"                                                            
+                                >                                                       
+                                   Delete
+                                </a> 
+                            </td>   
+                         </tr> 
+                   {% endif %}                    
             {% endfor %}
         </tbody>
      </table>    
