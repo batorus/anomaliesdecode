@@ -24,35 +24,51 @@ class FileUploader {
     
     private $nameFromType;
     private $nameFileField;   
+    private $nameDescriptionField;   
+    private $pathToImagesOriginals;
+    private $pathToImagesThumbs;
+    private $pathToDocuments;
     
-    public function __construct(){
+    public function __construct(Request $request, $id, $em, $container){
+        
+        $this->request = $request;
+        $this->container = $container;
+        $this->em = $em;
+        $this->docsentity = new Documents();        
+        $this->entity = $this->em->getRepository('AnomaliesBundle:User')->find($id); 
+        
         $this->nameFromType = 'anomaliesbundle_documents';
-        $this->nameFileField = 'userfile';        
+        $this->nameFileField = 'userfile';    
+        $this->nameDescriptionField = 'description';  
+        
+        $this->pathToImagesOriginals = $container->getParameter('kernel.root_dir').'/../web/bundles/anomaliesdecode/images/originals';
+        $this->pathToImagesThumbs = $container->getParameter('kernel.root_dir').'/../web/bundles/anomaliesdecode/images/thumbs';
+        $this->pathToDocuments = $container->getParameter('kernel.root_dir').'/../web/bundles/anomaliesdecode/documents';
     }
     
     public function uploadAction(Request $request, $id, $em, $container)
     {      
      
-        $docsentity = new Documents();        
-        $entity = $em->getRepository('AnomaliesBundle:User')->find($id);    
+//        $docsentity = new Documents();        
+//        $entity = $em->getRepository('AnomaliesBundle:User')->find($id);    
 
-        if(!empty($request->request->all()))
+        if(!empty($this->request->request->all()))
         {
 
             $fs = new Filesystem();  
            
-            if($request->files->get('anomaliesbundle_documents')['userfile'] != null)
+            if($this->request->files->get($this->nameFromType)[$this->nameFileField] != null)
             {
 
 
-                     $uf = new UploadedFile($request->files->get($this->nameFromType)[$this->nameFileField], 
-                                            $request->files->get($this->nameFromType)[$this->nameFileField]->getClientOriginalName());
+                     $uf = new UploadedFile($this->request->files->get($this->nameFromType)[$this->nameFileField], 
+                                            $this->request->files->get($this->nameFromType)[$this->nameFileField]->getClientOriginalName());
                      // echo "<pre>";  
                       //echivalent cu $_FILES["userfile"]["tmp_name"]
                      // print_r($request->files->get('anomaliesbundle_documents')['userfile']->getPathName());die();  
                      
                     //test to see if the uploaded file is an image
-                    $check = getimagesize($request->files->get($this->nameFromType)[$this->nameFileField]->getPathName());
+                    $check = getimagesize($this->request->files->get($this->nameFromType)[$this->nameFileField]->getPathName());
 
                     if ($check !== false) 
                     {
@@ -63,15 +79,14 @@ class FileUploader {
                         $isimage = false;
                     }
                      
-
                     
                 if($isimage)
                 { 
-                     $target_dir = realpath($container->getParameter('kernel.root_dir').'/../web/bundles/anomaliesdecode/images/originals');
+                     $target_dir = realpath($this->pathToImagesOriginals);
 
-                     $target_file = $target_dir ."/".$request->files->get($this->nameFromType)[$this->nameFileField]->getClientOriginalName();
+                     $target_file = $target_dir ."/".$this->request->files->get($this->nameFromType)[$this->nameFileField]->getClientOriginalName();
 
-                     $tmb_dir = realpath($container->getParameter('kernel.root_dir').'/../web/bundles/anomaliesdecode/images/thumbs');
+                     $tmb_dir = realpath($this->pathToImagesThumbs);
                      $uploadOk = 1;
 
                      $imagefiletype = pathinfo($target_file, PATHINFO_EXTENSION);
@@ -93,7 +108,7 @@ class FileUploader {
                     else 
                     {
                         //echivalent cu: move_uploaded_file($_FILES["userfile"]["tmp_name"], $target_file)           
-                        if($uf->move($target_dir, $request->files->get($this->nameFromType)[$this->nameFileField]->getClientOriginalName())) {
+                        if($uf->move($target_dir, $this->request->files->get($this->nameFromType)[$this->nameFileField]->getClientOriginalName())) {
 
                             $image = new SimpleImage($target_file);
                              
@@ -103,24 +118,24 @@ class FileUploader {
                              
                             $image->crop(200,200);
                             //$tmb_path = $tmb_dir."/".basename($_FILES["userfile"]["name"]);
-                            $tmb_path = $tmb_dir."/".$request->files->get($this->nameFromType)[$this->nameFileField]->getClientOriginalName();
+                            $tmb_path = $tmb_dir."/".$this->request->files->get($this->nameFromType)[$this->nameFileField]->getClientOriginalName();
                             $image->save($tmb_path); 
                                                         
-                            $docsentity->setDescription($request->request->get('anomaliesbundle_documents')['description']);
-                            $docsentity->setName($imagename);                              
-                            $docsentity->setExtension($imagefiletype);                            
-                            $docsentity->setEnabled(1);   
+                            $this->docsentity->setDescription($this->request->request->get($this->nameFromType)[$this->nameDescriptionField]);
+                            $this->docsentity->setName($imagename);                              
+                            $this->docsentity->setExtension($imagefiletype);                            
+                            $this->docsentity->setEnabled(1);   
                             
                             ####################### O ->M implementare ########################                            
-                            $docsentity->setUser($entity);
+                            $this->docsentity->setUser($this->entity);
 //
 //                            $em->persist($entity);
-                            $em->persist($docsentity);
+                            $this->em->persist($this->docsentity);
                             ####################### O->M implemetare ########################     
                             
                             try
                             {     
-                                 $em->flush();
+                                $this->em->flush();
                             }
                             catch(Doctrine\ORM\ORMException $e)
                             {           
@@ -130,16 +145,16 @@ class FileUploader {
                         } 
                         else 
                         {
-                             $container->get('session')->getFlashBag()->add("error", "Une erreur s'est produite lors de l'envoi de votre fichier !");
+                             $this->container->get('session')->getFlashBag()->add("error", "Une erreur s'est produite lors de l'envoi de votre fichier !");
                         }
                     }              
                 }
                 else
                 {
-                     $target_dir_documents = realpath($container->getParameter('kernel.root_dir').'/../web/bundles/anomaliesdecode/documents');
+                     $target_dir_documents = realpath($this->pathToDocuments);
                      
                      //$target_file = $target_dir ."/". basename($_FILES["userfile"]["name"]);
-                     $target_file = $target_dir_documents ."/".$request->files->get('anomaliesbundle_documents')['userfile']->getClientOriginalName();
+                     $target_file = $target_dir_documents ."/".$this->request->files->get($this->nameFromType)[$this->nameFileField]->getClientOriginalName();
                                         
                      $uploadOk = 1;
 
@@ -149,33 +164,33 @@ class FileUploader {
                     // Check if file already exists                    
                     if (file_exists($target_file)) 
                     {
-                        $container->get('session')->getFlashBag()->add("error", "Le fichier existe déjà.");                   
+                        $this->container->get('session')->getFlashBag()->add("error", "Le fichier existe déjà.");                   
                         $uploadOk = 0;
                     }
                                     
                     if ($uploadOk == 0) 
                     {
-                        $container->get('session')->getFlashBag()->add("error", "Votre fichier n'a pas été téléchargé.");
+                        $this->container->get('session')->getFlashBag()->add("error", "Votre fichier n'a pas été téléchargé.");
                     } 
                     else 
                     {
                             //echivalent cu: move_uploaded_file($_FILES["userfile"]["tmp_name"], $target_file)           
-                         if ($uf->move($target_dir_documents, $request->files->get('anomaliesbundle_documents')['userfile']->getClientOriginalName()) ) 
+                         if ($uf->move($target_dir_documents, $this->request->files->get($this->nameFromType)[$this->nameFileField]->getClientOriginalName()) ) 
                             {
                                                                                      
-                            $docsentity->setDescription($request->request->get('anomaliesbundle_documents')['description']);
-                            $docsentity->setName($filename);                              
-                            $docsentity->setExtension($filetype);                            
-                            $docsentity->setEnabled(1);   
+                            $this->docsentity->setDescription($this->request->request->get($this->nameFromType)[$this->nameDescriptionField]);
+                            $this->docsentity->setName($filename);                              
+                            $this->docsentity->setExtension($filetype);                            
+                            $this->docsentity->setEnabled(1);   
                             
                             ####################### O->M implemetare ########################                            
-                            $docsentity->setUser($entity);
-                            $em->persist($docsentity);
+                            $this->docsentity->setUser($this->entity);
+                            $this->em->persist($this->docsentity);
                             ####################### O->M implemetare ########################     
                             
                             try
                             {     
-                                 $em->flush();
+                                 $this->em->flush();
                             }
                             catch(Doctrine\ORM\ORMException $e)
                             {           
@@ -195,8 +210,7 @@ class FileUploader {
             {
                 $container->get('session')->getFlashBag()->add("error", "Vous devez sélectionner un fichier !");
             }
-        }
-             
+        }          
     }
     
     public function deletedocumentAction($did, $em, $container)
