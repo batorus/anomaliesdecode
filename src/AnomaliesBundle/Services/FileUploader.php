@@ -255,7 +255,7 @@ class FileUploader {
         $fs = new Filesystem();  
 
       //  $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('AnomaliesBundle:Documents')->getRecord($did);
+        $entity = $em->getRepository('AnomaliesBundle:Documents')->find($did);
 //dump($entity);die();
         if (!$entity) 
         {
