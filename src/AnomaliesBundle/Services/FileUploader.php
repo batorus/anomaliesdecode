@@ -56,7 +56,7 @@ class FileUploader {
         if(!empty($this->request->request->all()))
         {
 
-            $fs = new Filesystem();  
+           // $fs = new Filesystem();  
            
             if($this->request->files->get($this->nameFromType)[$this->nameFileField] != null)
             {
