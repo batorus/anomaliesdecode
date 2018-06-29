@@ -22,6 +22,14 @@ use Doctrine\ORM\EntityRepository;
 
 class FileUploader {
     
+    private $nameFromType;
+    private $nameFileField;   
+    
+    public function __construct(){
+        $this->nameFromType = 'anomaliesbundle_documents';
+        $this->nameFileField = 'userfile';        
+    }
+    
     public function uploadAction(Request $request, $id, $em, $container)
     {      
      
@@ -37,14 +45,14 @@ class FileUploader {
             {
 
 
-                     $uf = new UploadedFile($request->files->get('anomaliesbundle_documents')['userfile'], 
-                                            $request->files->get('anomaliesbundle_documents')['userfile']->getClientOriginalName());
+                     $uf = new UploadedFile($request->files->get($this->nameFromType)[$this->nameFileField], 
+                                            $request->files->get($this->nameFromType)[$this->nameFileField]->getClientOriginalName());
                      // echo "<pre>";  
                       //echivalent cu $_FILES["userfile"]["tmp_name"]
                      // print_r($request->files->get('anomaliesbundle_documents')['userfile']->getPathName());die();  
                      
                     //test to see if the uploaded file is an image
-                    $check = getimagesize($request->files->get('anomaliesbundle_documents')['userfile']->getPathName());
+                    $check = getimagesize($request->files->get($this->nameFromType)[$this->nameFileField]->getPathName());
 
                     if ($check !== false) 
                     {
@@ -61,7 +69,7 @@ class FileUploader {
                 { 
                      $target_dir = realpath($container->getParameter('kernel.root_dir').'/../web/bundles/anomaliesdecode/images/originals');
 
-                     $target_file = $target_dir ."/".$request->files->get('anomaliesbundle_documents')['userfile']->getClientOriginalName();
+                     $target_file = $target_dir ."/".$request->files->get($this->nameFromType)[$this->nameFileField]->getClientOriginalName();
 
                      $tmb_dir = realpath($container->getParameter('kernel.root_dir').'/../web/bundles/anomaliesdecode/images/thumbs');
                      $uploadOk = 1;
@@ -85,7 +93,7 @@ class FileUploader {
                     else 
                     {
                         //echivalent cu: move_uploaded_file($_FILES["userfile"]["tmp_name"], $target_file)           
-                        if($uf->move($target_dir, $request->files->get('anomaliesbundle_documents')['userfile']->getClientOriginalName())) {
+                        if($uf->move($target_dir, $request->files->get($this->nameFromType)[$this->nameFileField]->getClientOriginalName())) {
 
                             $image = new SimpleImage($target_file);
                              
@@ -95,7 +103,7 @@ class FileUploader {
                              
                             $image->crop(200,200);
                             //$tmb_path = $tmb_dir."/".basename($_FILES["userfile"]["name"]);
-                            $tmb_path = $tmb_dir."/".$request->files->get('anomaliesbundle_documents')['userfile']->getClientOriginalName();
+                            $tmb_path = $tmb_dir."/".$request->files->get($this->nameFromType)[$this->nameFileField]->getClientOriginalName();
                             $image->save($tmb_path); 
                                                         
                             $docsentity->setDescription($request->request->get('anomaliesbundle_documents')['description']);

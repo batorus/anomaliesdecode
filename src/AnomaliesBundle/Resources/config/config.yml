@@ -4,3 +4,8 @@ services:
         public: false
         tags:
             - { name: twig.extension }
+            
+    application.file_uploader:
+        class: AnomaliesBundle\Services\FileUploader
+#        arguments: ['%path%']
+        arguments: []
