@@ -31,6 +31,7 @@ class FileUploader {
     
     public function __construct(Request $request, $id, $em, $container){
         
+        $this->fs = new Filesystem();  
         $this->request = $request;
         $this->container = $container;
         $this->em = $em;
@@ -46,7 +47,7 @@ class FileUploader {
         $this->pathToDocuments = $container->getParameter('kernel.root_dir').'/../web/bundles/anomaliesdecode/documents';
     }
     
-    public function uploadAction(Request $request, $id, $em, $container)
+    public function uploadAction()
     {      
      
 //        $docsentity = new Documents();        
