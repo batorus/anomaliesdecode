@@ -97,14 +97,14 @@ class FileUploader {
                     // Check if file already exists                    
                     if (file_exists($target_file)) 
                     {
-                        $container->get('session')->getFlashBag()->add("error", "Le fichier existe déjà.");                   
+                        $this->container->get('session')->getFlashBag()->add("error", "Le fichier existe déjà.");                   
                         $uploadOk = 0;
                     }
                 
                      
                     if ($uploadOk == 0) 
                     {
-                        $container->get('session')->getFlashBag()->add("error", "Votre fichier n'a pas été téléchargé.");
+                        $this->container->get('session')->getFlashBag()->add("error", "Votre fichier n'a pas été téléchargé.");
                     } 
                     else 
                     {
@@ -200,7 +200,7 @@ class FileUploader {
                            
                         } else {
 
-                             $container->get('session')->getFlashBag()->add("error", "Une erreur s'est produite lors de l'envoi de votre fichier !");
+                             $this->container->get('session')->getFlashBag()->add("error", "Une erreur s'est produite lors de l'envoi de votre fichier !");
 
                         }
                     }                   
@@ -209,7 +209,7 @@ class FileUploader {
             }
             else
             {
-                $container->get('session')->getFlashBag()->add("error", "Vous devez sélectionner un fichier !");
+                $this->container->get('session')->getFlashBag()->add("error", "Vous devez sélectionner un fichier !");
             }
         }          
     }
