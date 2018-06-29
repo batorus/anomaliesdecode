@@ -199,9 +199,7 @@ class FileUploader {
                             }  
                            
                         } else {
-
                              $this->container->get('session')->getFlashBag()->add("error", "Une erreur s'est produite lors de l'envoi de votre fichier !");
-
                         }
                     }                   
                     
