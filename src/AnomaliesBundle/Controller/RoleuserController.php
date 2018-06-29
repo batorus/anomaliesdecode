@@ -382,10 +382,10 @@ class RoleuserController extends Controller
         return $this->redirectToRoute('roleuser_update',array('id'=>$id));
     }   
     
-    public function deletedocumentAction(Request $request, $id, $did)
+    public function deletedocumentAction(Request $request, $did, $id)
     {   
         $em = $this->getDoctrine()->getManager();
-        (new FileUploader())->deletedocumentAction($request, $id, $em, $this->container);
+        (new FileUploader())->deletedocumentAction($did, $em, $this->container);
         return $this->redirectToRoute('roleuser_update',array('id'=>$id));
     }
     

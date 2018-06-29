@@ -249,13 +249,14 @@ class FileUploader {
         
     }
     
-    public function deletedocumentAction($id, $did, $em, $container)
-    {      
+    public function deletedocumentAction($did, $em, $container)
+    {     
+       // die($did);
         $fs = new Filesystem();  
 
       //  $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('AnomaliesBundle:Documents')->getRecord($did);
-
+//dump($entity);die();
         if (!$entity) 
         {
            die('Unable to find entity.');

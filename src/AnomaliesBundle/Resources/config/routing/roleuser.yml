@@ -26,7 +26,7 @@ roleuser_upload:
     methods:  [POST, PUT, GET]   
     
 roleuser_deletedocument:
-    path:     /{id}/{did}/deletedocument
+    path:     /{did}/{id}/deletedocument
     defaults: { _controller: "AnomaliesBundle:Roleuser:deletedocument" }
     methods:  [POST, PUT, GET]  
     

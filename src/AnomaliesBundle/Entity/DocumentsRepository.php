@@ -17,6 +17,6 @@ class DocumentsRepository extends EntityRepository
         return $this->createQueryBuilder('d')
                     ->where('d.id = :id')
                     ->setParameter('id', $id)
-                    ->getQuery()->execute();
+                    ->getQuery()->getOneOrNullResult();
     }
 }
