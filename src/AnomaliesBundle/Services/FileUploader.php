@@ -2,8 +2,9 @@
 
 namespace AnomaliesBundle\Services;
 
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use AnomaliesBundle\Entity\Documents;
 
 use AnomaliesBundle\Helpers\SimpleImage; 
@@ -11,13 +12,14 @@ use AnomaliesBundle\Helpers\SimpleImage;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\ORM\EntityRepository;
 
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class FileUploader{
+class FileUploader {
     
     private $nameFromType;
     private $nameFileField;   
@@ -33,7 +35,16 @@ class FileUploader{
         $this->container = $container;
         $this->em = $em;
         $this->docsentity = new Documents();        
-        $this->entity = $this->em->getRepository('AnomaliesBundle:User')->find($id); 
+        $this->id = $id;
+        $this->route = "roleuser_update";
+        try{
+            $this->entity = $this->em->getRepository('AnomaliesBundle:User')->find($id); 
+            if(!$this->entity){
+                throw new \Doctrine\Common\Persistence\Mapping\MappingException("Entity not found!");
+            }
+        }catch(\Doctrine\Common\Persistence\Mapping\MappingException $e){
+           // echo $e->getTraceAsString();die();
+        }
         
         $this->nameFromType = 'anomaliesbundle_documents';
         $this->nameFileField = 'userfile';    
@@ -106,8 +117,19 @@ class FileUploader{
                     else 
                     {
                         //echivalent cu: move_uploaded_file($_FILES["userfile"]["tmp_name"], $target_file)           
-                        if($uf->move($target_dir, $this->request->files->get($this->nameFromType)[$this->nameFileField]->getClientOriginalName())) {
+//                        if($uf->move($target_dir, $this->request->files->get($this->nameFromType)[$this->nameFileField]->getClientOriginalName())) {
+                        
+                        try{
+                            
+                            $uf->move($target_dir, $this->request->files->get($this->nameFromType)[$this->nameFileField]->getClientOriginalName());     
+                           // throw new FileException();
+                        } catch (FileException $ex) {
+                            
+                            $this->container->get('session')->getFlashBag()->add("error", "Une erreur s'est produite lors de l'envoi de votre fichier !");
 
+                            return new RedirectResponse($this->container->get('router')->generate($this->route, array('id' => $this->id)));  
+                               //return $this->redirectTo($this->generateUrl('processanomalies_edit', array('id' => $id))); 
+                        }
                             $image = new SimpleImage($target_file);
                              
                              //width x height
@@ -139,12 +161,12 @@ class FileUploader{
                             {           
 
                             }  
-                           
-                        } 
-                        else 
-                        {
-                             $this->container->get('session')->getFlashBag()->add("error", "Une erreur s'est produite lors de l'envoi de votre fichier !");
-                        }
+  
+//                        } 
+//                        else 
+//                        {
+//                             $this->container->get('session')->getFlashBag()->add("error", "Une erreur s'est produite lors de l'envoi de votre fichier !");
+//                        }
                     }              
                 }
                 else
