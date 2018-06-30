@@ -207,7 +207,12 @@
 
                             </td>    
                             <td>  
+                                <span class="col-md-6">
                                 {{doc.name}}.{{doc.extension}}
+                                </span>
+                                <span class="col-md-6">
+                                      <img src="{{assetthumbimagepath}}"/>
+                                </span> 
                             </td>                   
                             <td>                  
                                 <a href="{{ path('roleuser_deletedocument',{'did':doc.id, 'id':entity.id}) }}" 
@@ -231,7 +236,10 @@
 
                             </td>    
                             <td>  
+                                <span>
                                 {{doc.name}}.{{doc.extension}}
+                                </span>     
+                                
                             </td>                   
                             <td>                  
                                 <a href="{{ path('roleuser_deletedocument',{'did':doc.id, 'id':entity.id}) }}" 
