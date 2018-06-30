@@ -317,7 +317,7 @@ class RoleuserController extends Controller
         }
   
         //Upload the file here
-        (new FileUploader($request, $id, $em, $this->container))->uploadAction();
+        (new FileUploader($request, $em, $this->container))->uploadAction($id);
         
         return $this->redirectToRoute('roleuser_update',array('id'=>$id));
     } 
@@ -326,7 +326,7 @@ class RoleuserController extends Controller
     public function deletedocumentAction(Request $request, $did, $id)
     {   
         $em = $this->getDoctrine()->getManager();
-        (new FileUploader())->deletedocumentAction($did, $em, $this->container);
+        (new FileUploader($request, $em, $this->container))->deletedocumentAction($did);
         return $this->redirectToRoute('roleuser_update',array('id'=>$id));
     }
     
