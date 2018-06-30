@@ -129,7 +129,8 @@ class DocumentsType extends AbstractType
                                                                                                         ),
                                                                                     'maxSizeMessage' => "La taille de fichier maxmimum autorisée est 5MB.",
                                                                                     'mimeTypesMessage' => "Ce type de fichier n'est pas autorisé.",
-                                                                                    'uploadErrorMessage'=>"The file could not be uploaded."
+                                                                                    'uploadErrorMessage'=>"The file could not be uploaded.",
+                                                                                    'disallowEmptyMessage'=>"Choose a file!",
                                                                                 )
 
                                                                          )       

@@ -303,7 +303,7 @@ class RoleuserController extends Controller
         
         $validator = $this->get('validator');
         $errors = $validator->validate($uploadForm);  
-        
+           
         if (count($errors) > 0) 
         {                    
             return $this->render('AnomaliesBundle:Roleuser:edit.html.twig', array(
@@ -316,7 +316,8 @@ class RoleuserController extends Controller
 
         }
   
-        (new FileUploader())->uploadAction($request, $id, $em, $this->container);
+        //Upload the file here
+        (new FileUploader($request, $id, $em, $this->container))->uploadAction();
         
         return $this->redirectToRoute('roleuser_update',array('id'=>$id));
     } 

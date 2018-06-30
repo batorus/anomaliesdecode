@@ -1,12 +1,7 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace AnomaliesBundle\Services;
+
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use AnomaliesBundle\Entity\Documents;
@@ -20,7 +15,9 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\ORM\EntityRepository;
 
-class FileUploader {
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
+class FileUploader{
     
     private $nameFromType;
     private $nameFileField;   
@@ -42,7 +39,7 @@ class FileUploader {
         $this->nameFileField = 'userfile';    
         $this->nameDescriptionField = 'description';  
         
-        $this->pathToImagesOriginals = $container->getParameter('kernel.root_dir').'/../web/bundles/anomaliesdecode/images/originals';
+        $this->pathToImagesOriginals = $container->getParameter('rootDir').'/../web/bundles/anomaliesdecode/images/originals';
         $this->pathToImagesThumbs = $container->getParameter('kernel.root_dir').'/../web/bundles/anomaliesdecode/images/thumbs';
         $this->pathToDocuments = $container->getParameter('kernel.root_dir').'/../web/bundles/anomaliesdecode/documents';
     }
