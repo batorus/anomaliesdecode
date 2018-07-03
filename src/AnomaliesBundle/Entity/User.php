@@ -96,7 +96,7 @@ class User extends BaseUser
     public function addRole($role)
     {
         $role = strtoupper($role);
-        if ($role === static::ROLE_DEFAULT) {
+        if ($role === "ROLE_USER_DEFAULT") {
             return $this;
         }
 
@@ -117,7 +117,7 @@ class User extends BaseUser
         }
 
         // we need to make sure to have at least one role
-        $roles[] = static::ROLE_DEFAULT;
+        $roles[] = "ROLE_USER_DEFAULT";
 
         return array_unique($roles);
     }

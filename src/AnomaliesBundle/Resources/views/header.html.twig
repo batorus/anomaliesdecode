@@ -142,6 +142,34 @@
     <script src="{{asset('bundles/anomaliesdecode/sweetalert/dist/sweetalert.min.js')  }}"></script>
     <link rel="stylesheet" type="text/css" href="{{asset('bundles/anomaliesdecode/sweetalert/dist/sweetalert.css') }}">
     
+    <script type="text/javascript">
+        $( document ).ready(function() {
+
+         $('#ml').DataTable({
+                   iDisplayLength: 7,
+                   searching: true,
+                   paging: true,
+                   bInfo : false,
+                   order: [],
+                   columnDefs: [{
+                                targets  : 'nosort',
+                                orderable: false
+                              }],
+                language: {
+                            lengthMenu: "Nombre de lignes :  _MENU_ ",
+                            search:         "Rechercher : ",
+                            paginate: {
+                                   "first":      "Premier",
+                                   "last":       "Dernier",
+                                   "next":       "Suivant",
+                                   "previous":   "Antérieur"
+                               },
+                           }      
+                }); 
+
+        });
+    </script>
+    
      <!-- TODO: de pus in stil separat -->
    <style type="text/css">
               .main-footer{padding:5px;}

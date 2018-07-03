@@ -27,8 +27,8 @@
                                     <tr>
             
                                         <th>Id</th>
-                                        <th class="nosort">Typecontrole</th>
-                                        <th class="nosort">Enabled</th>
+                                        <th >Typecontrole</th>
+{#                                        <th >Enabled</th>#}
                                    
                                         
                                         <th class="nosort">Supprimer</th>
@@ -40,7 +40,7 @@
                                         <tr> 
                                             <td>{{ entity.id }}</td>
                                             <td>{{ entity.typecontrole }}</td>
-                                            <td>{{ entity.enabled }}</td>
+{#                                            <td>{{ entity.enabled }}</td>#}
 
                                             <td>                                            
                                                   <a href="{{ path('typecontrole_delete', { 'id': entity.id }) }}"
