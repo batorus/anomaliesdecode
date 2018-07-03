@@ -93,6 +93,20 @@ class User extends BaseUser
         return $this->photo;
     }
     
+    public function addRole($role)
+    {
+        $role = strtoupper($role);
+        if ($role === static::ROLE_DEFAULT) {
+            return $this;
+        }
+
+        if (!in_array($role, $this->getRoles(), true)) {
+            $this->roles[] = $role;
+        }
+
+        return $this;
+    }
+    
     
     public function getRoles()
     {
@@ -103,7 +117,7 @@ class User extends BaseUser
         }
 
         // we need to make sure to have at least one role
-        $roles[] = "ROLE_USER_DEFAULT";
+        $roles[] = static::ROLE_DEFAULT;
 
         return array_unique($roles);
     }

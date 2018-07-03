@@ -6,6 +6,7 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use AnomaliesBundle\Entity\User;
+use AnomaliesBundle\Entity\Typecontrole;
 
 class LoadUserData implements FixtureInterface, ContainerAwareInterface{
     
@@ -44,6 +45,54 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface{
         $user->setEnabled(true);
         $manager->persist($user);
         $manager->flush();
+        
+//        $tc = new Typecontrole();
+//        $tc->setTypecontrole("Typecontrole 1");
+//        $tc->setEnabled(true);
+//        $manager->persist($tc);
+//        $manager->flush();
+//        
+//        $tc = new Typecontrole();
+//        $tc->setTypecontrole("Typecontrole 2");
+//        $tc->setEnabled(true);
+//        $manager->persist($tc);
+//        $manager->flush(); 
+//        
+//        $tc = new Typecontrole();
+//        $tc->setTypecontrole("Typecontrole 3");
+//        $tc->setEnabled(true);
+//        $manager->persist($tc);
+//        $manager->flush(); 
+//        
+//        $tc = new Typecontrole();
+//        $tc->setTypecontrole("Typecontrole 4");
+//        $tc->setEnabled(true);
+//        $manager->persist($tc);
+//        $manager->flush(); 
+//        
+//        $tc = new Typecontrole();
+//        $tc->setTypecontrole("Typecontrole 5");
+//        $tc->setEnabled(true);
+//        $manager->persist($tc);
+//        $manager->flush();
+//        
+//        $tc = new Typecontrole();
+//        $tc->setTypecontrole("Typecontrole 6");
+//        $tc->setEnabled(true);
+//        $manager->persist($tc);
+//        $manager->flush(); 
+//        
+//        $tc = new Typecontrole();
+//        $tc->setTypecontrole("Typecontrole 7");
+//        $tc->setEnabled(true);
+//        $manager->persist($tc);
+//        $manager->flush(); 
+//        
+//        $tc = new Typecontrole();
+//        $tc->setTypecontrole("Typecontrole 8");
+//        $tc->setEnabled(true);
+//        $manager->persist($tc);
+//        $manager->flush();        
     }
 
     public function setContainer(ContainerInterface $container = null) {
