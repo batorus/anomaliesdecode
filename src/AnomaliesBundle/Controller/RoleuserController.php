@@ -318,15 +318,7 @@ class RoleuserController extends Controller
   
         //Upload the file here
         (new FileUploader($request, $em, $this->container))->uploadAction($id);
-        
-//         return $this->render('AnomaliesBundle:Roleuser:edit.html.twig', array(
-//                'entity' => $entity,
-//                'documents'=>$docs,                
-//                'form' => $form->createView(),
-//                'uploadForm'=>$uploadForm->createView(),
-//               // 'errors' => $errors
-//            ));
-       // die("ff");
+
         return $this->redirectToRoute('roleuser_edit',array('id'=>$id));
     } 
     
