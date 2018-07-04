@@ -26,11 +26,11 @@
                                     <tr>
             
                                         <th>Id</th>
-                                        <th class="nosort">Typetache</th>
-                                        <th class="nosort">Enabled</th>
-                                                                          
+                                        <th>Typetache</th>
+{#                                        <th class="nosort">Enabled</th>#}
+                                        <th class="nosort">Editer</th>                                                                          
                                         <th class="nosort">Supprimer</th>
-                                        <th class="nosort">Editer</th>
+
                                     </tr>
                                   </thead>
                                   <tbody>                                     
@@ -38,7 +38,15 @@
                                         <tr> 
                                             <td>{{ entity.id }}</td>
                                             <td>{{ entity.typetache}}</td>
-                                            <td>{{ entity.enabled }}</td>
+{#                                            <td>{{ entity.enabled }}</td>#}
+                                            <td >                                            
+                                                  <a href="{{ path('typetaches_edit', { 'id': entity.id }) }}" 
+                                                    class="btn btn-block btn-warning btn-sm"
+                                                    style ="width:100px;margin:0 auto;"                                                            
+                                                   >  
+                                                     Editer
+                                                  </a>                                             
+                                            </td>   
 
                                             <td>                                            
                                                   <a href="{{ path('typetaches_delete', { 'id': entity.id }) }}"
@@ -49,17 +57,7 @@
                                                       Supprimer
                                                   </a>                                              
                                             </td>    
-
-                                            <td >                                            
-                                                  <a href="{{ path('typetaches_edit', { 'id': entity.id }) }}" 
-                                                    class="btn btn-block btn-warning btn-sm"
-                                                    style ="width:100px;margin:0 auto;"                                                            
-                                                   >  
-                                                     Editer
-                                                  </a>                                             
-                                            </td>    
-
-                                            
+                                         
                                         </tr> 
                                     {% endfor %}
                                   </tbody>
