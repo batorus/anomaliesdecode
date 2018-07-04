@@ -111,7 +111,7 @@ class FileUploader {
                             //forteaza aici exceptia ca sa testezi executia din catch
                            // throw new FileException(); 
                         } catch (FileException $ex) {
-                            
+                            //die("ff");
                             $this->container->get('session')->getFlashBag()->add("error", "Une erreur s'est produite lors de l'envoi de votre fichier !");
 
                             return new RedirectResponse($this->container->get('router')->generate($this->route, array('id' => $this->id)));  
@@ -179,7 +179,7 @@ class FileUploader {
 
                         try{
                             
-                            $uf->move($target_dir, $this->request->files->get($this->nameFromType)[$this->nameFileField]->getClientOriginalName());     
+                            $uf->move($target_dir_documents, $this->request->files->get($this->nameFromType)[$this->nameFileField]->getClientOriginalName());     
                            // throw new FileException();
                         } catch (FileException $ex) {
                             
@@ -267,5 +267,11 @@ class FileUploader {
         $this->em->flush();
         
         //return $this->redirect($this->generateUrl('processanomalies_edit', array('id' => $id)));    
+    }
+    
+    public function updatedocumentAction($did)
+    {
+    
+        
     }
 }

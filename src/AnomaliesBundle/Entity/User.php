@@ -122,6 +122,16 @@ class User extends BaseUser
         return array_unique($roles);
     }
     
+//    public function removeRole($role)
+//    {
+//        if (false !== $key = array_search(strtoupper($role), $this->getRoles(), true)) {
+//            unset($this->roles[$key]);
+//            $this->roles = array_values($this->getRoles());
+//        }
+//
+//        return $this;
+//    }
+    
     
     
      /**

@@ -319,7 +319,15 @@ class RoleuserController extends Controller
         //Upload the file here
         (new FileUploader($request, $em, $this->container))->uploadAction($id);
         
-        return $this->redirectToRoute('roleuser_update',array('id'=>$id));
+//         return $this->render('AnomaliesBundle:Roleuser:edit.html.twig', array(
+//                'entity' => $entity,
+//                'documents'=>$docs,                
+//                'form' => $form->createView(),
+//                'uploadForm'=>$uploadForm->createView(),
+//               // 'errors' => $errors
+//            ));
+       // die("ff");
+        return $this->redirectToRoute('roleuser_edit',array('id'=>$id));
     } 
     
     
@@ -327,7 +335,7 @@ class RoleuserController extends Controller
     {   
         $em = $this->getDoctrine()->getManager();
         (new FileUploader($request, $em, $this->container))->deletedocumentAction($did);
-        return $this->redirectToRoute('roleuser_update',array('id'=>$id));
+        return $this->redirectToRoute('roleuser_edit',array('id'=>$id));
     }
     
     
