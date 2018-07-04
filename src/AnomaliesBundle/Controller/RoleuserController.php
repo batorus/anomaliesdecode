@@ -272,50 +272,50 @@ class RoleuserController extends Controller
     
     public function uploadAction(Request $request, $id)
     { 
-        $em = $this->getDoctrine()->getManager();
-       
-        $entity = $em->getRepository('AnomaliesBundle:User')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find User entity.');
-        }
-      
-        //$documents = $em->getRepository('AnomaliesBundle:Documents')->getRecords($id);
-        $documents = $entity->getDocuments();
-        if (!$documents) {
-            throw $this->createNotFoundException('Unable to find Documents entity.');
-        }
-        
-        $docs = array();
-        foreach($documents as $document){
-            if($document->getEnabled()==1){
-                $docs[] = $document;
-            }
-        }
-            
-        $form = $this->createForm(new RoleuserType(), $entity,  
-                                  array(
-                                        'roles' => $this->getRolesInSecurity(),
-                                 ));
-        
-        $uploadForm = $this->createForm(new DocumentsType(), new Documents());      
-        $uploadForm->handleRequest($request);
-        
-        $validator = $this->get('validator');
-        $errors = $validator->validate($uploadForm);  
-           
-        if (count($errors) > 0) 
-        {                    
-            return $this->render('AnomaliesBundle:Roleuser:edit.html.twig', array(
-                'entity' => $entity,
-                'documents'=>$docs,                
-                'form' => $form->createView(),
-                'uploadForm'=>$uploadForm->createView(),
-                'errors' => $errors
-            ));
-
-        }
-  
+//        $em = $this->getDoctrine()->getManager();
+//       
+//        $entity = $em->getRepository('AnomaliesBundle:User')->find($id);
+//
+//        if (!$entity) {
+//            throw $this->createNotFoundException('Unable to find User entity.');
+//        }
+//      
+//        //$documents = $em->getRepository('AnomaliesBundle:Documents')->getRecords($id);
+//        $documents = $entity->getDocuments();
+//        if (!$documents) {
+//            throw $this->createNotFoundException('Unable to find Documents entity.');
+//        }
+//        
+//        $docs = array();
+//        foreach($documents as $document){
+//            if($document->getEnabled()==1){
+//                $docs[] = $document;
+//            }
+//        }
+//            
+//        $form = $this->createForm(new RoleuserType(), $entity,  
+//                                  array(
+//                                        'roles' => $this->getRolesInSecurity(),
+//                                 ));
+//        
+//        $uploadForm = $this->createForm(new DocumentsType(), new Documents());      
+//        $uploadForm->handleRequest($request);
+//        
+//        $validator = $this->get('validator');
+//        $errors = $validator->validate($uploadForm);  
+//           
+//        if (count($errors) > 0) 
+//        {                    
+//            return $this->render('AnomaliesBundle:Roleuser:edit.html.twig', array(
+//                'entity' => $entity,
+//                'documents'=>$docs,                
+//                'form' => $form->createView(),
+//                'uploadForm'=>$uploadForm->createView(),
+//                'errors' => $errors
+//            ));
+//
+//        }
+        $em = $this->getDoctrine()->getManager(); 
         //Upload the file here
         (new FileUploader($request, $em, $this->container))->uploadAction($id);
 
@@ -323,14 +323,19 @@ class RoleuserController extends Controller
     } 
     
     
+    public function updatedocumentAction(Request $request, $did, $id)
+    {   
+        $em = $this->getDoctrine()->getManager();
+        (new FileUploader($request, $em, $this->container))->updatedocumentAction($did);
+        return $this->redirectToRoute('roleuser_edit',array('id'=>$id));
+    }
+    
     public function deletedocumentAction(Request $request, $did, $id)
     {   
         $em = $this->getDoctrine()->getManager();
         (new FileUploader($request, $em, $this->container))->deletedocumentAction($did);
         return $this->redirectToRoute('roleuser_edit',array('id'=>$id));
-    }
-    
-    
+    }   
     
 
     public function deleteAction(Request $request, $id)

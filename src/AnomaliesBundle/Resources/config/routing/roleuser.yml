@@ -30,6 +30,11 @@ roleuser_deletedocument:
     defaults: { _controller: "AnomaliesBundle:Roleuser:deletedocument" }
     methods:  [POST, PUT, GET]  
     
+roleuser_updatedocument:
+    path:     /{did}/{id}/updatedocument
+    defaults: { _controller: "AnomaliesBundle:Roleuser:updatedocument" }
+    methods:  [POST, PUT, GET]     
+    
 roleuser_delete:
     path:     /{id}/delete
     defaults: { _controller: "AnomaliesBundle:Roleuser:delete" }
