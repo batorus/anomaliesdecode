@@ -140,4 +140,9 @@ class Typecontrole
     {
         return $this->controles;
     }
+    
+    public function __toString() {
+        echo $this->typecontrole;
+    }  
+    
 }
