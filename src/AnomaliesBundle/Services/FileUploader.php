@@ -272,6 +272,6 @@ class FileUploader {
     public function updatedocumentAction($did)
     {
     
-        die($id);
+        die($did);
     }
 }

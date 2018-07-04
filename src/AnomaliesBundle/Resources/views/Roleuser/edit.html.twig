@@ -181,6 +181,7 @@
               <tr>
                   <th>Description</th>  
                   <th>File name</th>  
+                  <th>Update</th>                    
                   <th>Delete</th>  
               </tr>
             </thead>      
@@ -214,7 +215,16 @@
                                 <span class="col-md-6">
                                       <img src="{{assetthumbimagepath}}"/>
                                 </span> 
-                            </td>                   
+                            </td>  
+                             <td>                  
+                                <a href="{{ path('roleuser_updatedocument',{'did':doc.id, 'id':entity.id}) }}" 
+                                    class="btn btn-md btn-warning btn-flat"
+                                    style ="width:150px;"                                                            
+                                >                                                       
+                                   Update
+                                </a> 
+                            </td>                            
+                            
                             <td>                  
                                 <a href="{{ path('roleuser_deletedocument',{'did':doc.id, 'id':entity.id}) }}" 
                                     class="btn btn-md btn-danger btn-flat"
@@ -243,11 +253,11 @@
                                 
                             </td>    
                             <td>                  
-                                <a href="{{ path('roleuser_updatedocument',{'did':doc.id}) }}" 
-                                    class="btn btn-md btn-danger btn-flat"
+                                <a href="{{ path('roleuser_updatedocument',{'did':doc.id, 'id':entity.id}) }}" 
+                                    class="btn btn-md btn-warning btn-flat"
                                     style ="width:150px;"                                                            
                                 >                                                       
-                                   Delete
+                                   Update
                                 </a> 
                             </td>                             
                             <td>                  

@@ -316,9 +316,7 @@ class RoleuserController extends Controller
 //
 //        }
         $em = $this->getDoctrine()->getManager(); 
-        //Upload the file here
         (new FileUploader($request, $em, $this->container))->uploadAction($id);
-
         return $this->redirectToRoute('roleuser_edit',array('id'=>$id));
     } 
     
