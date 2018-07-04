@@ -43,9 +43,9 @@
                                         <th class="nosort">Typesocietes</th>
                                         <th class="nosort">Typetaches</th>
                                         <th class="nosort">Typecontroles</th>
-                                        
+                                        <th class="nosort">Editer</th>                                        
                                         <th class="nosort">Supprimer</th>
-                                        <th class="nosort">Editer</th>
+
                                     </tr>
                                   </thead>
                                   <tbody>                                     
@@ -78,7 +78,16 @@
                                                     </div>                      
                                                 {% endfor %}                                                
                                            </td>
-
+                                           
+                                            <td >                                            
+                                                  <a href="{{ path('controles_edit', { 'id': entity.id }) }}" 
+                                                    class="btn btn-block btn-warning btn-sm"
+                                                    style ="width:100px;margin:0 auto;"                                                            
+                                                   >  
+                                                     Editer
+                                                  </a>                                              
+                                            </td>  
+                                            
                                             <td >                                            
                                                    <a href="{{ path('controles_delete', { 'id': entity.id }) }}"
                                                            
@@ -88,14 +97,7 @@
                                                       Supprimer
                                                   </a>                                                
                                             </td>    
-                                            <td >                                            
-                                                  <a href="{{ path('controles_edit', { 'id': entity.id }) }}" 
-                                                    class="btn btn-block btn-warning btn-sm"
-                                                    style ="width:100px;margin:0 auto;"                                                            
-                                                   >  
-                                                     Editer
-                                                  </a>                                              
-                                            </td>    
+  
                                         </tr> 
                                         {% endfor %}    
                                   </tbody>
