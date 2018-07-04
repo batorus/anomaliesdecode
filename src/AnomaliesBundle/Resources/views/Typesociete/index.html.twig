@@ -27,11 +27,11 @@
                                     <tr>
             
                                         <th>Id</th>
-                                        <th class="nosort">Typesociete</th>
-                                        <th class="nosort">Enabled</th>
-                                                                          
+                                        <th >Typesociete</th>
+{#                                        <th class="nosort">Enabled</th>#}
+                                         <th class="nosort">Editer</th>                                                                         
                                         <th class="nosort">Supprimer</th>
-                                        <th class="nosort">Editer</th>
+
                                     </tr>
                                   </thead>
                                   <tbody>                                     
@@ -39,8 +39,17 @@
                                         <tr> 
                                             <td>{{ entity.id }}</td>
                                             <td>{{ entity.typesociete }}</td>
-                                            <td>{{ entity.enabled }}</td>
+{#                                            <td>{{ entity.enabled }}</td>#}
 
+                                            <td >                                            
+                                                  <a href="{{ path('typesociete_edit', { 'id': entity.id }) }}" 
+                                                    class="btn btn-block btn-warning btn-sm"
+                                                    style ="width:100px;margin:0 auto;"                                                            
+                                                   >  
+                                                     Editer
+                                                  </a>                                             
+                                            </td> 
+                                            
                                             <td>                                            
                                                   <a href="{{ path('typesociete_delete', { 'id': entity.id }) }}"
                                                            
@@ -51,16 +60,7 @@
                                                   </a>                                              
                                             </td>    
 
-                                            <td >                                            
-                                                  <a href="{{ path('typesociete_edit', { 'id': entity.id }) }}" 
-                                                    class="btn btn-block btn-warning btn-sm"
-                                                    style ="width:100px;margin:0 auto;"                                                            
-                                                   >  
-                                                     Editer
-                                                  </a>                                             
-                                            </td>    
-
-                                            
+                                             
                                         </tr> 
                                     {% endfor %}
                                   </tbody>
