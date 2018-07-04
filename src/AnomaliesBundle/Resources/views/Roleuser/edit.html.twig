@@ -1,7 +1,13 @@
 {% extends 'AnomaliesBundle::base.html.twig' %}
 
 {% block roleuser_edit -%}
-              
+    <script type="text/javascript">
+        $( document ).ready(function() {
+               $('#myModal').on('show', function (e) {
+                   if (!data) return e.preventDefault() // stops modal from being shown
+               });
+        });
+    </script>         
  <!-- de aici -->
     <div class="col-md-12">           
             <div class="box box-info">
@@ -89,9 +95,8 @@
 
                 </div><!-- /.box-footer -->
             </div>
-            
                     
-                    
+                                      
             {{ form_start(uploadForm, 
                      {'action': path('roleuser_upload', {'id': entity.id}), 
                       'method': 'POST', 
@@ -169,8 +174,7 @@
             
            {#END UPLOAD#}    
            {#####################}            
-        <div class="box-footer clearfix">
-        </div> 
+
         
     {#####################}            
     {#START AFISARE INREGISTRARI#}       
@@ -179,6 +183,7 @@
         <table class="table no-margin modules" >                                        
             <thead>
               <tr>
+                  <th>Id</th>                   
                   <th>Description</th>  
                   <th>File name</th>  
                   <th>Update</th>                    
@@ -201,6 +206,9 @@
                     {% if  isfile(imagepath) and  isfile(thumbimagepath) %}
                         <tr>  
                             <td>  
+                                {{doc.id}}
+                            </td> 
+                            <td>  
                                 <a href="{{assetimagepath}}"
                                            target="_blank"
                                            style ="width:150px;" > 
@@ -215,14 +223,17 @@
                                 <span class="col-md-6">
                                       <img src="{{assetthumbimagepath}}"/>
                                 </span> 
-                            </td>  
+                            </td>
+                                                                                                                                               
                              <td>                  
                                 <a href="{{ path('roleuser_updatedocument',{'did':doc.id, 'id':entity.id}) }}" 
                                     class="btn btn-md btn-warning btn-flat"
-                                    style ="width:150px;"                                                            
+                                    style ="width:150px;"  
+
                                 >                                                       
                                    Update
                                 </a> 
+
                             </td>                            
                             
                             <td>                  
@@ -237,7 +248,10 @@
                     {% endif %}
  
                     {% if  isfile(documentpath)%}
-                        <tr>  
+                        <tr> 
+                            <td>  
+                                {{doc.id}}
+                            </td>                             
                             <td>  
                                 <a href="{{assetdocumentpath}}"
                                            target="_blank"
@@ -277,6 +291,10 @@
     {#####################}            
     {#END AFISARE INREGISTRARI#}      
     
+
+    
+        <div class="box-footer clearfix">
+        </div>     
        </div>
     </div>                
 {% endblock %}

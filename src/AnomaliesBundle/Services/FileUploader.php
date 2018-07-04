@@ -272,6 +272,42 @@ class FileUploader {
     public function updatedocumentAction($did)
     {
     
-        die($did);
+       try{
+            $entity = $this->em->getRepository('AnomaliesBundle:Documents')->find($did);
+           //$this->entity = $this->em->getRepository('AnomaliesBundle:User')->find($id); 
+            if(!$entity){
+                throw new \Doctrine\Common\Persistence\Mapping\MappingException("Entity not found!");
+            }
+        }catch(\Doctrine\Common\Persistence\Mapping\MappingException $e){
+            $this->container->get('session')->getFlashBag()->add("error", "Entity does not exist!"); 
+            return new RedirectResponse($this->container->get('router')->generate($this->route, array('id' => $this->id)));
+        }
+        
+        if(  
+               is_file($this->pathToImagesThumbs.'/'.$entity->getName().".".$entity->getExtension())
+            && is_file($this->pathToImagesOriginals.'/'.$entity->getName().".".$entity->getExtension())
+        )
+        {
+            $targetDir = realpath($this->pathToImagesOriginals);
+            $tmbDir = realpath($this->pathToImagesThumbs);
+
+            $thumbPath = $tmbDir."/".$entity->getName().".".$entity->getExtension();
+            $imgPath =  $targetDir."/".$entity->getName().".".$entity->getExtension();
+//
+//            //echivalent cu unlink($img_path);
+//            $this->fs->remove(array($imgPath, $thumbPath));
+            
+            die("image");
+        }
+        elseif(is_file($this->pathToDocuments.'/'.$entity->getName().".".$entity->getExtension()))
+        {
+//            $targetDir = realpath($this->pathToDocuments);
+//
+//            $filePath =  $targetDir."/".$entity->getName().".".$entity->getExtension();
+//
+//            //echivalent cu unlink($img_path);
+//            $this->fs->remove(array($filePath));   
+            die("doc");
+        }
     }
 }
