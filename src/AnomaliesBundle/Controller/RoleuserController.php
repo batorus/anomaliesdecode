@@ -330,6 +330,9 @@ class RoleuserController extends Controller
     
     public function updatedocumentAction(Request $request, $did, $id)
     {   
+//        var_dump($request->request->get('anomaliesbundle_documents'));       
+//        var_dump($request->files->get('anomaliesbundle_documents'));die();
+        
         $em = $this->getDoctrine()->getManager();
         (new FileUploader($request, $em, $this->container))->updatedocumentAction($did);
         return $this->redirectToRoute('roleuser_edit',array('id'=>$id));
