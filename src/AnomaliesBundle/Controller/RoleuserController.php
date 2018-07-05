@@ -159,26 +159,30 @@ class RoleuserController extends Controller
                                  )); 
          
         $uploadForm = $this->createForm(new DocumentsType(), new Documents());
-        
-
+               
         $documents = $roleuser->getDocuments();
         if (!$documents) {
             throw $this->createNotFoundException('Unable to find Documents entity.');
         }
         
+        $updateForm = array();
         $docs = array();
         foreach($documents as $document){
             if($document->getEnabled()==1){
                 $docs[] = $document;
+                $updateForm[] = $this->createForm(new DocumentsType(), $document)->createView();
             }
         }        
 
-    
+
+        
+       // print_r($updateForm);die();
         return $this->render('AnomaliesBundle:Roleuser:edit.html.twig', array(
             'entity' => $roleuser,
             'documents'=>$docs,
             'form'   => $editForm->createView(),
-            "uploadForm" =>$uploadForm->createView() 
+            "uploadForm" =>$uploadForm->createView(),
+            'updateForm'=>$updateForm,
         ));
     }
     
@@ -213,6 +217,8 @@ class RoleuserController extends Controller
         
         $uploadForm = $this->createForm(new DocumentsType(), new Documents());
         
+        $updateForm = $this->createForm(new DocumentsType(), new Documents()); 
+        
         $form->handleRequest($request);
        
         $validator = $this->get('validator');
@@ -225,6 +231,7 @@ class RoleuserController extends Controller
                     'documents'=>$docs,
                     'form' => $form->createView(),
                     'uploadForm'=>$uploadForm->createView(),
+                    'updateForm'=>$updateForm->createView(),
                     'errors' => $errors
                 ));
 

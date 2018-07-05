@@ -192,7 +192,7 @@
             </thead>      
 
             <tbody> 
-                
+            {%set i = 0 %}    
             {% for doc in documents %}
 
                     {%set imagepath = kernelRootDir~'/../web/bundles/anomaliesdecode/images/originals/'~doc.name~'.'~doc.extension%}
@@ -224,16 +224,99 @@
                                       <img src="{{assetthumbimagepath}}"/>
                                 </span> 
                             </td>
-                                                                                                                                               
-                             <td>                  
+                            
+                             <td>                             
+                              {# START FORMULAR UPDATE AICI 
+                              ######################################### #}
+                              
+                              <div class="col-md-12">    
+                                  
+                               {{form_start(updateForm[i], 
+                                        {'action': path('roleuser_updatedocument',{'did':doc.id, 'id':entity.id}), 
+                                         'method': 'POST', 
+                                         'name':'roleuserupdate',
+                                         'attr': {'novalidate': 'novalidate'}}) 
+                               }}  
+
+                              {#####################}           
+                               {#START FORM DESCRIPTION#}
+                               <div class="col-md-12">                          
+                                   <span class="col-md-4">
+                                       <span class="pull-left" style="height:40px;border: 0px solid black;padding:10px;">
+                                           <strong id='desc' > 
+                                               {{ form_label(updateForm[i].description) }} : 
+                                           </strong>    
+                                        </span>
+                                   </span> 
+
+                                   <span class="col-md-4">
+                                       <span class="pull-right">
+                                        {{ form_widget(updateForm[i].description,{'attr': {'id':'description', 'class': 'form-control', 'style' : 'height:40px;'}}) }}  
+                                       </span>
+                                   </span> 
+
+                                   <span class="col-md-4 pull-left" style="height:40px;border: 0px solid black;padding:10px;">                      
+                                       {% if updateForm[i].description.vars.errors|length > 0 %}       
+                                           {% for error in updateForm[i].description.vars.errors %}
+                                              <div style="color:red; font-size:16px;">{{ error.message }}</div>
+                                           {% endfor %}        
+                                       {% endif %} 
+                                   </span>   
+
+                               </div> 
+                               <div class='col-md-12' style="margin:10px 0px 10px 0px;"></div>                       
+                               {#END FORM DESCRIPTION#} 
+                              {#####################}
+
+
+                              {#####################}            
+                               {#START UPLOAD#}
+                                <div class="col-md-12">                          
+                                   <span class="col-md-4 " class="pull-left">
+                                       <span class="pull-left" style="height:40px;border: 0px solid black;padding:10px;">
+                                           <strong id='desc' class="pull-right"> 
+                                               {{ form_label(updateForm[i].userfile) }} : 
+                                           </strong>    
+                                        </span>
+                                   </span> 
+
+                                   <span class="col-md-4">
+                                       <span class="pull-right">
+                                        {{ form_widget(updateForm[i].userfile,{'attr': {'id':'userfile', 'style' : 'width:150px;height:40px;border: 0px solid black;'}}) }}    
+                                       </span>
+                                   </span> 
+                                   <span class="col-md-4 pull-left" style="height:40px;border: 0px solid black;padding:10px;" >    
+
+                                      {% if updateForm[i].userfile.vars.errors|length > 0 %}       
+                                           {% for error in updateForm[i].userfile.vars.errors %}
+                                              <div style="color:red; font-size:16px;">{{ error.message }}</div>
+                                           {% endfor %}        
+                                       {% endif %} 
+                                   </span>                      
+                               </div> 
+                               <div class='col-md-12' style="margin:10px 0px 10px 0px;"></div>              
+
+                               <span class="col-md-4">
+                                  <span class="pull-left">
+                                   {{ form_widget(updateForm[i].upload,{'attr': {'class':'btn btn-md btn-warning btn-flat', 'style' : 'margin:0 auto;display: block;'}}) }}
+                                  </span>
+                              </span>             
+     
+
+                               {{ form_end(updateForm[i]) }}                             
+                               {# END FORMULAR UPDATE AICI 
+                              #################################}                             
+{#                 
                                 <a href="{{ path('roleuser_updatedocument',{'did':doc.id, 'id':entity.id}) }}" 
                                     class="btn btn-md btn-warning btn-flat"
                                     style ="width:150px;"  
 
                                 >                                                       
                                    Update
-                                </a> 
-
+                                </a> #}
+                                    
+                                    
+                            </div>
                             </td>                            
                             
                             <td>                  
@@ -266,13 +349,104 @@
                                 </span>     
                                 
                             </td>    
-                            <td>                  
+                            <td>  
+                               <div class="col-md-12">    
+                                  
+                               {{form_start(updateForm[i], 
+                                        {'action': path('roleuser_updatedocument',{'did':doc.id, 'id':entity.id}), 
+                                         'method': 'POST', 
+                                         'name':'roleuserupdate',
+                                         'attr': {'novalidate': 'novalidate'}}) 
+                               }}  
+
+                              {#####################}           
+                               {#START FORM DESCRIPTION#}
+                               <div class="col-md-12">                          
+                                   <span class="col-md-4">
+                                       <span class="pull-left" style="height:40px;border: 0px solid black;padding:10px;">
+                                           <strong id='desc' > 
+                                               {{ form_label(updateForm[i].description) }} : 
+                                           </strong>    
+                                        </span>
+                                   </span> 
+
+                                   <span class="col-md-4">
+                                       <span class="pull-right">
+                                        {{ form_widget(updateForm[i].description,{'attr': {'id':'description', 'class': 'form-control', 'style' : 'height:40px;'}}) }}  
+                                       </span>
+                                   </span> 
+
+                                   <span class="col-md-4 pull-left" style="height:40px;border: 0px solid black;padding:10px;">                      
+                                       {% if updateForm[i].description.vars.errors|length > 0 %}       
+                                           {% for error in updateForm[i].description.vars.errors %}
+                                              <div style="color:red; font-size:16px;">{{ error.message }}</div>
+                                           {% endfor %}        
+                                       {% endif %} 
+                                   </span>   
+
+                               </div> 
+                               <div class='col-md-12' style="margin:10px 0px 10px 0px;"></div>                       
+                               {#END FORM DESCRIPTION#} 
+                              {#####################}
+
+
+                              {#####################}            
+                               {#START UPLOAD#}
+                                <div class="col-md-12">                          
+                                   <span class="col-md-4 " class="pull-left">
+                                       <span class="pull-left" style="height:40px;border: 0px solid black;padding:10px;">
+                                           <strong id='desc' class="pull-right"> 
+                                               {{ form_label(updateForm[i].userfile) }} : 
+                                           </strong>    
+                                        </span>
+                                   </span> 
+
+                                   <span class="col-md-4">
+                                       <span class="pull-right">
+                                        {{ form_widget(updateForm[i].userfile,{'attr': {'id':'userfile', 'style' : 'width:150px;height:40px;border: 0px solid black;'}}) }}    
+                                       </span>
+                                   </span> 
+                                   <span class="col-md-4 pull-left" style="height:40px;border: 0px solid black;padding:10px;" >    
+
+                                      {% if updateForm[i].userfile.vars.errors|length > 0 %}       
+                                           {% for error in updateForm[i].userfile.vars.errors %}
+                                              <div style="color:red; font-size:16px;">{{ error.message }}</div>
+                                           {% endfor %}        
+                                       {% endif %} 
+                                   </span>                      
+                               </div> 
+                               <div class='col-md-12' style="margin:10px 0px 10px 0px;"></div>              
+
+                               <span class="col-md-4">
+                                  <span class="pull-left">
+                                   {{ form_widget(updateForm[i].upload,{'attr': {'class':'btn btn-md btn-warning btn-flat', 'style' : 'margin:0 auto;display: block;'}}) }}
+                                  </span>
+                              </span>             
+      
+
+                               {{ form_end(updateForm[i]) }}                             
+                               {# END FORMULAR UPDATE AICI 
+                              #################################}                             
+{#                 
                                 <a href="{{ path('roleuser_updatedocument',{'did':doc.id, 'id':entity.id}) }}" 
+                                    class="btn btn-md btn-warning btn-flat"
+                                    style ="width:150px;"  
+
+                                >                                                       
+                                   Update
+                                </a> #}
+                                    
+                                    
+                            </div>                               
+                                                                
+                                                               
+                                                          
+{#                                <a href="{{ path('roleuser_updatedocument',{'did':doc.id, 'id':entity.id}) }}" 
                                     class="btn btn-md btn-warning btn-flat"
                                     style ="width:150px;"                                                            
                                 >                                                       
                                    Update
-                                </a> 
+                                </a> #}
                             </td>                             
                             <td>                  
                                 <a href="{{ path('roleuser_deletedocument',{'did':doc.id, 'id':entity.id}) }}" 
@@ -283,7 +457,9 @@
                                 </a> 
                             </td>   
                          </tr> 
-                   {% endif %}                    
+                   {% endif %}    
+                   
+                       {% set i = i+1 %} 
             {% endfor %}
         </tbody>
      </table>    
