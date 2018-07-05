@@ -52,13 +52,9 @@ class FileUploader {
         $this->pathToDocuments = $container->getParameter('kernel.root_dir').'/../web/bundles/anomaliesdecode/documents';
     }
     
-    private function insertRecord($id, $description, $imagename, $imagefiletype, $insertOrUpload = true)
+    private function insertOrUploadRecord($id, $description, $imagename, $imagefiletype, $insertOrUpload = true)
     {        
-        $this->docsentity->setDescription($description);
-        $this->docsentity->setName($imagename);                              
-        $this->docsentity->setExtension($imagefiletype);                            
-        $this->docsentity->setEnabled(1);   
-  
+
         //if true, insert; otherwise upload
         if($insertOrUpload){
             try{
@@ -69,7 +65,12 @@ class FileUploader {
             }catch(\Doctrine\Common\Persistence\Mapping\MappingException $e){
                 $this->container->get('session')->getFlashBag()->add("error", "Entity does not exist!"); 
                 return new RedirectResponse($this->container->get('router')->generate($this->route, array('id' => $this->id)));
-            }           
+            }   
+            
+                $this->docsentity->setDescription($description);
+                $this->docsentity->setName($imagename);                              
+                $this->docsentity->setExtension($imagefiletype);                            
+                $this->docsentity->setEnabled(1); 
                 //One->Many
                 $this->docsentity->setUser($user);      
                 $this->em->persist($this->docsentity);            
@@ -83,15 +84,13 @@ class FileUploader {
         {     
             $this->container->get('session')->getFlashBag()->add("error", "Error during save operation!");                                    
             return new RedirectResponse($this->container->get('router')->generate($this->route, array('id' => $id)));
-        }  
-        
+        }          
     }
     
-    public function uploadAction($id)
+    public function uploadAction($id, $insertOrUpload = true)
     {        
         if(!empty($this->request->request->all()))
-        {
-        
+        {       
             if($this->request->files->get($this->nameFromType)[$this->nameFileField] != null)
             {
 
@@ -155,7 +154,7 @@ class FileUploader {
                             $description = $this->request->request->get($this->nameFromType)[$this->nameDescriptionField];     
                             
                             //INSERT THE IMAGE HERE                            
-                            $this->insertRecord($id, $description, $imagename, $imagefiletype);
+                            $this->insertOrUploadRecord($id, $description, $imagename, $imagefiletype, $insertOrUpload);
  
                     }              
                 }
@@ -199,7 +198,7 @@ class FileUploader {
                         $description = $this->request->request->get($this->nameFromType)[$this->nameDescriptionField];   
 
                         //INSERT THE DOCUMENT HERE                            
-                        $this->insertRecord($id, $description, $filename, $filetype); 
+                        $this->insertOrUploadRecord($id, $description, $filename, $filetype, $insertOrUpload); 
                            
                     }                   
                     
@@ -261,9 +260,9 @@ class FileUploader {
         //return $this->redirect($this->generateUrl('processanomalies_edit', array('id' => $id)));    
     }
     
-    public function updatedocumentAction($did)
+    public function updatedocumentAction($did, $id)
     {
-    
+      // extract the query for the document !!!!
        try{
             $entity = $this->em->getRepository('AnomaliesBundle:Documents')->find($did);
            //$this->entity = $this->em->getRepository('AnomaliesBundle:User')->find($id); 
@@ -275,6 +274,8 @@ class FileUploader {
             return new RedirectResponse($this->container->get('router')->generate($this->route, array('id' => $this->id)));
         }
         
+        $description = $this->request->request->get($this->nameFromType)[$this->nameDescriptionField]; 
+        
         if(  
                is_file($this->pathToImagesThumbs.'/'.$entity->getName().".".$entity->getExtension())
             && is_file($this->pathToImagesOriginals.'/'.$entity->getName().".".$entity->getExtension())
@@ -285,11 +286,11 @@ class FileUploader {
 
             $thumbPath = $tmbDir."/".$entity->getName().".".$entity->getExtension();
             $imgPath =  $targetDir."/".$entity->getName().".".$entity->getExtension();
-//
+            
 //            //echivalent cu unlink($img_path);
             $this->fs->remove(array($imgPath, $thumbPath));
-           // $this->insertRecord($id, $description, $imagename, $imagefiletype, $insertOrUpload)
 
+            $this->uploadAction($id, false);
         }
         elseif(is_file($this->pathToDocuments.'/'.$entity->getName().".".$entity->getExtension()))
         {
@@ -299,7 +300,8 @@ class FileUploader {
 //
 //            //echivalent cu unlink($img_path);
             $this->fs->remove(array($filePath));   
-
+            
+            $this->uploadAction($id, false);
         }
     }
 }

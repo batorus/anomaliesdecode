@@ -323,7 +323,7 @@ class RoleuserController extends Controller
 //
 //        }
         $em = $this->getDoctrine()->getManager(); 
-        (new FileUploader($request, $em, $this->container))->uploadAction($id);
+        (new FileUploader($request, $em, $this->container))->uploadAction($id, true);
         return $this->redirectToRoute('roleuser_edit',array('id'=>$id));
     } 
     
@@ -334,7 +334,7 @@ class RoleuserController extends Controller
 //        var_dump($request->files->get('anomaliesbundle_documents'));die();
         
         $em = $this->getDoctrine()->getManager();
-        (new FileUploader($request, $em, $this->container))->updatedocumentAction($did);
+        (new FileUploader($request, $em, $this->container))->updatedocumentAction($did, $id);
         return $this->redirectToRoute('roleuser_edit',array('id'=>$id));
     }
     
