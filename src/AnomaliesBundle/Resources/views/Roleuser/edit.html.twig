@@ -108,20 +108,20 @@
             {#START FORM DESCRIPTION#}
             <div class="col-md-12" style="padding-top:10px">                          
                 <span class="col-md-2">
-                    <span class="pull-left" style="width:250px;height:40px;border: 0px solid black;padding:10px;">
+                    <span class="pull-right " style="line-height:40px;">
                         <strong id='desc' > 
                             {{ form_label(uploadForm.description) }} : 
                         </strong>    
                      </span>
                 </span> 
                                               
-                <span class="col-md-2">
-                    <span class="pull-right">
-                     {{ form_widget(uploadForm.description,{'attr': {'id':'description', 'class': 'form-control', 'style' : 'width:250px;height:40px;'}}) }}    
-                    </span>
+                <span class="col-md-3 ">
+{#                    <span class="pull-right">#}
+                     {{ form_widget(uploadForm.description,{'attr': {'id':'description', 'class': 'form-control', 'style' : 'height:40px;'}}) }}    
+{#                    </span>#}
                 </span> 
                     
-                <span class="col-md-4 pull-left" style="height:40px;border: 0px solid black;padding:10px;">                      
+                <span class="col-md-4" style="height:40px;border: 1px solid black;padding:0px;">                      
                     {% if uploadForm.description.vars.errors|length > 0 %}       
                         {% for error in uploadForm.description.vars.errors %}
                            <div style="color:red; font-size:16px;">{{ error.message }}</div>
@@ -138,20 +138,20 @@
            {#####################}            
             {#START UPLOAD#}
              <div class="col-md-12">                          
-                <span class="col-md-2 " class="pull-left">
-                    <span class="pull-left" style="height:40px;border: 0px solid black;padding:10px;">
-                        <strong id='desc' class="pull-right"> 
+                <span class="col-md-2" >
+                    <span class="pull-right" style="line-height:40px;">
+                        <strong id='desc' > 
                             {{ form_label(uploadForm.userfile) }} : 
                         </strong>    
                      </span>
                 </span> 
                        
-                <span class="col-md-2">
-                    <span class="pull-right">
-                     {{ form_widget(uploadForm.userfile,{'attr': {'id':'userfile', 'style' : 'width:250px;height:40px;border: 0px solid black;'}}) }}    
-                    </span>
+                <span class="col-md-3">
+{#                    <span class="pull-right">#}
+                     {{ form_widget(uploadForm.userfile,{'attr': {'id':'userfile', 'style' : 'height:40px;border: 0px solid black;'}}) }}    
+{#                    </span>#}
                 </span> 
-                <span class="col-md-4 pull-left" style="height:40px;border: 0px solid black;padding:10px;" >    
+                <span class="col-md-4 pull-left" style="height:40px;border: 1px solid black;padding:0px;" >    
                     
                    {% if uploadForm.userfile.vars.errors|length > 0 %}       
                         {% for error in uploadForm.userfile.vars.errors %}

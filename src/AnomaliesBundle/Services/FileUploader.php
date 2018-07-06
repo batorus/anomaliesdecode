@@ -169,7 +169,16 @@ class FileUploader {
                        // return new RedirectResponse($this->container->get('router')->generate($this->route, array('id' => $id)));  
                        return false;
 
-                    }else{                                                        
+                    }else{   
+                            //Eroarea e pierduta aici????
+                            //de rezolvat si pt documente!!!!
+                              //trebuie afisata in campul din view
+                            $description = $this->request->request->get($this->nameFromType)[$this->nameDescriptionField];   
+                            if(empty($description)){
+                                
+                                $this->container->get('session')->getFlashBag()->add("error", "Empty Description");                               
+                                return false;
+                            }
                         try{
 
                             $uf->move($target_dir, $this->request->files->get($this->nameFromType)[$this->nameFileField]->getClientOriginalName());     
@@ -195,7 +204,7 @@ class FileUploader {
                             $tmb_path = $tmb_dir."/".$this->request->files->get($this->nameFromType)[$this->nameFileField]->getClientOriginalName();
                             $image->save($tmb_path); 
  
-                            $description = $this->request->request->get($this->nameFromType)[$this->nameDescriptionField];     
+  
                             
                             //INSERT THE IMAGE HERE   
                         if($insertOrUpload == true){
