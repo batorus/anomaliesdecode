@@ -96,7 +96,7 @@
                 </div><!-- /.box-footer -->
             </div>
                     
-                                      
+        <div class="col-md-12" style="border:1px solid black;">                            
             {{ form_start(uploadForm, 
                      {'action': path('roleuser_upload', {'id': entity.id}), 
                       'method': 'POST', 
@@ -106,7 +106,7 @@
             
            {#####################}           
             {#START FORM DESCRIPTION#}
-            <div class="col-md-12">                          
+            <div class="col-md-12" style="padding-top:10px">                          
                 <span class="col-md-2">
                     <span class="pull-left" style="width:250px;height:40px;border: 0px solid black;padding:10px;">
                         <strong id='desc' > 
@@ -163,11 +163,13 @@
             <div class='col-md-12' style="margin:10px 0px 10px 0px;"></div>              
 
            
-            <span class="col-md-2">
+            <span class="col-md-2" style="padding-bottom:10px">
                <span class="pull-left">
                 {{ form_widget(uploadForm.upload,{'attr': {'class':'btn btn-md btn-default btn-flat', 'style' : 'width:170px;margin:0 auto;display: block;'}}) }}
                </span>
-           </span>             
+           </span>                
+        </div> 
+               
             <div class='col-md-12' style="margin:10px 0px 20px 0px; border-bottom: 1px solid #E7E7E7;"></div>         
             
             {{ form_end(uploadForm) }}
@@ -217,19 +219,21 @@
 
                             </td>    
                             <td>  
-                                <span class="col-md-6">
-                                {{doc.name}}.{{doc.extension}}
-                                </span>
-                                <span class="col-md-6">
-                                      <img src="{{assetthumbimagepath}}"/>
-                                </span> 
+                                <div class="col-md-12" style="width:460px;padding:0px">  
+                                    <span class="col-md-6">
+                                    {{doc.name}}.{{doc.extension}}
+                                    </span>
+                                    <span class="col-md-6" style="padding:5px">
+                                          <img src="{{assetthumbimagepath}}"/>
+                                    </span>
+                                </div>  
                             </td>
                             
                              <td>                             
                               {# START FORMULAR UPDATE AICI 
                               ######################################### #}
                               
-                              <div class="col-md-12">    
+                              <div class="col-md-12" style="padding:0px;">    
                                   
                                {{form_start(updateForm[i], 
                                         {'action': path('roleuser_updatedocument',{'did':doc.id, 'id':entity.id}), 
@@ -240,7 +244,7 @@
 
                               {#####################}           
                                {#START FORM DESCRIPTION#}
-                               <div class="col-md-12">                          
+                               <div class="col-md-12" style="padding:0px;">                          
                                    <span class="col-md-4">
                                        <span class="pull-left" style="height:40px;border: 0px solid black;padding:10px;">
                                            <strong id='desc' > 
@@ -271,7 +275,7 @@
 
                               {#####################}            
                                {#START UPLOAD#}
-                                <div class="col-md-12">                          
+                                <div class="col-md-12" style="padding:0px;">                          
                                    <span class="col-md-4 " class="pull-left">
                                        <span class="pull-left" style="height:40px;border: 0px solid black;padding:10px;">
                                            <strong id='desc' class="pull-right"> 
@@ -282,7 +286,7 @@
 
                                    <span class="col-md-4">
                                        <span class="pull-right">
-                                        {{ form_widget(updateForm[i].userfile,{'attr': {'id':'userfile', 'style' : 'width:150px;height:40px;border: 0px solid black;'}}) }}    
+                                        {{ form_widget(updateForm[i].userfile,{'attr': {'id':'userfile', 'style' : 'width:160px;height:40px;border: 0px solid black;'}}) }}    
                                        </span>
                                    </span> 
                                    <span class="col-md-4 pull-left" style="height:40px;border: 0px solid black;padding:10px;" >    
@@ -306,14 +310,7 @@
                                {{ form_end(updateForm[i]) }}                             
                                {# END FORMULAR UPDATE AICI 
                               #################################}                             
-{#                 
-                                <a href="{{ path('roleuser_updatedocument',{'did':doc.id, 'id':entity.id}) }}" 
-                                    class="btn btn-md btn-warning btn-flat"
-                                    style ="width:150px;"  
 
-                                >                                                       
-                                   Update
-                                </a> #}
                                     
                                     
                             </div>
@@ -427,26 +424,11 @@
                                {{ form_end(updateForm[i]) }}                             
                                {# END FORMULAR UPDATE AICI 
                               #################################}                             
-{#                 
-                                <a href="{{ path('roleuser_updatedocument',{'did':doc.id, 'id':entity.id}) }}" 
-                                    class="btn btn-md btn-warning btn-flat"
-                                    style ="width:150px;"  
 
-                                >                                                       
-                                   Update
-                                </a> #}
                                     
                                     
                             </div>                               
-                                                                
-                                                               
-                                                          
-{#                                <a href="{{ path('roleuser_updatedocument',{'did':doc.id, 'id':entity.id}) }}" 
-                                    class="btn btn-md btn-warning btn-flat"
-                                    style ="width:150px;"                                                            
-                                >                                                       
-                                   Update
-                                </a> #}
+
                             </td>                             
                             <td>                  
                                 <a href="{{ path('roleuser_deletedocument',{'did':doc.id, 'id':entity.id}) }}" 
