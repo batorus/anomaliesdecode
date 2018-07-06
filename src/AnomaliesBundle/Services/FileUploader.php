@@ -35,13 +35,10 @@ class FileUploader {
         $this->container = $container;
         $this->em = $em;
         $this->docsentity = new Documents();        
-
-        
+       
         //path to redirect in case of exception raised
         $this->route = "roleuser_edit";
-        
-      
-        
+             
         //the name from the type of form
         $this->nameFromType = 'anomaliesbundle_documents';
         $this->nameFileField = 'userfile';    
@@ -244,7 +241,6 @@ class FileUploader {
                         $description = $this->request->request->get($this->nameFromType)[$this->nameDescriptionField];   
 
                         //INSERT THE DOCUMENT HERE                            
-                        //$this->insertOrUploadRecord($id, $description, $filename, $filetype, $insertOrUpload); 
 
                         if($insertOrUpload == true)
                          $this->insertRecord($id, $description, $filename, $filetype);
@@ -306,40 +302,22 @@ class FileUploader {
             $this->fs->remove(array($filePath));         
         }
 
-        //foreach($entity->getFkdocuments() as $doc)
-        // $em->remove($doc);
-        //$entity->setEnabled(0);  
-        
+    
         $this->em->remove($entity);
         $this->em->flush();
-        
-        //return $this->redirect($this->generateUrl('processanomalies_edit', array('id' => $id)));    
+ 
     }
     
     public function updatedocumentAction($did, $id)
     {
-      // extract the query for the document !!!!
-//       try{
-//            $entity = $this->em->getRepository('AnomaliesBundle:Documents')->find($did);
-//           //$this->entity = $this->em->getRepository('AnomaliesBundle:User')->find($id); 
-//            if(!$entity){
-//                throw new \Doctrine\Common\Persistence\Mapping\MappingException("Entity not found!");
-//            }
-//        }catch(\Doctrine\Common\Persistence\Mapping\MappingException $e){
-//            $this->container->get('session')->getFlashBag()->add("error", $e->getMessage()); 
-//            //return new RedirectResponse($this->container->get('router')->generate($this->route, array('id' => $this->id)));
-//            return false;
-//        }
-        
+       
         $document = $this->getDocument($did);
         if(is_object($document)){
-            //because further calls to entity changes the data extracted with the latest upload data
-            $tempPath = $document->getName().".".$document->getExtension();
 
-          // var_dump($tempPath) ;       
+            $tempPath = $document->getName().".".$document->getExtension();
+    
             $response = $this->uploadAction($did, false);
-           //var_dump($tempPath) ;die();  
-           // $description = $this->request->request->get($this->nameFromType)[$this->nameDescriptionField]; 
+
             if($response != false){
                 if(  
                        is_file($this->pathToImagesThumbs.'/'.$tempPath)
