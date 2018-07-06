@@ -62,7 +62,9 @@ class FileUploader {
                 }
             }catch(\Doctrine\Common\Persistence\Mapping\MappingException $e){
                 $this->container->get('session')->getFlashBag()->add("error", "Entity does not exist!"); 
-                return new RedirectResponse($this->container->get('router')->generate($this->route, array('id' => $id)));
+               // return new RedirectResponse($this->container->get('router')->generate($this->route, array('id' => $id)));
+                
+                return false;
             }   
             
                 $this->docsentity->setDescription($description);
@@ -80,12 +82,15 @@ class FileUploader {
         catch(Doctrine\ORM\ORMException $e)
         {     
             $this->container->get('session')->getFlashBag()->add("error", "Error during save operation!");                                    
-            return new RedirectResponse($this->container->get('router')->generate($this->route, array('id' => $id)));
-        }          
+            //return new RedirectResponse($this->container->get('router')->generate($this->route, array('id' => $id)));
+            return false;
+        }   
+        
+        return true;
     }
     
     private function updateRecord($id, $description, $imagename, $imagefiletype)
-    {   
+    {                               
            try{
                $document= $this->em->getRepository('AnomaliesBundle:Documents')->find($id); 
 
@@ -100,10 +105,12 @@ class FileUploader {
                 }               
                 
             }catch(\Doctrine\Common\Persistence\Mapping\MappingException $e){
+              
                 $this->container->get('session')->getFlashBag()->add("error", $e->getMessage()); 
-                return new RedirectResponse($this->container->get('router')->generate($this->route, array('id' => $user->getId())));
+                //return new RedirectResponse($this->container->get('router')->generate($this->route, array('id' => $user->getId())));
+                return false;
             }   
-            
+     
                 $document->setDescription($description);
                 $document->setName($imagename);                              
                 $document->setExtension($imagefiletype);                            
@@ -115,12 +122,16 @@ class FileUploader {
         try
         {     
             $this->em->flush();
+              
+                    //    var_dump($description, $imagename, $imagefiletype);die();  
         }
         catch(Doctrine\ORM\ORMException $e)
         {     
             $this->container->get('session')->getFlashBag()->add("error", "Error during save operation!");                                    
-            return new RedirectResponse($this->container->get('router')->generate($this->route, array('id' => $user->getId())));
-        }          
+           // return new RedirectResponse($this->container->get('router')->generate($this->route, array('id' => $user->getId())));
+            return false;
+        } 
+        return true;
     }
     
     //true->insert; false->update
@@ -137,7 +148,7 @@ class FileUploader {
                      
                     //test to see if the uploaded file is an image
                 $check = getimagesize($this->request->files->get($this->nameFromType)[$this->nameFileField]->getPathName());
-                 
+
                 if($check !== false)
                 { 
                      $target_dir = realpath($this->pathToImagesOriginals);
@@ -150,24 +161,27 @@ class FileUploader {
                      $imagefiletype = pathinfo($target_file, PATHINFO_EXTENSION);
                      $imagename = pathinfo($target_file, PATHINFO_FILENAME);
                       
-                     
+
                     // Check if file already exists                    
                     if (file_exists($target_file)) 
                     {
                         $this->container->get('session')->getFlashBag()->add("error", "Le fichier existe déjà.");   
-                        return new RedirectResponse($this->container->get('router')->generate($this->route, array('id' => $id)));  
-                       // $uploadOk = 0;
+                       // return new RedirectResponse($this->container->get('router')->generate($this->route, array('id' => $id)));  
+                       return false;
+
                     }else{                                                        
                         try{
-                            
+
                             $uf->move($target_dir, $this->request->files->get($this->nameFromType)[$this->nameFileField]->getClientOriginalName());     
+
                             //forteaza aici exceptia ca sa testezi executia din catch
                            // throw new FileException(); 
                         } catch (FileException $ex) {
-                            //die("ff");
-                            $this->container->get('session')->getFlashBag()->add("error", "Une erreur s'est produite lors de l'envoi de votre fichier !");
 
-                            return new RedirectResponse($this->container->get('router')->generate($this->route, array('id' => $id)));  
+                            $this->container->get('session')->getFlashBag()->add("error", "Une erreur s'est produite lors de l'envoi de votre fichier !");
+                            //die("not ok");
+                            //return new RedirectResponse($this->container->get('router')->generate($this->route, array('id' => $id)));
+                            return false;
 
                         }
                             $image = new SimpleImage($target_file);
@@ -185,11 +199,12 @@ class FileUploader {
                             
                             //INSERT THE IMAGE HERE   
 
-                        if($insertOrUpload == true)
+                        if($insertOrUpload == true){
                          $this->insertRecord($id, $description, $imagename, $imagefiletype);
-                        else 
+                        }
+                        else {
                          $this->updateRecord($id, $description, $imagename, $imagefiletype); 
- 
+                        }
                     }              
                 }
                 else
@@ -206,7 +221,8 @@ class FileUploader {
                     if (file_exists($target_file)) 
                     {
                         $this->container->get('session')->getFlashBag()->add("error", "Le fichier existe déjà."); 
-                        return new RedirectResponse($this->container->get('router')->generate($this->route, array('id' => $id)));  
+                       // return new RedirectResponse($this->container->get('router')->generate($this->route, array('id' => $id)));  
+                        return false;
 
                     }else{
 
@@ -218,8 +234,9 @@ class FileUploader {
 
                             $this->container->get('session')->getFlashBag()->add("error", "Une erreur s'est produite lors de l'envoi de votre fichier !");
 
-                            return new RedirectResponse($this->container->get('router')->generate($this->route, array('id' => $id)));  
-                               //return $this->redirectTo($this->generateUrl('processanomalies_edit', array('id' => $id))); 
+                            //return new RedirectResponse($this->container->get('router')->generate($this->route, array('id' => $id))); 
+                            return false;
+
                         } 
 
                         $description = $this->request->request->get($this->nameFromType)[$this->nameDescriptionField];   
@@ -238,8 +255,14 @@ class FileUploader {
             else
             {
                 $this->container->get('session')->getFlashBag()->add("error", "Vous devez sélectionner un fichier !");
+                return false;
             }
-        }          
+        }
+        else{
+            return false;
+        }    
+        
+        return true;
     }
     
     public function deletedocumentAction($did)
@@ -304,38 +327,40 @@ class FileUploader {
             $this->container->get('session')->getFlashBag()->add("error", "Entity does not exist!"); 
             return new RedirectResponse($this->container->get('router')->generate($this->route, array('id' => $this->id)));
         }
+        //because further calls to entity changes the data extracted with the latest upload data
+        $tempPath = $entity->getName().".".$entity->getExtension();
         
-        $this->uploadAction($did, false);
-        
+      // var_dump($tempPath) ;       
+        $response = $this->uploadAction($did, false);
+       //var_dump($tempPath) ;die();  
        // $description = $this->request->request->get($this->nameFromType)[$this->nameDescriptionField]; 
+        if($response != false){
+            if(  
+                   is_file($this->pathToImagesThumbs.'/'.$tempPath)
+                && is_file($this->pathToImagesOriginals.'/'.$tempPath)
+            )
+            {
+                $targetDir = realpath($this->pathToImagesOriginals);
+                $tmbDir = realpath($this->pathToImagesThumbs);
+
+                $thumbPath = $tmbDir."/".$tempPath;
+                $imgPath =  $targetDir."/".$tempPath;
         
-        if(  
-               is_file($this->pathToImagesThumbs.'/'.$entity->getName().".".$entity->getExtension())
-            && is_file($this->pathToImagesOriginals.'/'.$entity->getName().".".$entity->getExtension())
-        )
-        {
-            $targetDir = realpath($this->pathToImagesOriginals);
-            $tmbDir = realpath($this->pathToImagesThumbs);
-
-            $thumbPath = $tmbDir."/".$entity->getName().".".$entity->getExtension();
-            $imgPath =  $targetDir."/".$entity->getName().".".$entity->getExtension();
-            
-            // $this->uploadAction($did, false);           
-//            //echivalent cu unlink($img_path);
-            $this->fs->remove(array($imgPath, $thumbPath));
+                //echivalent cu unlink($img_path);
+                $this->fs->remove(array($imgPath, $thumbPath));
 
 
-        }
-        elseif(is_file($this->pathToDocuments.'/'.$entity->getName().".".$entity->getExtension()))
-        {
-                     
-            $targetDir = realpath($this->pathToDocuments);
-            $filePath =  $targetDir."/".$entity->getName().".".$entity->getExtension();
-//die($filePath);
+            }
+            elseif(is_file($this->pathToDocuments.'/'.$tempPath))
+            {
 
-//            //echivalent cu unlink($img_path);
-            $this->fs->remove(array($filePath));   
-            
+                $targetDir = realpath($this->pathToDocuments);
+                $filePath =  $targetDir."/".$tempPath;
+
+               //echivalent cu unlink($img_path);
+                $this->fs->remove(array($filePath));   
+
+            }
         }
 
     }
