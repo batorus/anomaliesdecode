@@ -325,7 +325,8 @@ class RoleuserController extends Controller
 
         }
         $em = $this->getDoctrine()->getManager(); 
-        (new FileUploader($request, $em, $this->container))->uploadAction($id, true);
+        //(new FileUploader($request, $em, $this->container))->uploadAction($id, true);
+         $this->get('application.file_uploader')->uploadAction($id, true);
         return $this->redirectToRoute('roleuser_edit',array('id'=>$id));
     } 
     
@@ -336,14 +337,16 @@ class RoleuserController extends Controller
 //        var_dump($request->files->get('anomaliesbundle_documents'));die();
         
         $em = $this->getDoctrine()->getManager();
-        (new FileUploader($request, $em, $this->container))->updatedocumentAction($did, $id);
+        //(new FileUploader($request, $em, $this->container))->updatedocumentAction($did, $id);
+        $this->get('application.file_uploader')->updatedocumentAction($did, $id);
         return $this->redirectToRoute('roleuser_edit',array('id'=>$id));
     }
     
     public function deletedocumentAction(Request $request, $did, $id)
     {   
         $em = $this->getDoctrine()->getManager();
-        (new FileUploader($request, $em, $this->container))->deletedocumentAction($did);
+       // (new FileUploader($request, $em, $this->container))->deletedocumentAction($did);
+        $this->get('application.file_uploader')->deletedocumentAction($did);
         return $this->redirectToRoute('roleuser_edit',array('id'=>$id));
     }   
     

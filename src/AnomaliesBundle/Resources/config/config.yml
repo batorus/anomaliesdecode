@@ -7,5 +7,5 @@ services:
             
     application.file_uploader:
         class: AnomaliesBundle\Services\FileUploader
-#        arguments: ['%path%']
-        arguments: []
+        arguments: ['@request_stack', '@doctrine.orm.entity_manager','@session', '@router', 'roleuser_edit','anomaliesbundle_documents','userfile','description','%kernel.root_dir%']
+#        arguments: []

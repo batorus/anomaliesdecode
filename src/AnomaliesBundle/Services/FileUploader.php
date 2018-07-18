@@ -4,6 +4,7 @@ namespace AnomaliesBundle\Services;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use AnomaliesBundle\Entity\Documents;
 
@@ -16,8 +17,12 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\ORM\EntityRepository;
-
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Routing\RouterInterface;
 
 class FileUploader {
     
@@ -27,15 +32,16 @@ class FileUploader {
     private $pathToImagesOriginals;
     private $pathToImagesThumbs;
     private $pathToDocuments;
-    
-    public function __construct(Request $request, $em, $container){
+    private $router;  
+    private $session;    
+    public function __construct(RequestStack $requestStack, EntityManagerInterface $em, SessionInterface $session, RouterInterface $router, $route, $nameFromType, $nameFileField, $nameDescriptionField, $rootDir){
         
         $this->fs = new Filesystem();  
-        $this->request = $request;
-        $this->container = $container;
+        $this->request = $requestStack->getCurrentRequest();
+        $this->session = $session;
         $this->em = $em;
         
-       
+        $this->router = $router;
         //path to redirect in case of exception raised
         $this->route = "roleuser_edit";
              
@@ -44,9 +50,9 @@ class FileUploader {
         $this->nameFileField = 'userfile';    
         $this->nameDescriptionField = 'description';  
         
-        $this->pathToImagesOriginals = $container->getParameter('rootDir').'/../web/bundles/anomaliesdecode/images/originals';
-        $this->pathToImagesThumbs = $container->getParameter('kernel.root_dir').'/../web/bundles/anomaliesdecode/images/thumbs';
-        $this->pathToDocuments = $container->getParameter('kernel.root_dir').'/../web/bundles/anomaliesdecode/documents';
+        $this->pathToImagesOriginals = $rootDir.'/../web/bundles/anomaliesdecode/images/originals';
+        $this->pathToImagesThumbs = $rootDir.'/../web/bundles/anomaliesdecode/images/thumbs';
+        $this->pathToDocuments = $rootDir.'/../web/bundles/anomaliesdecode/documents';
     }
     
     private function insertRecord($id, $description, $imagename, $imagefiletype)
@@ -63,7 +69,7 @@ class FileUploader {
                 throw new \Doctrine\Common\Persistence\Mapping\MappingException("Entity not found!");
             }
         }catch(\Doctrine\Common\Persistence\Mapping\MappingException $e){
-            $this->container->get('session')->getFlashBag()->add("error", "Entity does not exist!"); 
+            $this->session->getFlashBag()->add("error", "Entity does not exist!"); 
            // return new RedirectResponse($this->container->get('router')->generate($this->route, array('id' => $id)));
 
             return false;
@@ -84,7 +90,7 @@ class FileUploader {
         }
         catch(Doctrine\ORM\ORMException $e)
         {     
-            $this->container->get('session')->getFlashBag()->add("error", "Error during save operation!");                                    
+            $this->session->getFlashBag()->add("error", "Error during save operation!");                                    
             //return new RedirectResponse($this->container->get('router')->generate($this->route, array('id' => $id)));
             return false;
         }   
@@ -103,7 +109,7 @@ class FileUploader {
                 throw new \Doctrine\Common\Persistence\Mapping\MappingException("Entity not found!");
             }
         }catch(\Doctrine\Common\Persistence\Mapping\MappingException $e){
-            $this->container->get('session')->getFlashBag()->add("error", $e->getMessage()); 
+            $this->session->getFlashBag()->add("error", $e->getMessage()); 
             //return new RedirectResponse($this->container->get('router')->generate($this->route, array('id' => $this->id)));
             return false;
         }
@@ -132,7 +138,7 @@ class FileUploader {
             }
             catch(Doctrine\ORM\ORMException $e)
             {     
-                $this->container->get('session')->getFlashBag()->add("error", "Error during save operation!");                                    
+                $this->session->getFlashBag()->add("error", "Error during save operation!");                                    
                // return new RedirectResponse($this->container->get('router')->generate($this->route, array('id' => $user->getId())));
                 return false;
             } 
@@ -172,7 +178,7 @@ class FileUploader {
                     // Check if file already exists                    
                     if (file_exists($target_file)) 
                     {
-                        $this->container->get('session')->getFlashBag()->add("error", "Le fichier existe déjà.");   
+                        $this->session->getFlashBag()->add("error", "Le fichier existe déjà.");   
                        // return new RedirectResponse($this->container->get('router')->generate($this->route, array('id' => $id)));  
                        return false;
 
@@ -183,7 +189,7 @@ class FileUploader {
                             $description = $this->request->request->get($this->nameFromType)[$this->nameDescriptionField];   
                             if(empty($description)){
                                 
-                                $this->container->get('session')->getFlashBag()->add("error", "Empty Description");                               
+                                $this->session->getFlashBag()->add("error", "Empty Description");                               
                                 return false;
                             }
                         try{
@@ -194,7 +200,7 @@ class FileUploader {
                            // throw new FileException(); 
                         } catch (FileException $ex) {
 
-                            $this->container->get('session')->getFlashBag()->add("error", "Une erreur s'est produite lors de l'envoi de votre fichier !");
+                            $this->session->getFlashBag()->add("error", "Une erreur s'est produite lors de l'envoi de votre fichier !");
                             //die("not ok");
                             //return new RedirectResponse($this->container->get('router')->generate($this->route, array('id' => $id)));
                             return false;
@@ -235,7 +241,7 @@ class FileUploader {
                     // Check if file already exists                    
                     if (file_exists($target_file)) 
                     {
-                        $this->container->get('session')->getFlashBag()->add("error", "Le fichier existe déjà."); 
+                        $this->session->getFlashBag()->add("error", "Le fichier existe déjà."); 
                        // return new RedirectResponse($this->container->get('router')->generate($this->route, array('id' => $id)));  
                         return false;
 
@@ -247,7 +253,7 @@ class FileUploader {
                            // throw new FileException();
                         } catch (FileException $ex) {
 
-                            $this->container->get('session')->getFlashBag()->add("error", "Une erreur s'est produite lors de l'envoi de votre fichier !");
+                            $this->session->getFlashBag()->add("error", "Une erreur s'est produite lors de l'envoi de votre fichier !");
 
                             //return new RedirectResponse($this->container->get('router')->generate($this->route, array('id' => $id))); 
                             return false;
@@ -268,7 +274,7 @@ class FileUploader {
             }
             else
             {
-                $this->container->get('session')->getFlashBag()->add("error", "Vous devez sélectionner un fichier !");
+                $this->session->getFlashBag()->add("error", "Vous devez sélectionner un fichier !");
                 return false;
             }
         }
@@ -289,11 +295,10 @@ class FileUploader {
                 throw new \Doctrine\Common\Persistence\Mapping\MappingException("Entity not found!");
             }
         }catch(\Doctrine\Common\Persistence\Mapping\MappingException $e){
-            $this->container->get('session')->getFlashBag()->add("error", "Entity does not exist!"); 
-            return new RedirectResponse($this->container->get('router')->generate($this->route, array('id' => $this->id)));
+            $this->session->getFlashBag()->add("error", "Entity does not exist!"); 
+            return new RedirectResponse($this->router->generate($this->route, array('id' => $this->id)));
         }
                
-
         if(  
                is_file($this->pathToImagesThumbs.'/'.$entity->getName().".".$entity->getExtension())
             && is_file($this->pathToImagesOriginals.'/'.$entity->getName().".".$entity->getExtension())
@@ -363,7 +368,7 @@ class FileUploader {
                 }
             }
         }else
-            $this->container->get('session')->getFlashBag()->add("error", "Not an object!"); 
+            $this->session->getFlashBag()->add("error", "Not an object!"); 
 
     }
 }
