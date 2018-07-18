@@ -180,7 +180,7 @@
         
     {#####################}            
     {#START AFISARE INREGISTRARI#}       
-  {% if  documents is defined and documents|length > 0 %}        
+  {% if  documents is defined and documents|length > 0 and updateForm|length > 0 %}        
  
         <table class="table no-margin modules" >                                        
             <thead>

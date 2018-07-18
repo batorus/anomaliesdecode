@@ -86,7 +86,8 @@ class FileUploader {
         return true;
     }
     
-    private function getDocument($id){
+    private function getDocument($id)
+    {
         
         $entity = null;
         try{

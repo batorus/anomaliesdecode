@@ -295,7 +295,7 @@ class RoleuserController extends Controller
         $docs = array();
         $updateForm = array();       
         foreach($documents as $document){
-            if($document->getEnabled()==1){
+            if($document->getEnabled() == 1){
                 $docs[] = $document;
                 $updateForm[] = $this->createForm(new DocumentsType(), $document)->createView();               
             }
