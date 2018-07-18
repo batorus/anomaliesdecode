@@ -34,8 +34,17 @@ class FileUploader {
     private $pathToDocuments;
     private $router;  
     private $session;    
-    public function __construct(RequestStack $requestStack, EntityManagerInterface $em, SessionInterface $session, RouterInterface $router, $route, $nameFromType, $nameFileField, $nameDescriptionField, $rootDir){
-        
+    public function __construct(RequestStack $requestStack, 
+                                EntityManagerInterface $em, 
+                                SessionInterface $session, 
+                                RouterInterface $router, 
+                                $nameForBundleInWeb,
+                                $route, 
+                                $nameFromType, 
+                                $nameFileField, 
+                                $nameDescriptionField, 
+                                $rootDir)
+    {        
         $this->fs = new Filesystem();  
         $this->request = $requestStack->getCurrentRequest();
         $this->session = $session;
@@ -43,16 +52,16 @@ class FileUploader {
         
         $this->router = $router;
         //path to redirect in case of exception raised
-        $this->route = "roleuser_edit";
+        $this->route = $route;
              
         //the name from the type of form
-        $this->nameFromType = 'anomaliesbundle_documents';
-        $this->nameFileField = 'userfile';    
-        $this->nameDescriptionField = 'description';  
+        $this->nameFromType = $nameFromType;
+        $this->nameFileField = $nameFileField;    
+        $this->nameDescriptionField = $nameDescriptionField;  
         
-        $this->pathToImagesOriginals = $rootDir.'/../web/bundles/anomaliesdecode/images/originals';
-        $this->pathToImagesThumbs = $rootDir.'/../web/bundles/anomaliesdecode/images/thumbs';
-        $this->pathToDocuments = $rootDir.'/../web/bundles/anomaliesdecode/documents';
+        $this->pathToImagesOriginals = $rootDir.'/../web/bundles/'.$nameForBundleInWeb.'/images/originals';
+        $this->pathToImagesThumbs = $rootDir.'/../web/bundles/'.$nameForBundleInWeb.'/images/thumbs';
+        $this->pathToDocuments = $rootDir.'/../web/bundles/'.$nameForBundleInWeb.'/documents';
     }
     
     private function insertRecord($id, $description, $imagename, $imagefiletype)
