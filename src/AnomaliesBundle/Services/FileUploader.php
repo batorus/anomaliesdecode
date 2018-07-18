@@ -379,6 +379,5 @@ class FileUploader {
             }
         }else
             $this->session->getFlashBag()->add("error", "Not an object!"); 
-
     }
 }
