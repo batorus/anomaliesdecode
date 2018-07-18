@@ -203,9 +203,11 @@ class RoleuserController extends Controller
         }
         
         $docs = array();
+         $updateForm = array();
         foreach($documents as $document){
             if($document->getEnabled()==1){
                 $docs[] = $document;
+                $updateForm[] = $this->createForm(new DocumentsType(), $document)->createView();                
             }
         }
                    
@@ -216,7 +218,7 @@ class RoleuserController extends Controller
         
         $uploadForm = $this->createForm(new DocumentsType(), new Documents());
         
-        $updateForm = $this->createForm(new DocumentsType(), new Documents()); 
+        //$updateForm = $this->createForm(new DocumentsType(), new Documents()); 
         
         $form->handleRequest($request);
        
@@ -230,7 +232,7 @@ class RoleuserController extends Controller
                     'documents'=>$docs,
                     'form' => $form->createView(),
                     'uploadForm'=>$uploadForm->createView(),
-                    'updateForm'=>$updateForm->createView(),
+                    'updateForm'=>$updateForm,
                     'errors' => $errors
                 ));
 
@@ -324,7 +326,8 @@ class RoleuserController extends Controller
             ));
 
         }
-        $em = $this->getDoctrine()->getManager(); 
+        
+       // $em = $this->getDoctrine()->getManager(); 
         //(new FileUploader($request, $em, $this->container))->uploadAction($id, true);
          $this->get('application.file_uploader')->uploadAction($id, true);
         return $this->redirectToRoute('roleuser_edit',array('id'=>$id));
@@ -335,8 +338,53 @@ class RoleuserController extends Controller
     {   
 //        var_dump($request->request->get('anomaliesbundle_documents'));       
 //        var_dump($request->files->get('anomaliesbundle_documents'));die();
+         $em = $this->getDoctrine()->getManager();
+       
+        $entity = $em->getRepository('AnomaliesBundle:User')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find User entity.');
+        }
+      
+        //$documents = $em->getRepository('AnomaliesBundle:Documents')->getRecords($id);
+        $documents = $entity->getDocuments();
+        if (!$documents) {
+            throw $this->createNotFoundException('Unable to find Documents entity.');
+        }
         
-        $em = $this->getDoctrine()->getManager();
+        $docs = array();
+        $updateForm = array();       
+        foreach($documents as $document){
+            if($document->getEnabled() == 1){
+                $docs[] = $document;
+                $updateForm[] = $this->createForm(new DocumentsType(), $document)->createView();               
+            }
+        }
+                
+        $form = $this->createForm(new RoleuserType(), $entity,  
+                                  array(
+                                        'roles' => $this->getRolesInSecurity(),
+                                 ));
+        
+        $uploadForm = $this->createForm(new DocumentsType(), new Documents());      
+        $uploadForm->handleRequest($request);
+        
+        $validator = $this->get('validator');
+        $errors = $validator->validate($uploadForm);  
+           
+        if (count($errors) > 0) 
+        {                    
+            return $this->render('AnomaliesBundle:Roleuser:edit.html.twig', array(
+                'entity' => $entity,
+                'documents'=>$docs,                
+                'form' => $form->createView(),
+                'uploadForm'=>$uploadForm->createView(),
+                'updateForm'=>$updateForm,              
+                'errors' => $errors
+            ));
+        } 
+        
+        //$em = $this->getDoctrine()->getManager();
         //(new FileUploader($request, $em, $this->container))->updatedocumentAction($did, $id);
         $this->get('application.file_uploader')->updatedocumentAction($did, $id);
         return $this->redirectToRoute('roleuser_edit',array('id'=>$id));

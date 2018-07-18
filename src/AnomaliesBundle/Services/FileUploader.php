@@ -99,8 +99,7 @@ class FileUploader {
     }
     
     private function getDocument($id)
-    {
-        
+    {       
         $entity = null;
         try{
             $entity = $this->em->getRepository('AnomaliesBundle:Documents')->find($id);
@@ -275,6 +274,7 @@ class FileUploader {
             else
             {
                 $this->session->getFlashBag()->add("error", "Vous devez sélectionner un fichier !");
+                //return new RedirectResponse($this->router->generate($this->route, array('id' => $id)));
                 return false;
             }
         }
@@ -296,7 +296,8 @@ class FileUploader {
             }
         }catch(\Doctrine\Common\Persistence\Mapping\MappingException $e){
             $this->session->getFlashBag()->add("error", "Entity does not exist!"); 
-            return new RedirectResponse($this->router->generate($this->route, array('id' => $this->id)));
+            //return new RedirectResponse($this->router->generate($this->route, array('id' => $this->id)));
+            return false;
         }
                
         if(  
