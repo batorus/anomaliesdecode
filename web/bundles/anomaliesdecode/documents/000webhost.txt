@@ -1,0 +1,4 @@
+phpmyadmin:
+
+user: id3007270_softwareden
+pass: kitano12345
