@@ -34,7 +34,7 @@ class FileUploader {
         $this->request = $request;
         $this->container = $container;
         $this->em = $em;
-        $this->docsentity = new Documents();        
+        
        
         //path to redirect in case of exception raised
         $this->route = "roleuser_edit";
@@ -52,25 +52,31 @@ class FileUploader {
     private function insertRecord($id, $description, $imagename, $imagefiletype)
     {        
 
-            try{
-                $user= $this->em->getRepository('AnomaliesBundle:User')->find($id); 
-                if(!$user){
-                    throw new \Doctrine\Common\Persistence\Mapping\MappingException("Entity not found!");
-                }
-            }catch(\Doctrine\Common\Persistence\Mapping\MappingException $e){
-                $this->container->get('session')->getFlashBag()->add("error", "Entity does not exist!"); 
-               // return new RedirectResponse($this->container->get('router')->generate($this->route, array('id' => $id)));
-                
-                return false;
-            }   
-            
-                $this->docsentity->setDescription($description);
-                $this->docsentity->setName($imagename);                              
-                $this->docsentity->setExtension($imagefiletype);                            
-                $this->docsentity->setEnabled(1); 
-                //One->Many
-                $this->docsentity->setUser($user);      
-                $this->em->persist($this->docsentity);            
+        try{
+            $docsentity = new Documents();
+            $user= $this->em->getRepository('AnomaliesBundle:User')->find($id); 
+            if(!$user){
+                throw new \Doctrine\Common\Persistence\Mapping\MappingException("Entity not found!");
+            }
+
+             if(!$docsentity){
+                throw new \Doctrine\Common\Persistence\Mapping\MappingException("Entity not found!");
+            }
+        }catch(\Doctrine\Common\Persistence\Mapping\MappingException $e){
+            $this->container->get('session')->getFlashBag()->add("error", "Entity does not exist!"); 
+           // return new RedirectResponse($this->container->get('router')->generate($this->route, array('id' => $id)));
+
+            return false;
+        }   
+
+
+            $docsentity->setDescription($description);
+            $docsentity->setName($imagename);                              
+            $docsentity->setExtension($imagefiletype);                            
+            $docsentity->setEnabled(1); 
+            //One->Many
+            $docsentity->setUser($user);      
+            $this->em->persist($docsentity);            
 
         try
         {     
