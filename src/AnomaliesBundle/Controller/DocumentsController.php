@@ -21,6 +21,9 @@ use AnomaliesBundle\Helpers\SimpleImage;
 use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\ORM\EntityRepository;
 
+################################## UNUSED CONTROLLER; FUNCTIONALITY MOVED INTO FILEUPLOADER #######################################
+
+
 class DocumentsController extends Controller
 {
     
